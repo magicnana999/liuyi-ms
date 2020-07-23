@@ -5,6 +5,15 @@
 
 * 1.0.0-SNAPSHOT
 
+# Components
+
+* Spring Boot 2.0.6 Release
+* Spring Cloud Finchley.SR2
+* Work in Kubernetes
+* Beetlsql[https://gitee.com/xiandafu/beetlsql.git]
+* Jedis
+* Swagger (SpringFox2.9.2)
+* RocketMQ
 
 # Guide
 ##### 1.Require spring boot starter parent 2.0.6-RELEASE
