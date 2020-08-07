@@ -62,12 +62,9 @@ public class RocketMQProducer {
         try {
             SendResult sendResult = null;
             if(StringUtils.isNotBlank(msg.getKeys())) {
-                sendResult = producer.send(msg, new MessageQueueSelector() {
-                    @Override
-                    public MessageQueue select(List<MessageQueue> mqs, Message msg, Object arg) {
-                        int index = Math.abs(msg.getKeys().hashCode()) % mqs.size();
-                        return mqs.get(index);
-                    }
+                sendResult = producer.send(msg, (mqs, msg1, arg) -> {
+                    int index = Math.abs(msg1.getKeys().hashCode()) % mqs.size();
+                    return mqs.get(index);
                 }, 0);
             } else {
                 sendResult = producer.send(msg);
