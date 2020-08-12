@@ -3,7 +3,8 @@
 
 # Release Note
 
-* 1.0.0-SNAPSHOT
+* 1.0.0
+* 1.0.1 update OkHttp3Util method name
 
 # Components
 

@@ -14,7 +14,7 @@
     <groupId>com.creolophus</groupId>
     <artifactId>liuyi-ms</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <profiles>
         <profile>

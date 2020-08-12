@@ -263,7 +263,7 @@ public class OkHttp3Util {
      * @param json json data
      * @return response okhttp3.Response
      */
-    public static Resp postJson(String url, String json) {
+    public static Resp post(String url, String json) {
         RequestBody body = RequestBody.create(JSON_TYPE, json);
         return doSyncPost(url, body, null);
     }
@@ -276,7 +276,7 @@ public class OkHttp3Util {
      * @param headersMap request headers
      * @return response okhttp3.Response
      */
-    public static Resp postJson(String url, String json, Map<String, String> headersMap) {
+    public static Resp post(String url, String json, Map<String, String> headersMap) {
         RequestBody body = RequestBody.create(JSON_TYPE, json);
         return doSyncPost(url, body, headersMap);
     }
