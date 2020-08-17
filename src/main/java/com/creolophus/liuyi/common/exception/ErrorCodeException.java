@@ -1,6 +1,5 @@
 package com.creolophus.liuyi.common.exception;
 
-import com.alibaba.fastjson.JSON;
 import com.creolophus.liuyi.common.api.ApiError;
 
 /**

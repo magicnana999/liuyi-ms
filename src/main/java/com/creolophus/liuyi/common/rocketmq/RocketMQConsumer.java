@@ -2,11 +2,9 @@ package com.creolophus.liuyi.common.rocketmq;
 
 import com.creolophus.liuyi.common.api.MdcUtil;
 import com.creolophus.liuyi.common.exception.DoNotReConsumeException;
-import com.creolophus.liuyi.common.logger.Entry;
 import com.creolophus.liuyi.common.logger.TracerUtil;
-import com.creolophus.liuyi.common.shutdown.Shutdown;
+import com.creolophus.liuyi.common.thread.Stopable;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.message.MessageExt;
@@ -16,13 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author magicnana
  * @date 2019/7/23 下午5:54
  */
-public abstract class RocketMQConsumer implements Shutdown {
+public abstract class RocketMQConsumer implements Stopable {
 
     private static final Logger logger = LoggerFactory.getLogger(RocketMQProducer.class);
 

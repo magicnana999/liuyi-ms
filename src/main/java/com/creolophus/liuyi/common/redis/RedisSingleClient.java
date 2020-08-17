@@ -5,14 +5,12 @@ import redis.clients.jedis.*;
 import redis.clients.jedis.params.geo.GeoRadiusParam;
 import redis.clients.jedis.params.sortedset.ZAddParams;
 import redis.clients.jedis.params.sortedset.ZIncrByParams;
-import sun.misc.Unsafe;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 
 /**
  * @author magicnana

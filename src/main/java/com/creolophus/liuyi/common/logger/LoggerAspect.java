@@ -1,10 +1,9 @@
 package com.creolophus.liuyi.common.logger;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
 import com.creolophus.liuyi.common.api.ApiContextValidator;
 import com.creolophus.liuyi.common.api.GlobalSetting;
 import com.creolophus.liuyi.common.base.AbstractVo;
+import com.creolophus.liuyi.common.json.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -144,10 +143,6 @@ public class LoggerAspect {
     }
 
     private String toJSONString(Object object) {
-        try {
-            return JSON.toJSONString(object);
-        } catch (JSONException e) {
-            return object.toString();
-        }
+        return JSON.toJSONString(object);
     }
 }

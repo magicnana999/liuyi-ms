@@ -1,8 +1,6 @@
 package com.creolophus.liuyi.common.beetlsql;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializeFilter;
-import com.alibaba.fastjson.serializer.ValueFilter;
+import com.creolophus.liuyi.common.json.JSON;
 import org.beetl.sql.core.InterceptorContext;
 import org.beetl.sql.ext.DebugInterceptor;
 import org.slf4j.Logger;
@@ -16,10 +14,6 @@ public class LineSqlPrintInterceptor extends DebugInterceptor {
     
     private static final Logger logger = LoggerFactory.getLogger(LineSqlPrintInterceptor.class);
 
-    public LineSqlPrintInterceptor(ValueFilter valueFilter) {
-        this.valueFilter = valueFilter;
-    }
-
     public class BeetlSqlLogger{
         private String formatSqlLine = "";
         private String sqlIdLine = "";
@@ -29,9 +23,6 @@ public class LineSqlPrintInterceptor extends DebugInterceptor {
         private String resultLine = "";
         private String exception = "";
     }
-
-    private ValueFilter valueFilter;
-
 
     @Override
     public void before(InterceptorContext ctx) {

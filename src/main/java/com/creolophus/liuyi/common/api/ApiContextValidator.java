@@ -1,13 +1,10 @@
 package com.creolophus.liuyi.common.api;
 
-import com.alibaba.fastjson.JSON;
 import com.creolophus.liuyi.common.util.IPUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
 
 /**
  * @author magicnana

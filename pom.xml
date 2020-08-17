@@ -14,7 +14,7 @@
     <groupId>com.creolophus</groupId>
     <artifactId>liuyi-ms</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <profiles>
         <profile>
@@ -61,7 +61,7 @@
             <dependency>
                 <groupId>com.jsoniter</groupId>
                 <artifactId>jsoniter</artifactId>
-                <version>0.9.10</version>
+                <version>0.9.19</version>
             </dependency>
 
             <dependency>
@@ -137,13 +137,6 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>8.0.16</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.68</version>
-            </dependency>
-
 
             <dependency>
                 <groupId>io.springfox</groupId>

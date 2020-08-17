@@ -1,11 +1,10 @@
 package com.creolophus.liuyi.common.api;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
 import com.creolophus.liuyi.common.exception.ApiException;
 import com.creolophus.liuyi.common.exception.BrokenException;
 import com.creolophus.liuyi.common.exception.ErrorCodeException;
 import com.creolophus.liuyi.common.exception.HttpStatusException;
+import com.creolophus.liuyi.common.json.JSON;
 import com.netflix.hystrix.exception.HystrixBadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,7 +146,7 @@ public class ErrorInfoBuilder {
                 }else{
                     return e0(HttpStatus.BAD_REQUEST,apiResult);
                 }
-            }catch(JSONException eee){
+            }catch(Throwable eee){
                 return e0(HttpStatus.BAD_REQUEST,e.getMessage());
             }
 

@@ -1,6 +1,6 @@
 package com.creolophus.liuyi.common.api;
 
-import com.alibaba.fastjson.JSON;
+import com.creolophus.liuyi.common.json.JSON;
 import org.springframework.http.HttpStatus;
 
 /**

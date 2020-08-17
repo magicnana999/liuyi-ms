@@ -32,7 +32,7 @@ public class BeetlSqlCustomizeAutoConfig {
     @Conditional(BeetlSqlSingleCondition.class)
     public BeetlSqlCustomize buildBeetlSqlCustomize(){
         return  (sqlManager) -> {
-                sqlManager.setInterceptors(new Interceptor[]{new LineSqlPrintInterceptor(null)});
+                sqlManager.setInterceptors(new Interceptor[]{new LineSqlPrintInterceptor()});
                 logger.info("start setInterceptor of LineSqlPrintInterceptor");
         };
     }
