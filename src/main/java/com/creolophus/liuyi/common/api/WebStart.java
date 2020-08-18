@@ -121,7 +121,7 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
 //        logger.info("start addMessageConverters with FastJsonHttpMessageConverter");
 //    }
 
-        @Override
+    @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = jackson2HttpMessageConverter.getObjectMapper();

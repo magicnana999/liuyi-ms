@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * @author magicnana
@@ -20,6 +21,20 @@ public class JSON {
         }
     }
 
+    public static <T> T parseObject(Object object,Class<T> clazz){
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.convertValue(object, clazz);
+    }
+
+    public static <T> T parseObject(byte[] bytes,Class<T> clazz){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(bytes,clazz);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static String toJSONString(Object object) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -27,5 +42,15 @@ public class JSON {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static byte[] toJSONBytes(Object object){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsBytes(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

@@ -380,6 +380,25 @@ public class OkHttp3Util {
         public String getProtocol() {
             return protocol;
         }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("{");
+            sb.append("\"body\":\"").append(body).append('\"');
+            sb.append(",\"code\":").append(code);
+            sb.append('}');
+            return sb.toString();
+        }
+
+        public String toDetail() {
+            final StringBuilder sb = new StringBuilder("{");
+            sb.append("\"body\":\"").append(body).append('\"');
+            sb.append(",\"code\":").append(code);
+            sb.append(",\"headers\":").append(headers);
+            sb.append(",\"protocol\":\"").append(protocol).append('\"');
+            sb.append('}');
+            return sb.toString();
+        }
     }
 
 }
