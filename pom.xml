@@ -59,6 +59,12 @@
         <dependencies>
 
             <dependency>
+                <groupId>com.creolophus</groupId>
+                <artifactId>liuyi-common-json</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.jsoniter</groupId>
                 <artifactId>jsoniter</artifactId>
                 <version>0.9.19</version>
@@ -152,6 +158,17 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-bean-validators</artifactId>
                 <version>2.9.2</version>
+            </dependency>
+
+            <dependency>
+                <!-- rocketMQ 需要 fastJson 的包,屏蔽一个可能的旧的,用一个准确的新的 why? -->
+                <!--
+                https://github.com/apache/rocketmq/issues/504
+                还真是fastJson的问题。刚debug了源码。发现如果 在MQClientAPIImpl这个类中，会向服务端请求是否自动创建topic，会创建RemotingCommand请求对象，去请求服务端，序列化的type是fastJson，如果项目没有，请求都发不出去，抛了异常，自然无法创建topic。
+                -->
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.68</version>
             </dependency>
 
             <dependency>

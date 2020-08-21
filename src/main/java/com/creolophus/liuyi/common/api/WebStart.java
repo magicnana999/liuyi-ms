@@ -128,6 +128,7 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
 
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(Long.class, ToStringSerializer.instance);

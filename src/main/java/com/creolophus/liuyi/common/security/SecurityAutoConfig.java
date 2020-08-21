@@ -52,9 +52,9 @@ public class SecurityAutoConfig {
     private UserDetailsService userDetailsService;
 
     @Bean
-    @Order(Ordered.LOWEST_PRECEDENCE-1)
     @ConditionalOnMissingBean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
+        logger.info("start JwtAuthenticationTokenFilter");
         return new JwtAuthenticationTokenFilter();
     }
 
