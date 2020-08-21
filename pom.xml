@@ -58,8 +58,9 @@
 
         <dependencies>
 
+
             <dependency>
-                <groupId>com.creolophus</groupId>
+                <groupId>com.github.magicnana999.liuyi-common</groupId>
                 <artifactId>liuyi-common-json</artifactId>
                 <version>1.0.0</version>
             </dependency>
@@ -371,6 +372,13 @@
 
 
     </build>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <distributionManagement>
         <repository>
