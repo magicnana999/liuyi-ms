@@ -143,6 +143,10 @@ public class LoggerAspect {
     }
 
     private String toJSONString(Object object) {
-        return JSON.toJSONString(object);
+        if(isCanBeToString(object)){
+            return JSON.toJSONString(object);
+        }else{
+            return object.toString();
+        }
     }
 }
