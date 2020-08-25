@@ -32,9 +32,6 @@ public class LoggerAspect {
     private static final ConcurrentHashMap<Class,Logger> loggerTable = new ConcurrentHashMap<>(9999);
 
     @Resource
-    private GlobalSetting globalSetting;
-
-    @Resource
     public ApiContextValidator apiContextValidator;
 
     @AfterReturning(pointcut = "inService()", returning = "result")
@@ -73,7 +70,6 @@ public class LoggerAspect {
     @Pointcut("execution(* com.creolophus..*.dao..*.*(..))"
             + "|| execution(* com.creolophus..*.service..*(..))"
             + "|| execution(* com.creolophus..*.controller..*(..))"
-            + "|| execution(* com.creolophus..*.timeline..*(..))"
             + "|| execution(* com.creolophus..*.storage..*(..))"
             + "|| execution(* com.creolophus..*.scheduler..*(..))"
             + "|| execution(* com.creolophus..*.component..*(..))"
