@@ -75,7 +75,9 @@ public final class OriginalSnowflakeID {
 
     public OriginalSnowflakeID(long datacenterId, long machineId, long start) {
 
-        logger.debug("datacenterId={},machineId={},start={}",datacenterId,machineId,start);
+        if(logger.isDebugEnabled()){
+            logger.debug("datacenterId={},machineId={},start={}",datacenterId,machineId,start);
+        }
 
         if(datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
             throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");

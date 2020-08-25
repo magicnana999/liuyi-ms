@@ -133,11 +133,7 @@ public class LoggerAspect {
     private String resultToString(Object result) {
         String temp = "";
         if(result != null) {
-            if(globalSetting.isLoggingPrintJson()) {
-                temp = toJSONString(result);
-            } else {
-                temp = result == null ? "" : result.toString();
-            }
+            temp = toJSONString(result);
         }
         return StringUtils.isBlank(temp)?"{}":temp;
     }

@@ -60,7 +60,9 @@ public abstract class RocketMQConsumer implements Stopable {
                         if(tracerUtil!=null){
                             tracerUtil.begin("consume", RocketMQConsumer.class.getSimpleName());
                         }
-                        logger.debug("{}",msgBody);
+                        if(logger.isDebugEnabled()){
+                            logger.debug("{}",msgBody);
+                        }
                         process(msg.getMsgId(),msg.getTopic(),msgBody,msg.getReconsumeTimes());
                     } catch (DoNotReConsumeException e) {
                         logger.error("error & do not reconsume",e);
@@ -69,7 +71,9 @@ public abstract class RocketMQConsumer implements Stopable {
                         logger.error("error & reconsume later",e);
                         return ConsumeConcurrentlyStatus.RECONSUME_LATER;
                     }
-                    logger.debug("success ",msg.getMsgId(),msg.getReconsumeTimes(),msgBody);
+                    if(logger.isDebugEnabled()){
+                        logger.debug("success ",msg.getMsgId(),msg.getReconsumeTimes(),msgBody);
+                    }
                 }
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             });

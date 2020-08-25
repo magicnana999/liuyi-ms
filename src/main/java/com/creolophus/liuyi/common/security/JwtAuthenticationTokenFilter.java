@@ -44,13 +44,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             FilterChain chain) throws ServletException, IOException {
 
 
-//        if(apiContextValidator.initContext(request)) {
-//            MdcUtil.setExt();
-//            MdcUtil.setMethod("filter");
-//            MdcUtil.setUri(request.getRequestURI());
-//            logger.info("start");
-//            logger.debug(JSON.toJSONString(ApiContext.getContext()));
-//        }
         preHandle(request);
 
 

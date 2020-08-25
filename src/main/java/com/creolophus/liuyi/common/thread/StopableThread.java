@@ -53,7 +53,9 @@ public class StopableThread extends Thread implements Stopable {
         while(true && !stopped) {
             runnable.run();
         }
-        logger.debug("Thread [{}] has stopped or finished", Thread.currentThread().getName());
+        if(logger.isDebugEnabled()){
+            logger.debug("Thread [{}] has stopped or finished", Thread.currentThread().getName());
+        }
     }
 
     @Override
