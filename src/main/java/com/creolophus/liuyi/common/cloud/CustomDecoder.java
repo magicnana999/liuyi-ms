@@ -59,7 +59,7 @@ public class CustomDecoder extends Decoder.Default implements Decoder {
             return ret;
         } else {
             System.out.println(type.getClass().getName());
-            Object obj = JSON.parseObject(ret.toString(), (Class)type);
+            Object obj = JSON.parseObject(ret, (Class)type);
             return obj;
         }
     }
