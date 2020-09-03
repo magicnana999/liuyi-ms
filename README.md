@@ -5,6 +5,7 @@
 
 * 1.0.0
 * 1.0.1 update OkHttp3Util method name
+* 1.0.2 remove fastjson
 
 # Components
 
@@ -28,20 +29,21 @@
 
 ##### 2. github package repository
 ```
-  <repository>
-      <id>github</id>
-      <name>GitHub Magicnana999 Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/magicnana999/liuyi-ms</url>
-  </repository>
+ <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 ```
 
 ##### 3. dependency
 ```
-  <dependency>
-      <groupId>com.creolophus</groupId>
-      <artifactId>liuyi-ms</artifactId>
-      <version>latest</version>
-  </dependency>
+    <dependency>
+        <groupId>com.github.magicnana999</groupId>
+        <artifactId>liuyi-ms</artifactId>
+        <version>x</version>
+    </dependency>
 ```
 
 
