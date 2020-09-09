@@ -77,7 +77,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     }
 
     protected void preHandle(HttpServletRequest request) {
-
+        apiContextValidator.initContext(request);
     }
 
     protected void postHandle(HttpServletRequest request){
