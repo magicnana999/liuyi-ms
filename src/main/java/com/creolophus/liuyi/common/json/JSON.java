@@ -7,7 +7,7 @@ package com.creolophus.liuyi.common.json;
 public class JSON {
 
     public static <T> T parseObject(String json, Class<T> clazz) {
-        return JacksonUtil.toJava(json, clazz);
+        return GsonUtil.toJava(json, clazz);
     }
 
     public static <T> T parseObject(Object object,Class<T> clazz){
@@ -15,7 +15,7 @@ public class JSON {
         if(object == null || clazz == null){
             return null;
         }
-        return JacksonUtil.toJava(object, clazz);
+        return GsonUtil.toJava(object, clazz);
 
     }
 
@@ -23,7 +23,7 @@ public class JSON {
         if(bytes == null || bytes.length==0 || clazz == null){
             return null;
         }
-        return JacksonUtil.toJava(bytes, clazz);
+        return GsonUtil.toJava(bytes, clazz);
 
     }
 
@@ -31,13 +31,13 @@ public class JSON {
         if(object == null){
             return null;
         }
-        return JacksonUtil.toJson(object);
+        return GsonUtil.toJson(object);
     }
 
     public static byte[] toJSONBytes(Object object){
         if(object == null){
             return null;
         }
-        return JacksonUtil.toByteArray(object);
+        return GsonUtil.toByteArray(object);
     }
 }

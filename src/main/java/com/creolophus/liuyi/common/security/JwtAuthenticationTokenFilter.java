@@ -34,9 +34,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Resource
     protected ApiContextValidator apiContextValidator;
 
-    @Resource
-    private GlobalSetting globalSetting;
-
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
