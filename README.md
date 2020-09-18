@@ -6,6 +6,7 @@
 * 1.0.0
 * 1.0.1 update OkHttp3Util method name
 * 1.0.2 remove fastjson
+* 1.0.3 update dependence
 
 # Components
 
