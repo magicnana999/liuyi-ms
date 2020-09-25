@@ -31,7 +31,7 @@ public class ApiScopeHandler {
             Set<String> patterns = info.getPatternsCondition().getPatterns();
             for (String url : patterns) {
                 // 把结果存入静态变量中程序运行一次次方法之后就不用再次请求次方法
-                log.info(url);
+                System.out.println(url);
             }
         }
 
