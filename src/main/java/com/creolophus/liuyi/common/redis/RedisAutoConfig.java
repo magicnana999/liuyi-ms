@@ -55,7 +55,7 @@ public class RedisAutoConfig {
     @Bean
     @ConditionalOnMissingBean
     public RedisClient redisClient(@Qualifier("redisGenericObjectPoolConfig") GenericObjectPoolConfig genericObjectPoolConfig){
-        logger.info("start RedisClient");
+        logger.info("start RedisClient {}:{}", host, port);
         JedisPool jedisPool = new JedisPool(genericObjectPoolConfig,host,port,timeout,password);
         return new RedisSingleClient(jedisPool);
     }

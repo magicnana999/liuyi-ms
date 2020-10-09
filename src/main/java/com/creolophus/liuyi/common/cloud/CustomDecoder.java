@@ -58,7 +58,7 @@ public class CustomDecoder extends Decoder.Default implements Decoder {
         } else if(Map.class.equals(type)) {
             return ret;
         } else {
-            Object obj = JSON.parseObject(ret, (Class)type);
+            Object obj = JSON.parseObject(ret, type);
             return obj;
         }
     }
