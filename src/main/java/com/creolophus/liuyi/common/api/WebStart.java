@@ -1,10 +1,7 @@
 package com.creolophus.liuyi.common.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -201,7 +198,7 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
     @Bean
     @ConditionalOnMissingBean
     public ApiInterceptor apiInterceptor(){
-        return null;
+        return new ApiInterceptor();
     }
 
     @Override

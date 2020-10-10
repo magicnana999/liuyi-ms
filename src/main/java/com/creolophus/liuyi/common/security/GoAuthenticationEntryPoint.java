@@ -25,7 +25,7 @@ public class GoAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse response, AuthenticationException e) throws IOException {
 
-        logger.error("未授权 "+httpServletRequest.getRequestURI());
+        logger.error("尚未授权" + httpServletRequest.getRequestURI());
 
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());

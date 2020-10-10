@@ -46,7 +46,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         String auth_token = request.getHeader(GlobalSetting.HEADER_TOKEN_KEY);
         if(logger.isDebugEnabled()){
-            logger.debug(auth_token);
+            logger.debug("token:{}", auth_token);
         }
 
         final String auth_token_start = GlobalSetting.HEADER_TOKEN_PRE + " ";
@@ -63,7 +63,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 ApiContext.getContext().setUserId(Long.valueOf(userDetail.getUsername()));
                 if(logger.isDebugEnabled()){
-                    logger.debug(userDetail.getUsername());
+                    logger.debug("{}:{}", userDetail.getUsername(), userDetail.getAuthorities());
+
                 }
             }
         }

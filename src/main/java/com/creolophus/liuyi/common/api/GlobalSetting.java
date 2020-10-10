@@ -14,4 +14,7 @@ public class GlobalSetting {
     public static final String HEADER_TOKEN_KEY = "Authorization";
     public static final String HEADER_TOKEN_PRE = "Bearer";
 
+    public static final String HEADER_INTER_KEY = "X-LiuYi-Inter";
+    public static final String HEADER_INTER_VAL = "BMW525LIBENZGLE4504MATICPANAMERA";
+
 }

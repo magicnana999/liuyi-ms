@@ -24,7 +24,8 @@ public class GoAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse response, AccessDeniedException e) throws IOException {
 
-        logger.error("Spring Security deny "+httpServletRequest.getRequestURI());
+        logger.error("权限不够" + httpServletRequest.getRequestURI());
+
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
