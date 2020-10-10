@@ -17,6 +17,8 @@ public class ApiContext implements Serializable {
     private String uri;
     private String userAgent;
     private String token;
+    private Api.Scope scope;
+    private Api.Limit limit;
     private Map<String,Object> ext = new HashMap(8);
 
 
@@ -35,7 +37,6 @@ public class ApiContext implements Serializable {
     public String getIp() {
         return ip;
     }
-
     public void setIp(String ip) {
         this.ip = ip;
     }
@@ -43,7 +44,6 @@ public class ApiContext implements Serializable {
     public HttpServletRequest getRequest() {
         return request;
     }
-
     public void setRequest(HttpServletRequest request) {
         this.request = request;
     }
@@ -51,7 +51,6 @@ public class ApiContext implements Serializable {
     public String getToken() {
         return token;
     }
-
     public void setToken(String token) {
         this.token = token;
     }
@@ -59,7 +58,6 @@ public class ApiContext implements Serializable {
     public String getUserAgent() {
         return userAgent;
     }
-
     public void setUserAgent(String userAgent) {
         this.userAgent = userAgent;
     }
@@ -67,7 +65,6 @@ public class ApiContext implements Serializable {
     public long getUserId() {
         return userId;
     }
-
     public void setUserId(long userId) {
         this.userId = userId;
     }
@@ -75,19 +72,15 @@ public class ApiContext implements Serializable {
     public Map<String, Object> getExt() {
         return ext;
     }
-
     public void setExt(Map<String, Object> ext) {
         this.ext = ext;
     }
-
     public void setExt(String key,Object value){
         this.getExt().put(key, value);
     }
-
     public void delExt(String key){
         this.getExt().remove(key);
     }
-
     public <T> T  getExt(String key){
         return (T)this.getExt().get(key);
     }
@@ -95,7 +88,6 @@ public class ApiContext implements Serializable {
     public Object getApiResult() {
         return apiResult;
     }
-
     public void setApiResult(Object apiResult) {
         this.apiResult = apiResult;
     }
@@ -103,9 +95,23 @@ public class ApiContext implements Serializable {
     public String getUri() {
         return uri;
     }
-
     public void setUri(String uri) {
         this.uri = uri;
     }
 
+    public Api.Scope getScope() {
+        return scope;
+    }
+
+    public void setScope(Api.Scope scope) {
+        this.scope = scope;
+    }
+
+    public Api.Limit getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Api.Limit limit) {
+        this.limit = limit;
+    }
 }
