@@ -2,7 +2,7 @@ package com.creolophus.liuyi.common.logger;
 
 import com.creolophus.liuyi.common.api.ApiContextValidator;
 import com.creolophus.liuyi.common.api.GlobalSetting;
-import com.creolophus.liuyi.common.base.AbstractVo;
+import com.creolophus.liuyi.common.base.AbstractObject;
 import com.creolophus.liuyi.common.json.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -86,7 +86,7 @@ public class LoggerAspect {
         if(obj == null) {
             return false;
         } else {
-            return BeanUtils.isSimpleValueType(obj.getClass()) || obj instanceof AbstractVo;
+            return BeanUtils.isSimpleValueType(obj.getClass()) || obj instanceof AbstractObject;
         }
 
     }
@@ -140,5 +140,6 @@ public class LoggerAspect {
         }else{
             return object.toString();
         }
+
     }
 }

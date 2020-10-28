@@ -9,6 +9,7 @@
 * 1.0.3 update dependence
 * 1.0.4 完善 JSON 的相关方法
 * 1.1.0 增加@Api,以实现 SpringSecurity 外部的 API 的安全.
+* 1.1.1 修改 AbstractVo 为 AbstractObject接口
 
 # Components
 

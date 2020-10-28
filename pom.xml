@@ -14,7 +14,7 @@
     <groupId>com.creolophus</groupId>
     <artifactId>liuyi-ms</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 
     <profiles>
         <profile>
@@ -57,7 +57,6 @@
 
 
         <dependencies>
-
 
             <dependency>
                 <groupId>com.github.magicnana999.liuyi-common</groupId>

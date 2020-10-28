@@ -1,12 +1,10 @@
 package com.creolophus.liuyi.common.base;
 
-import java.io.Serializable;
-
 /**
  * @author magicnana
  * @date 2019/6/11 下午4:26
  */
-public abstract class AbstractEntity extends AbstractVo {
+public abstract class AbstractEntity implements AbstractObject {
 
 
     public enum State {

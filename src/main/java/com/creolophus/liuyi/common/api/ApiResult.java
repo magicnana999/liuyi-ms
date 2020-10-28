@@ -1,6 +1,6 @@
 package com.creolophus.liuyi.common.api;
 
-import com.creolophus.liuyi.common.base.AbstractVo;
+import com.creolophus.liuyi.common.base.AbstractObject;
 
 import java.util.Collections;
 
@@ -8,7 +8,7 @@ import java.util.Collections;
  * @author magicnana
  * @date 2019/5/15 下午2:16
  */
-public final class ApiResult<T> extends AbstractVo {
+public final class ApiResult<T> implements AbstractObject {
 
     private int code;
     private String message;
