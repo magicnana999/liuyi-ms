@@ -295,7 +295,7 @@ public class OkHttp3Util {
         return headers;
     }
 
-    private static String urlJoin(String url, Map<String, String> params) {
+    public static String urlJoin(String url, Map<String, String> params) {
         StringBuilder endUrl = new StringBuilder(url);
         if(null == params) {
             return url;
