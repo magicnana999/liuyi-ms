@@ -115,9 +115,10 @@ public final class OriginalSnowflakeID {
                 @Override
                 public void run() {
                     long wkId = Thread.currentThread().getId() & MAX_MACHINE_NUM;
-                    OriginalSnowflakeID snowFlake = new OriginalSnowflakeID(dcId, wkId,1568086041631L);
+                    OriginalSnowflakeID snowFlake = new OriginalSnowflakeID(dcId, wkId, 1349086041631L);
                     for(int j=0;j<4;j++){
-                        System.out.println(Thread.currentThread().getName()+" "+snowFlake.nextId());
+                        Long id = snowFlake.nextId();
+                        System.out.println(Thread.currentThread().getName() + " " + id + " " + String.valueOf(id).length());
                     }
 
                 }
