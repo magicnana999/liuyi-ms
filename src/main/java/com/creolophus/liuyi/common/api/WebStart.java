@@ -217,9 +217,13 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
         ConfigurableApplicationContext applicationContext = event.getApplicationContext();
         final RequestMappingHandlerAdapter bean = applicationContext.getBean(RequestMappingHandlerAdapter.class);
         List<HandlerMethodArgumentResolver> list = new ArrayList();
-        list.add(new NullArgumentConfirm(false));
+        list.add(getNullArgumentConfirm());
         list.addAll(bean.getArgumentResolvers());
         bean.setArgumentResolvers(list);
+    }
+
+    protected NullArgumentConfirm getNullArgumentConfirm() {
+        return new NullArgumentConfirm(false);
     }
 
 }
