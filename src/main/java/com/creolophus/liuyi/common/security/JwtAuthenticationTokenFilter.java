@@ -56,8 +56,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
             if(StringUtils.isNotBlank(auth_token)) {
                 UserDetails userDetail = userDetailsService.loadUserByUsername(auth_token);
-                if(userDetail != null && StringUtils.isNotBlank(userDetail.getUsername()) && !"null".equalsIgnoreCase(userDetail.getUsername()) && !"0".equals(
-                        userDetail.getUsername())) {
+                if(userDetail != null && StringUtils.isNotBlank(userDetail.getUsername())) {
 
                     if(logger.isDebugEnabled()) {
                         logger.debug("{}:{}", userDetail.getUsername(), userDetail.getAuthorities());
