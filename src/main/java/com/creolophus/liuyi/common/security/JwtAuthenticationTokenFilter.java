@@ -54,17 +54,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             auth_token = auth_token.substring(auth_token_start.length());
             ApiContext.getContext().setToken(auth_token);
 
-            //UserToken userToken = TokenUtil.parse(auth_token);
-
-            UserDetails userDetail;
-            if(StringUtils.isNotBlank(auth_token) && (userDetail = userDetailsService.loadUserByUsername(auth_token)) != null) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail.getUsername(), null, userDetail.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                ApiContext.getContext().setUserId(Long.valueOf(userDetail.getUsername()));
-                if(logger.isDebugEnabled()){
+            if(StringUtils.isNotBlank(auth_token)) {
+                UserDetails userDetail = userDetailsService.loadUserByUsername(auth_token);
+                if(logger.isDebugEnabled()) {
                     logger.debug("{}:{}", userDetail.getUsername(), userDetail.getAuthorities());
-
+                }
+                if(userDetail != null && StringUtils.isNotBlank(userDetail.getUsername()) && !"0".equals(userDetail.getUsername())) {
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail.getUsername(),
+                                                                                                                 null,
+                                                                                                                 userDetail.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    ApiContext.getContext().setUserId(Long.valueOf(userDetail.getUsername()));
                 }
             }
         }
