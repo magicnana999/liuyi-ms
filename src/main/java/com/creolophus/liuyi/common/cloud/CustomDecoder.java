@@ -3,15 +3,15 @@ package com.creolophus.liuyi.common.cloud;
 import com.creolophus.liuyi.common.api.ApiResult;
 import com.creolophus.liuyi.common.json.JSON;
 import com.creolophus.liuyi.common.json.JacksonUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
 import feign.Response;
 import feign.codec.Decoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author magicnana
@@ -59,8 +59,24 @@ public class CustomDecoder extends Decoder.Default implements Decoder {
         } else if(Map.class.equals(type)) {
             return ret;
         } else {
-            Object obj = JacksonUtil.toJava(ret, (Class) type);
+            Object obj = parseObject(ret, type);
             return obj;
         }
+    }
+
+    private Object parseObject(Object obj, Type type) {
+        TypeReference typeReference = new TypeReference() {
+            @Override
+            public Type getType() {
+                return type;
+            }
+
+            @Override
+            public int compareTo(TypeReference o) {
+                return 0;
+            }
+        };
+
+        return JacksonUtil.mapper().convertValue(obj, typeReference);
     }
 }
