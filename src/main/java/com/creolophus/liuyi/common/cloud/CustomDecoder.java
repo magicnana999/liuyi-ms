@@ -2,8 +2,6 @@ package com.creolophus.liuyi.common.cloud;
 
 import com.creolophus.liuyi.common.api.ApiResult;
 import com.creolophus.liuyi.common.json.JSON;
-import com.creolophus.liuyi.common.json.JacksonUtil;
-import com.fasterxml.jackson.core.type.TypeReference;
 import feign.Response;
 import feign.codec.Decoder;
 import java.io.IOException;
@@ -59,24 +57,8 @@ public class CustomDecoder extends Decoder.Default implements Decoder {
         } else if(Map.class.equals(type)) {
             return ret;
         } else {
-            Object obj = parseObject(ret, type);
+            Object obj = JSON.parseObject(ret, type);
             return obj;
         }
-    }
-
-    private Object parseObject(Object obj, Type type) {
-        TypeReference typeReference = new TypeReference() {
-            @Override
-            public Type getType() {
-                return type;
-            }
-
-            @Override
-            public int compareTo(TypeReference o) {
-                return 0;
-            }
-        };
-
-        return JacksonUtil.mapper().convertValue(obj, typeReference);
     }
 }
