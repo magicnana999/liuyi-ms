@@ -1,8 +1,8 @@
 package com.creolophus.liuyi.common.cloud;
 
 import com.creolophus.liuyi.common.api.ApiResult;
+import com.creolophus.liuyi.common.json.GsonUtil;
 import com.creolophus.liuyi.common.json.JSON;
-import com.creolophus.liuyi.common.json.JacksonUtil;
 import feign.Response;
 import feign.codec.Decoder;
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class CustomDecoder extends Decoder.Default implements Decoder {
         } else if(Map.class.equals(type)) {
             return ret;
         } else {
-            Object obj = JacksonUtil.toJava(ret, (Class) type);
+            Object obj = GsonUtil.toJava(ret, type);
             return obj;
         }
     }
