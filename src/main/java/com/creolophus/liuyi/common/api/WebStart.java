@@ -146,7 +146,7 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        ApiInterceptor apiInterceptor = getApiInterceptor();
+        ApiInterceptor apiInterceptor = apiInterceptor();
         if(apiInterceptor!=null){
             logger.info("start addInterceptor with ApiInterceptor");
             registry.addInterceptor(apiInterceptor).addPathPatterns(apiInterceptor.getPathPatterns());
@@ -195,7 +195,7 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
 
     @Bean
     @ConditionalOnMissingBean
-    public ApiInterceptor getApiInterceptor() {
+    public ApiInterceptor apiInterceptor() {
         return new ApiInterceptor();
     }
 
