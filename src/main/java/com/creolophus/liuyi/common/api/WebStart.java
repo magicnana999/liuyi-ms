@@ -8,6 +8,11 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -19,17 +24,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class WebStart extends WebMvcConfigurationSupport  implements ApplicationListener<ApplicationReadyEvent> {
 
@@ -53,14 +51,14 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
 //        return new CorsFilter(urlBasedCorsConfigurationSource);
 //    }
 
-    @Override
-    protected void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowCredentials(true)
-                .allowedHeaders("*")
-                .allowedOrigins("*")
-                .allowedMethods("*");
-    }
+//    @Override
+//    protected void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowCredentials(true)
+//                .allowedHeaders("*")
+//                .allowedOrigins("*")
+//                .allowedMethods("*");
+//    }
 
 
 //    @Bean
@@ -148,7 +146,7 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        ApiInterceptor apiInterceptor = apiInterceptor();
+        ApiInterceptor apiInterceptor = getApiInterceptor();
         if(apiInterceptor!=null){
             logger.info("start addInterceptor with ApiInterceptor");
             registry.addInterceptor(apiInterceptor).addPathPatterns(apiInterceptor.getPathPatterns());
@@ -197,7 +195,7 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
 
     @Bean
     @ConditionalOnMissingBean
-    public ApiInterceptor apiInterceptor(){
+    public ApiInterceptor getApiInterceptor() {
         return new ApiInterceptor();
     }
 
