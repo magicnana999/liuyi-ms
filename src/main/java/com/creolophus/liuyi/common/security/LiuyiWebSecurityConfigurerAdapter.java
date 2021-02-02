@@ -1,7 +1,9 @@
 package com.creolophus.liuyi.common.security;
 
 import com.creolophus.liuyi.common.api.ApiContextValidator;
+import javax.annotation.Resource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.annotation.Resource;
 
 /**
  * @author magicnana
@@ -85,6 +85,8 @@ public class LiuyiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
         web.ignoring().antMatchers("/actuator/**");
 
         web.ignoring().antMatchers("/error");
+
+        web.ignoring().antMatchers(HttpMethod.OPTIONS);
 
         web.ignoring().antMatchers(
                 "/",
