@@ -1,10 +1,10 @@
 package com.creolophus.liuyi.common.api;
 
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author magicnana
@@ -17,6 +17,7 @@ public class ApiContext implements Serializable {
     private String uri;
     private String userAgent;
     private String token;
+    private String apiScope;
     private Map<String,Object> ext = new HashMap(8);
 
 
@@ -108,4 +109,11 @@ public class ApiContext implements Serializable {
         this.uri = uri;
     }
 
+    public String getApiScope() {
+        return apiScope;
+    }
+
+    public void setApiScope(String apiScope) {
+        this.apiScope = apiScope;
+    }
 }
