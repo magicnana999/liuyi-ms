@@ -10,6 +10,7 @@
 * 1.0.4 完善 JSON 的相关方法
 * 1.1.0 增加@Api,以实现 SpringSecurity 外部的 API 的安全.
 * 1.1.1 修改 AbstractVo 为 AbstractObject接口
+* 1.2.0 内部接口用 Gson 序列化,外部接口用 jackson 序列化. 基于@API 这个注解实现.
 
 # Components
 

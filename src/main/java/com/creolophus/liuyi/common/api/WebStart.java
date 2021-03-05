@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,6 +24,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -34,91 +37,9 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
     private static final Logger logger = LoggerFactory.getLogger(WebStart.class);
 
 
-//    /**
-//     * 跨域
-//     * @return
-//     */
-//    @Bean
-//    public CorsFilter corsFilter() {
-//        final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-//        final CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.setAllowCredentials(true);
-//        corsConfiguration.addAllowedOrigin("*");
-//        corsConfiguration.addAllowedHeader("*");
-//        corsConfiguration.addAllowedMethod("*");
-//        corsConfiguration.setMaxAge(3600L);
-//        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-//        return new CorsFilter(urlBasedCorsConfigurationSource);
-//    }
-
-//    @Override
-//    protected void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowCredentials(true)
-//                .allowedHeaders("*")
-//                .allowedOrigins("*")
-//                .allowedMethods("*");
-//    }
-
-
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public FastJsonConfig fastJsonConfig(){
-//        FastJsonConfig fjc = new FastJsonConfig();
-//        fjc.setSerializerFeatures(
-//                SerializerFeature.WriteDateUseDateFormat,//默认使用yyyy-mm-dd HH:mm:ss,也可以直接改
-//                SerializerFeature.QuoteFieldNames,
-//                SerializerFeature.WriteMapNullValue,
-//                SerializerFeature.WriteNullNumberAsZero,
-//                SerializerFeature.WriteNullListAsEmpty,
-//                SerializerFeature.WriteNullStringAsEmpty,
-//                SerializerFeature.WriteNullBooleanAsFalse);
-//        fjc.setSerializeConfig(serializeConfig());
-//        fjc.setSerializeFilters(valueFilter());
-//        return fjc;
-//    }
-//
-//
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public SerializeConfig serializeConfig(){
-//        SerializeConfig serializeConfig = SerializeConfig.globalInstance;
-//        serializeConfig.put(BigDecimal.class, ToStringSerializer.instance);
-//        serializeConfig.put(Long.TYPE, ToStringSerializer.instance);
-//        serializeConfig.put(Long.class, ToStringSerializer.instance);
-//        return serializeConfig;
-//    }
-//
-//
-//    /**
-//     * fastJSON 序列化,Date 类型,如果为 null,返回""
-//     * @return
-//     */
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public ValueFilter valueFilter(){
-//        return (Object var1, String var2, Object var3) -> {
-//            try {
-//                if(var3 == null && var1 != null && Date.class.isAssignableFrom(var1.getClass().getDeclaredField(var2).getType())) {
-//                    return "";
-//                }
-//            } catch (Exception e) {
-//            }
-//            return var3;
-//        };
-//    }
-//
-//    @Override
-//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        FastJsonHttpMessageConverter fastJsonConverter = new FastJsonHttpMessageConverter();
-//        fastJsonConverter.setFastJsonConfig(fastJsonConfig());
-//        converters.add(fastJsonConverter);
-//        logger.info("start addMessageConverters with FastJsonHttpMessageConverter");
-//    }
-
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new LiuyiMappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = jackson2HttpMessageConverter.getObjectMapper();
 
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -131,13 +52,20 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
         objectMapper.registerModule(simpleModule);
 
         JavaTimeModule javaTimeModule = new JavaTimeModule();
-        javaTimeModule.addSerializer(LocalDateTime .class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        javaTimeModule.addSerializer(LocalDateTime.class,
+            new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         objectMapper.registerModule(javaTimeModule);
 
         jackson2HttpMessageConverter.setObjectMapper(objectMapper);
+
+        GsonHttpMessageConverter gsonHttpMessageConverter = new LiuyiGsonHttpMessageConverter();
+        Gson gson = (new GsonBuilder()).setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        gsonHttpMessageConverter.setGson(gson);
+
         converters.add(jackson2HttpMessageConverter);
-        logger.info("start addMessageConverters with MappingJackson2HttpMessageConverter");
+        converters.add(gsonHttpMessageConverter);
+        logger.info("start MappingJackson2HttpMessageConverter & GsonHttpMessageConverter");
     }
 
     /**
@@ -176,22 +104,6 @@ public class WebStart extends WebMvcConfigurationSupport  implements Application
         return new ApiContextFilter();
     }
 
-    /**
-     * 如果ApiContextFilter和Spring Security Filter同时存在，那么先走SpringSecurityFilter
-     * 实现Ordered接口，@Order都无效，只能通过如下方式指定顺序。
-     * PS：Sleuth的TraceWebFilter的order是Ordered.HIGHEST_PRECEDENCE + 5，
-     * 这样会打乱原油的顺序
-     * @return
-     */
-//    @Bean
-//    public FilterRegistrationBean<ApiContextFilter> registerLoginCheckFilter(ApiContextFilter apiContextFilter) {
-//        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-//        registrationBean.setFilter(apiContextFilter);
-//        registrationBean.addUrlPatterns("/*");
-//        registrationBean.setName("apiContextFilter");
-//        registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-//        return registrationBean;
-//    }
 
     @Bean
     @ConditionalOnMissingBean

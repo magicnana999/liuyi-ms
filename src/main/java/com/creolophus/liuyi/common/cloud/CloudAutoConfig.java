@@ -1,5 +1,6 @@
 package com.creolophus.liuyi.common.cloud;
 
+import com.creolophus.liuyi.common.api.GlobalSetting;
 import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 import feign.Feign;
 import feign.Logger;
@@ -25,15 +26,12 @@ public class CloudAutoConfig {
 
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(CloudAutoConfig.class);
 
-    /**
-     * 每一次 feign 调用如果想增加些 header 或者通用参数,可以在这里
-     * @return
-     */
     @Bean
     @Scope("prototype")
     @ConditionalOnMissingBean
-    public RequestInterceptor requestInterceptor(){
-        return new CustomRequestInterceptor();
+    public RequestInterceptor requestInterceptor() {
+        return template -> template
+            .header(GlobalSetting.HEADER_INTER_KEY, GlobalSetting.HEADER_INTER_VAL);
     }
 
     @Bean

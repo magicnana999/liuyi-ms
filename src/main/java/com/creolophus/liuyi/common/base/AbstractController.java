@@ -1,7 +1,6 @@
 package com.creolophus.liuyi.common.base;
 
 import com.creolophus.liuyi.common.api.ApiContext;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -10,15 +9,19 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AbstractController {
 
-    protected long getUserId() {
+    protected long currentUserId() {
         return ApiContext.getContext().getUserId();
     }
 
-    protected String getIp() {
+    protected String currentIP() {
         return ApiContext.getContext().getIp();
     }
 
-    protected HttpServletRequest getRequest() {
+    protected String currentToken() {
+        return ApiContext.getContext().getToken();
+    }
+
+    protected HttpServletRequest currentRequest() {
         return ApiContext.getContext().getRequest();
     }
 }
