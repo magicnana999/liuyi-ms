@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -33,111 +32,106 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
-public class WebStart extends WebMvcConfigurationSupport  implements ApplicationListener<ApplicationReadyEvent> {
+public class WebStart extends WebMvcConfigurationSupport implements
+    ApplicationListener<ApplicationReadyEvent> {
 
-    private static final Logger logger = LoggerFactory.getLogger(WebStart.class);
+  private static final Logger logger = LoggerFactory.getLogger(WebStart.class);
 
-
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new LiuyiMappingJackson2HttpMessageConverter();
-        ObjectMapper objectMapper = jackson2HttpMessageConverter.getObjectMapper();
-
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapper.setTimeZone(TimeZone.getDefault());
-
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
-        objectMapper.registerModule(simpleModule);
-
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        javaTimeModule.addSerializer(LocalDateTime.class,
-            new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        objectMapper.registerModule(javaTimeModule);
-
-        jackson2HttpMessageConverter.setObjectMapper(objectMapper);
-
-        GsonHttpMessageConverter gsonHttpMessageConverter = new LiuyiGsonHttpMessageConverter();
-        Gson gson = (new GsonBuilder()).setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-        gsonHttpMessageConverter.setGson(gson);
-
-        converters.add(jackson2HttpMessageConverter);
-        converters.add(gsonHttpMessageConverter);
-        logger.info("start MappingJackson2HttpMessageConverter & GsonHttpMessageConverter");
+  /**
+   * 自己的业务走这里
+   */
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    ApiInterceptor apiInterceptor = apiInterceptor();
+    if (apiInterceptor != null) {
+      logger.info("start addInterceptor with ApiInterceptor");
+      registry.addInterceptor(apiInterceptor).addPathPatterns(apiInterceptor.getPathPatterns());
     }
+  }
 
-    /**
-     * 自己的业务走这里
-     * @param registry
-     */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        ApiInterceptor apiInterceptor = apiInterceptor();
-        if(apiInterceptor!=null){
-            logger.info("start addInterceptor with ApiInterceptor");
-            registry.addInterceptor(apiInterceptor).addPathPatterns(apiInterceptor.getPathPatterns());
-        }
-    }
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+    registry.addResourceHandler("swagger-ui.html")
+        .addResourceLocations("classpath:/META-INF/resources/");
+    registry.addResourceHandler("/webjars/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    super.addResourceHandlers(registry);
+    logger.info("start addResourceHandler for swagger");
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    @ConfigurationProperties(prefix="liuyi.global")
-    public GlobalSetting globalSetting(){
-        return new GlobalSetting();
-    }
+  @Override
+  public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new LiuyiMappingJackson2HttpMessageConverter();
+    ObjectMapper objectMapper = jackson2HttpMessageConverter.getObjectMapper();
+    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    SimpleModule simpleModule = new SimpleModule();
+    simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+    simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+    objectMapper.registerModule(simpleModule);
+    JavaTimeModule javaTimeModule = new JavaTimeModule();
+    javaTimeModule.addSerializer(LocalDateTime.class,
+        new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+    javaTimeModule.addDeserializer(LocalDateTime.class,
+        new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+    objectMapper.registerModule(javaTimeModule);
 
-    /**
-     * 此对象用来校验每个业务的请求中都必须含有的 header & 封装每个线程的 ApiContext
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public ApiContextValidator apiContextValidator(){
-        return new ApiContextValidator();
-    }
+    jackson2HttpMessageConverter.setObjectMapper(objectMapper);
 
-    @Bean
-    @ConditionalOnMissingBean
-    public ApiContextFilter apiContextFilter() {
-        return new ApiContextFilter();
-    }
+    GsonHttpMessageConverter gsonHttpMessageConverter = new LiuyiGsonHttpMessageConverter();
 
+    Gson gson = (new GsonBuilder()).setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+    gsonHttpMessageConverter.setGson(gson);
 
-    @Bean
-    @ConditionalOnMissingBean
-    public ApiInterceptor apiInterceptor() {
-        return new ApiInterceptor();
-    }
+    converters.add(jackson2HttpMessageConverter);
+    converters.add(gsonHttpMessageConverter);
+    logger.info(
+        "start addMessageConverters with MappingJackson2HttpMessageConverter & GsonHttpMessageConverter");
+  }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-        super.addResourceHandlers(registry);
-        logger.info("start addResourceHandler for swagger");
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public ApiContextFilter apiContextFilter() {
+    return new ApiContextFilter();
+  }
 
-    @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        ConfigurableApplicationContext applicationContext = event.getApplicationContext();
-        final RequestMappingHandlerAdapter bean = applicationContext.getBean(RequestMappingHandlerAdapter.class);
-        List<HandlerMethodArgumentResolver> list = new ArrayList();
-        list.add(getNullArgumentConfirm());
-        list.addAll(bean.getArgumentResolvers());
-        bean.setArgumentResolvers(list);
-    }
+  /**
+   * 此对象用来校验每个业务的请求中都必须含有的 header & 封装每个线程的 ApiContext
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public ApiContextValidator apiContextValidator() {
+    return new ApiContextValidator();
+  }
 
-    protected NullArgumentConfirm getNullArgumentConfirm() {
-        return new NullArgumentConfirm(false);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public ApiInterceptor apiInterceptor() {
+    return new ApiInterceptor();
+  }
+
+  protected NullArgumentConfirm getNullArgumentConfirm() {
+    return new NullArgumentConfirm(false);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  @ConfigurationProperties(prefix = "liuyi.global")
+  public GlobalSetting globalSetting() {
+    return new GlobalSetting();
+  }
+
+  @Override
+  public void onApplicationEvent(ApplicationReadyEvent event) {
+    ConfigurableApplicationContext applicationContext = event.getApplicationContext();
+    final RequestMappingHandlerAdapter bean = applicationContext
+        .getBean(RequestMappingHandlerAdapter.class);
+    List<HandlerMethodArgumentResolver> list = new ArrayList();
+    list.add(getNullArgumentConfirm());
+    list.addAll(bean.getArgumentResolvers());
+    bean.setArgumentResolvers(list);
+  }
 
 }
