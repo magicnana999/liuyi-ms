@@ -4,18 +4,21 @@ import com.creolophus.liuyi.common.api.ApiContextValidator;
 import com.creolophus.liuyi.common.api.GlobalSetting;
 import com.creolophus.liuyi.common.base.AbstractObject;
 import com.creolophus.liuyi.common.json.JSON;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.BeanUtils;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 朝辞白帝彩云间 千行代码一日还
@@ -67,18 +70,19 @@ public class LoggerAspect {
         return joinPoint.getSignature().getName();
     }
 
-    @Pointcut("execution(* com.creolophus..*.dao..*.*(..))"
-            + "|| execution(* com.creolophus..*.service..*(..))"
-            + "|| execution(* com.creolophus..*.controller..*(..))"
-            + "|| execution(* com.creolophus..*.storage..*(..))"
-            + "|| execution(* com.creolophus..*.scheduler..*(..))"
-            + "|| execution(* com.creolophus..*.component..*(..))"
-            + "|| execution(* com.creolophus..*.server..*(..))"
-            + "|| execution(* com.creolophus..*.job..*(..))"
-            + "|| execution(* com.creolophus..*.mapper..*(..))"
-            + "|| execution(* com.creolophus..*.repository..*(..))"
-            + "|| execution(* com.creolophus..*.cache..*(..))"
-            + "|| execution(* com.creolophus..*.feign..*(..))")
+    @Pointcut("execution(* com..*.dao..*.*(..))"
+        + "|| execution(* com..*.service..*(..))"
+        + "|| execution(* com..*.controller..*(..))"
+        + "|| execution(* com..*.storage..*(..))"
+        + "|| execution(* com..*.scheduler..*(..))"
+        + "|| execution(* com..*.component..*(..))"
+        + "|| execution(* com..*.server..*(..))"
+        + "|| execution(* com..*.job..*(..))"
+        + "|| execution(* com..*.mapper..*(..))"
+        + "|| execution(* com..*.repository..*(..))"
+        + "|| execution(* com..*.cache..*(..))"
+        + "|| execution(* com..*.assemble..*(..))"
+        + "|| execution(* com..*.feign..*(..))")
     public void inService() {
     }
 
