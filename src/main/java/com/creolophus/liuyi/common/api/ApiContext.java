@@ -17,8 +17,8 @@ public class ApiContext implements Serializable {
     private String uri;
     private String userAgent;
     private String token;
-    private String apiScope;
-    private Map<String,Object> ext = new HashMap(8);
+    private Api api;
+    private Map<String, Object> ext = new HashMap(8);
 
 
     private HttpServletRequest request;
@@ -29,8 +29,40 @@ public class ApiContext implements Serializable {
         return apiContext;
     }
 
-    public static void releaseContext(){
+    public static void releaseContext() {
         ApiContextLocal.getInstance().remove();
+    }
+
+    public void delExt(String key) {
+        this.getExt().remove(key);
+    }
+
+    public Api getApi() {
+        return api;
+    }
+
+    public void setApi(Api api) {
+        this.api = api;
+    }
+
+    public Object getApiResult() {
+        return apiResult;
+    }
+
+    public void setApiResult(Object apiResult) {
+        this.apiResult = apiResult;
+    }
+
+    public Map<String, Object> getExt() {
+        return ext;
+    }
+
+    public void setExt(Map<String, Object> ext) {
+        this.ext = ext;
+    }
+
+    public <T> T getExt(String key) {
+        return (T) this.getExt().get(key);
     }
 
     public String getIp() {
@@ -57,6 +89,14 @@ public class ApiContext implements Serializable {
         this.token = token;
     }
 
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
     public String getUserAgent() {
         return userAgent;
     }
@@ -73,47 +113,7 @@ public class ApiContext implements Serializable {
         this.userId = userId;
     }
 
-    public Map<String, Object> getExt() {
-        return ext;
-    }
-
-    public void setExt(Map<String, Object> ext) {
-        this.ext = ext;
-    }
-
-    public void setExt(String key,Object value){
+    public void setExt(String key, Object value) {
         this.getExt().put(key, value);
-    }
-
-    public void delExt(String key){
-        this.getExt().remove(key);
-    }
-
-    public <T> T  getExt(String key){
-        return (T)this.getExt().get(key);
-    }
-
-    public Object getApiResult() {
-        return apiResult;
-    }
-
-    public void setApiResult(Object apiResult) {
-        this.apiResult = apiResult;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
-    public String getApiScope() {
-        return apiScope;
-    }
-
-    public void setApiScope(String apiScope) {
-        this.apiScope = apiScope;
     }
 }

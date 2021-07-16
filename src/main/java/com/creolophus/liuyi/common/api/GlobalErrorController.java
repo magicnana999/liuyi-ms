@@ -39,9 +39,10 @@ public class GlobalErrorController implements ErrorController {
         response.setHeader("Access-Control-Max-Age", "86400");
         response.setHeader("Access-Control-Allow-Headers", "*");
 
-        ResponseEntity responseEntity =  errorInfoBuilder.getErrorInfo(request, response);
+        ResponseEntity responseEntity = errorInfoBuilder.getErrorInfo(request, response);
         return responseEntity;
     }
+
 
     @Override
     public String getErrorPath() {

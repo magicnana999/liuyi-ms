@@ -1,15 +1,14 @@
 package com.creolophus.liuyi.common.api;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.filter.OncePerRequestFilter;
-
+import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * @author magicnana
@@ -17,24 +16,21 @@ import java.io.IOException;
  */
 public class ApiContextFilter extends OncePerRequestFilter {
 
-    private static final Logger logger = LoggerFactory.getLogger(ApiContextFilter.class);
+  private static final Logger logger = LoggerFactory.getLogger(ApiContextFilter.class);
 
-    @Resource
-    private ApiContextValidator apiContextValidator;
+  @Resource
+  private ApiContextValidator apiContextValidator;
 
-    @Resource
-    private GlobalSetting globalSetting;
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      FilterChain chain) throws ServletException, IOException {
 
-    @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain chain) throws ServletException, IOException {
-
-        apiContextValidator.initContext(request);
-        chain.doFilter(request, response);
-        logger.info("{}",response.getStatus());
-        apiContextValidator.cleanContext();
-    }
+    apiContextValidator.initContext(request);
+    chain.doFilter(request, response);
+    logger.info("{}", response.getStatus());
+    apiContextValidator.cleanContext();
+  }
 
 }

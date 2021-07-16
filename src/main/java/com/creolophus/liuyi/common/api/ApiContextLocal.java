@@ -1,6 +1,7 @@
 package com.creolophus.liuyi.common.api;
 
 public class ApiContextLocal extends InheritableThreadLocal<ApiContext> {
+
     /**
      * 上下文信息
      */
@@ -13,8 +14,6 @@ public class ApiContextLocal extends InheritableThreadLocal<ApiContext> {
 
     /**
      * 获得当前线程对象
-     *
-     * @return
      */
     public static ApiContextLocal getInstance() {
         return WEB_CONTEXT_LOCAL;

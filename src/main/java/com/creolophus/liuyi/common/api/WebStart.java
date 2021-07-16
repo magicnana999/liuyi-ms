@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -116,12 +115,6 @@ public class WebStart extends WebMvcConfigurationSupport implements
     return new NullArgumentConfirm(false);
   }
 
-  @Bean
-  @ConditionalOnMissingBean
-  @ConfigurationProperties(prefix = "liuyi.global")
-  public GlobalSetting globalSetting() {
-    return new GlobalSetting();
-  }
 
   @Override
   public void onApplicationEvent(ApplicationReadyEvent event) {

@@ -18,48 +18,43 @@ import org.slf4j.LoggerFactory;
  */
 public class CustomDecoder extends Decoder.Default implements Decoder {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomDecoder.class);
+  private static final Logger logger = LoggerFactory.getLogger(CustomDecoder.class);
 
-    /**
-     * 不支持 char，byte[]，Class，ParameterizedType，GenericArrayType，TypeVariable
-     *
-     * @param response
-     * @param type
-     * @return
-     * @throws IOException
-     */
-    @Override
-    public Object decode(Response response, Type type) throws IOException {
+  /**
+   * 不支持 char，byte[]，Class，ParameterizedType，GenericArrayType，TypeVariable
+   */
+  @Override
+  public Object decode(Response response, Type type) throws IOException {
 
-        String jsonString = (String) super.decode(response, String.class);
+    String jsonString = (String) super.decode(response, String.class);
 
-        ApiResult apiResult = JSON.parseObject(jsonString, ApiResult.class);
+    ApiResult apiResult = JSON.parseObject(jsonString, ApiResult.class);
 
-        Object ret = apiResult.getData();
+    Object ret = apiResult.getData();
 
-        if(String.class.equals(type)) {
-            return ret;
-        } else if(Boolean.class.equals(type) || boolean.class.equals(type)) {
-            return Boolean.valueOf(String.valueOf(ret));
-        } else if(Byte.class.equals(type) || byte.class.equals(type)) {
-            return Byte.valueOf(String.valueOf(ret));
-        } else if(Double.class.equals(type) || double.class.equals(type)) {
-            return Double.valueOf(String.valueOf(ret));
-        } else if(Float.class.equals(type) || float.class.equals(type)) {
-            return Float.valueOf(String.valueOf(ret));
-        } else if(Integer.class.equals(type) || int.class.equals(type)) {
-            return Integer.valueOf(String.valueOf(ret));
-        } else if(Long.class.equals(type) || long.class.equals(type)) {
-            return Long.valueOf(String.valueOf(ret));
-        } else if(Short.class.equals(type) || short.class.equals(type)) {
-            return Short.valueOf(String.valueOf(ret));
-        } else if(List.class.equals(type)) {
-            return ret;
-        } else if(Map.class.equals(type)) {
-            return ret;
-        } else {
-            Object obj = GsonUtil.toJava(ret, type);
-            return obj;
-        }
+    if (String.class.equals(type)) {
+      return ret;
+    } else if (Boolean.class.equals(type) || boolean.class.equals(type)) {
+      return Boolean.valueOf(String.valueOf(ret));
+    } else if (Byte.class.equals(type) || byte.class.equals(type)) {
+      return Byte.valueOf(String.valueOf(ret));
+    } else if (Double.class.equals(type) || double.class.equals(type)) {
+      return Double.valueOf(String.valueOf(ret));
+    } else if (Float.class.equals(type) || float.class.equals(type)) {
+      return Float.valueOf(String.valueOf(ret));
+    } else if (Integer.class.equals(type) || int.class.equals(type)) {
+      return Integer.valueOf(String.valueOf(ret));
+    } else if (Long.class.equals(type) || long.class.equals(type)) {
+      return Long.valueOf(String.valueOf(ret));
+    } else if (Short.class.equals(type) || short.class.equals(type)) {
+      return Short.valueOf(String.valueOf(ret));
+    } else if (List.class.equals(type)) {
+      return ret;
+    } else if (Map.class.equals(type)) {
+      return ret;
+    } else {
+      Object obj = GsonUtil.toJava(ret, type);
+      return obj;
     }
+  }
 }

@@ -22,39 +22,73 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 public class LiuyiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsService userDetailsService;
-    private AccessDeniedHandler accessDeniedHandler;
-    private AuthenticationEntryPoint authenticationEntryPoint;
-    private JwtAuthenticationTokenFilter authenticationTokenFilter;
+  private UserDetailsService userDetailsService;
+  private AccessDeniedHandler accessDeniedHandler;
+  private AuthenticationEntryPoint authenticationEntryPoint;
+  private JwtAuthenticationTokenFilter authenticationTokenFilter;
 
-    @Resource
-    private ApiContextValidator apiContextValidator;
+  @Resource
+  private ApiContextValidator apiContextValidator;
 
 
-    public LiuyiWebSecurityConfigurerAdapter(
-            UserDetailsService userDetailsService,
-            AccessDeniedHandler accessDeniedHandler,
-            AuthenticationEntryPoint authenticationEntryPoint,
-            JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter) {
-        this.userDetailsService = userDetailsService;
-        this.accessDeniedHandler = accessDeniedHandler;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-        this.authenticationTokenFilter = jwtAuthenticationTokenFilter;
-    }
+  public LiuyiWebSecurityConfigurerAdapter(
+      UserDetailsService userDetailsService,
+      AccessDeniedHandler accessDeniedHandler,
+      AuthenticationEntryPoint authenticationEntryPoint,
+      JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter) {
+    this.userDetailsService = userDetailsService;
+    this.accessDeniedHandler = accessDeniedHandler;
+    this.authenticationEntryPoint = authenticationEntryPoint;
+    this.authenticationTokenFilter = jwtAuthenticationTokenFilter;
+  }
 
-    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService);
+  }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-    }
+  @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
+  @Override
+  public void configure(WebSecurity web) {
+
+    web.ignoring().antMatchers(apiContextValidator.ignoringAntMatchers());
+
+    web.ignoring().antMatchers("/actuator/**");
+
+    web.ignoring().antMatchers("/error");
+
+    web.ignoring().antMatchers(HttpMethod.OPTIONS);
+
+    web.ignoring().antMatchers(
+        "/",
+        "/csrf",
+        "/webjars/**",
+        "swagger-ui.html",
+        "**/swagger-ui.html",
+        "/favicon.ico",
+        "/**/*.css",
+        "/**/*.js",
+        "/**/*.png",
+        "/**/*.gif",
+        "/swagger-resources/**",
+        "/v2/**",
+        "/**/*.ttf"
+    );
+    web.ignoring().antMatchers("/v2/api-docs",
+        "/swagger-resources/configuration/ui",
+        "/swagger-resources",
+        "/swagger-resources/configuration/security",
+        "/swagger-ui.html"
+    );
+  }
+
+  @Override
+  protected void configure(HttpSecurity httpSecurity) throws Exception {
 
 //        authSetting.getNoAuthenticationPatterns().add("/error/**");
 //
@@ -64,50 +98,18 @@ public class LiuyiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
 //            array[i] = up;
 //        }
 
-        httpSecurity.exceptionHandling().accessDeniedHandler(accessDeniedHandler).and()
-                .cors().and()
-                .csrf().disable().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
-                //.antMatchers(array).permitAll()
-                .anyRequest().authenticated();
+    httpSecurity.exceptionHandling().accessDeniedHandler(accessDeniedHandler).and()
+        .cors().and()
+        .csrf().disable().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+        .and()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        .authorizeRequests()
+        //.antMatchers(array).permitAll()
+        .anyRequest().authenticated();
 
-        httpSecurity.headers().cacheControl();
+    httpSecurity.headers().cacheControl();
 
-        httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Override
-    public void configure(WebSecurity web)  {
-
-        web.ignoring().antMatchers(apiContextValidator.ignoringAntMatchers());
-
-        web.ignoring().antMatchers("/actuator/**");
-
-        web.ignoring().antMatchers("/error");
-
-        web.ignoring().antMatchers(HttpMethod.OPTIONS);
-
-        web.ignoring().antMatchers(
-                "/",
-                "/csrf",
-                "/webjars/**",
-                        "swagger-ui.html",
-                        "**/swagger-ui.html",
-                        "/favicon.ico",
-                        "/**/*.css",
-                        "/**/*.js",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/swagger-resources/**",
-                        "/v2/**",
-                        "/**/*.ttf"
-                );
-        web.ignoring().antMatchers("/v2/api-docs",
-                "/swagger-resources/configuration/ui",
-                "/swagger-resources",
-                "/swagger-resources/configuration/security",
-                "/swagger-ui.html"
-        );
-    }
+    httpSecurity
+        .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+  }
 }

@@ -1,6 +1,7 @@
 package com.creolophus.liuyi.common.api;
 
 import java.lang.reflect.Type;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.lang.Nullable;
@@ -12,22 +13,28 @@ import org.springframework.lang.Nullable;
 public class LiuyiMappingJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
 
   @Override
-  public boolean canWrite(Class<?> clazz, MediaType mediaType) {
-    String apiScope = ApiContext.getContext().getApiScope();
-    if (Api.SCOPE_INTER.equalsIgnoreCase(apiScope)) {
+  public boolean canRead(Type type, @Nullable Class<?> contextClass,
+      @Nullable MediaType mediaType) {
+
+    Api api = ApiContext.getContext().getApi();
+    if (api == null || StringUtils.isBlank(api.scope()) || !Api.SCOPE_INTER
+        .equalsIgnoreCase(api.scope())) {
+      return super.canRead(type, contextClass, mediaType);
+    } else {
       return false;
-    }else{
-      return super.canWrite(clazz, mediaType);
     }
+
   }
 
   @Override
-  public boolean canRead(Type type, @Nullable Class<?> contextClass, @Nullable MediaType mediaType) {
-    String apiScope = ApiContext.getContext().getApiScope();
-    if (Api.SCOPE_INTER.equalsIgnoreCase(apiScope)) {
+  public boolean canWrite(Class<?> clazz, MediaType mediaType) {
+    Api api = ApiContext.getContext().getApi();
+    if (api == null || StringUtils.isBlank(api.scope()) || !Api.SCOPE_INTER
+        .equalsIgnoreCase(api.scope())) {
+      return super.canWrite(clazz, mediaType);
+    }else{
       return false;
-    } else {
-      return super.canRead(type, contextClass, mediaType);
     }
+
   }
 }

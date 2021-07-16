@@ -20,16 +20,16 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass({DruidDataSource.class})
 public class DataSourceAutoConfig {
 
-    private static final Logger logger = LoggerFactory.getLogger(DataSourceAutoConfig.class);
+  private static final Logger logger = LoggerFactory.getLogger(DataSourceAutoConfig.class);
 
 
-    @Bean
-    @ConditionalOnMissingBean
-    @ConfigurationProperties(prefix="spring.datasource")
-    @Conditional(BeetlSqlSingleCondition.class)
-    public DataSource dataSource(){
-        logger.info("start DataSource");
-        return new DruidDataSource();
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  @ConfigurationProperties(prefix = "spring.datasource")
+  @Conditional(BeetlSqlSingleCondition.class)
+  public DataSource dataSource() {
+    logger.info("start DataSource");
+    return new DruidDataSource();
+  }
 
 }

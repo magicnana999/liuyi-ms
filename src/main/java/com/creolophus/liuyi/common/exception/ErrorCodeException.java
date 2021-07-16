@@ -8,14 +8,14 @@ import com.creolophus.liuyi.common.api.ApiError;
  */
 public class ErrorCodeException extends ApiException {
 
-    private ApiError apiErrorCode;
+  private ApiError apiErrorCode;
 
-    public ErrorCodeException(ApiError apiErrorCode) {
-        super(apiErrorCode.getMessage());
-        this.apiErrorCode = apiErrorCode;
-    }
+  public ErrorCodeException(ApiError apiErrorCode) {
+    super(apiErrorCode.getMessage());
+    this.apiErrorCode = apiErrorCode;
+  }
 
-    public ApiError getApiError() {
-        return apiErrorCode;
-    }
+  public ApiError getApiError() {
+    return apiErrorCode;
+  }
 }

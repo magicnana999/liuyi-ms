@@ -6,12 +6,12 @@ package com.creolophus.liuyi.common.exception;
  */
 public class BrokenException extends CreolophusException {
 
-    public BrokenException(String message) {
-        super(message);
-    }
+  public BrokenException(String message) {
+    super(message);
+  }
 
-    public BrokenException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public BrokenException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
 }

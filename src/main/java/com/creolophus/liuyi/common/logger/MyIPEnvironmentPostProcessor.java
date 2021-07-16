@@ -1,13 +1,12 @@
 package com.creolophus.liuyi.common.logger;
 
-import com.creolophus.liuyi.common.api.GlobalSetting;
+import com.creolophus.liuyi.common.api.MdcUtil;
 import com.creolophus.liuyi.common.env.AbstractEnvironmentPostProcessor;
 import com.creolophus.liuyi.common.util.IPUtil;
-import org.springframework.boot.SpringApplication;
-import org.springframework.core.env.ConfigurableEnvironment;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.boot.SpringApplication;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
  * @author magicnana
@@ -18,9 +17,10 @@ public class MyIPEnvironmentPostProcessor extends AbstractEnvironmentPostProcess
     private static final String PROPERTY_SOURCE_NAME = "defaultProperties";
 
     @Override
-    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+    public void postProcessEnvironment(ConfigurableEnvironment environment,
+        SpringApplication application) {
         Map<String, Object> map = new HashMap();
-        map.put(GlobalSetting.MDC_IP, IPUtil.getLocalIP());
+        map.put(MdcUtil.MDC_IP, IPUtil.getLocalIP());
         super.addOrReplace(environment.getPropertySources(), map, PROPERTY_SOURCE_NAME);
     }
 }

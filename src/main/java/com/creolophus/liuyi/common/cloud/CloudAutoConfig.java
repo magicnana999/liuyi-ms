@@ -1,6 +1,6 @@
 package com.creolophus.liuyi.common.cloud;
 
-import com.creolophus.liuyi.common.api.GlobalSetting;
+import com.creolophus.liuyi.common.api.Api;
 import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 import feign.Feign;
 import feign.Logger;
@@ -29,16 +29,8 @@ public class CloudAutoConfig {
     @Bean
     @Scope("prototype")
     @ConditionalOnMissingBean
-    public RequestInterceptor requestInterceptor() {
-        return template -> template
-            .header(GlobalSetting.HEADER_INTER_KEY, GlobalSetting.HEADER_INTER_VAL);
-    }
-
-    @Bean
-    @Scope("prototype")
-    @ConditionalOnMissingBean
-    public Logger.Level feignLoggerLevel() {
-        return Logger.Level.NONE;
+    public Decoder decoder() {
+        return new CustomDecoder();
     }
 
     @Bean
@@ -52,15 +44,23 @@ public class CloudAutoConfig {
     @Bean
     @Scope("prototype")
     @ConditionalOnMissingBean
-    public Decoder decoder() {
-        return new CustomDecoder();
+    public Logger.Level feignLoggerLevel() {
+        return Logger.Level.NONE;
+    }
+
+    @Bean
+    @Scope("prototype")
+    @ConditionalOnMissingBean
+    public RequestInterceptor requestInterceptor() {
+        return template -> template
+            .header(Api.HEADER_INTER_KEY, Api.HEADER_INTER_VAL);
     }
 
     @Bean
     @ConditionalOnClass(HystrixMetricsStreamServlet.class)
     @Scope("prototype")
     @ConditionalOnMissingBean
-    public ServletRegistrationBean servletRegistrationBean(){
+    public ServletRegistrationBean servletRegistrationBean() {
         HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(streamServlet);
         registrationBean.setLoadOnStartup(1);

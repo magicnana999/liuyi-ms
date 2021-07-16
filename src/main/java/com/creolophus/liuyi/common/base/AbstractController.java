@@ -9,19 +9,19 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AbstractController {
 
-    protected long currentUserId() {
-        return ApiContext.getContext().getUserId();
-    }
+  protected String currentIP() {
+    return ApiContext.getContext().getIp();
+  }
 
-    protected String currentIP() {
-        return ApiContext.getContext().getIp();
-    }
+  protected HttpServletRequest currentRequest() {
+    return ApiContext.getContext().getRequest();
+  }
 
-    protected String currentToken() {
-        return ApiContext.getContext().getToken();
-    }
+  protected String currentToken() {
+    return ApiContext.getContext().getToken();
+  }
 
-    protected HttpServletRequest currentRequest() {
-        return ApiContext.getContext().getRequest();
-    }
+  protected long currentUserId() {
+    return ApiContext.getContext().getUserId();
+  }
 }

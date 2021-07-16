@@ -1,7 +1,6 @@
 package com.creolophus.liuyi.common.api;
 
 import com.creolophus.liuyi.common.base.AbstractObject;
-
 import java.util.Collections;
 
 /**
@@ -55,6 +54,8 @@ public final class ApiResult<T> implements AbstractObject {
 
     @Override
     public String toString() {
-        return "{\"code\":" + code + ",\"message\":\"" + message + "\", \"data\":" + (data == null ? "" : data.toString()) + '}';
+        return "{\"code\":" + code + ",\"message\":\"" + message + "\", \"data\":" + (data == null
+            ? ""
+            : data.toString()) + '}';
     }
 }

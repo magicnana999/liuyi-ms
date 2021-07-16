@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
@@ -24,16 +23,16 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureBefore(BeetlSqlSingleConfig.class)
 public class BeetlSqlCustomizeAutoConfig {
 
-    private static final Logger logger = LoggerFactory.getLogger(BeetlSqlCustomizeAutoConfig.class);
+  private static final Logger logger = LoggerFactory.getLogger(BeetlSqlCustomizeAutoConfig.class);
 
 
-    @Bean
-    @ConditionalOnMissingBean
-    @Conditional(BeetlSqlSingleCondition.class)
-    public BeetlSqlCustomize buildBeetlSqlCustomize(){
-        return  (sqlManager) -> {
-                sqlManager.setInterceptors(new Interceptor[]{new LineSqlPrintInterceptor()});
-                logger.info("start setInterceptor of LineSqlPrintInterceptor");
-        };
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  @Conditional(BeetlSqlSingleCondition.class)
+  public BeetlSqlCustomize buildBeetlSqlCustomize() {
+    return (sqlManager) -> {
+      sqlManager.setInterceptors(new Interceptor[]{new LineSqlPrintInterceptor()});
+      logger.info("start setInterceptor of LineSqlPrintInterceptor");
+    };
+  }
 }

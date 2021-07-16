@@ -1,11 +1,10 @@
 package com.creolophus.liuyi.common.redis;
 
 
-import redis.clients.jedis.JedisCommands;
-import redis.clients.jedis.JedisPubSub;
-
 import java.util.List;
 import java.util.Set;
+import redis.clients.jedis.JedisCommands;
+import redis.clients.jedis.JedisPubSub;
 
 /**
  * @author magicnana
@@ -13,44 +12,33 @@ import java.util.Set;
  */
 public interface RedisClient extends JedisCommands {
 
-	int delMutiWithKeys(String prefix);
+  Long del(String... keys);
 
-	Set<String> evalSetString(String script, List<String> keys, List<String> args);
+  int delMutiWithKeys(String prefix);
 
+  Set<String> evalSetString(String script, List<String> keys, List<String> args);
 
-	List<String> mget(String... key);
+  /**
+   * lock
+   */
+  public String lock(String key, long expireSecond);
 
-	/**
-	 * lock
-	 * @param key
-	 * @param expireSecond
-	 * @return
-	 */
-	public String lock(String key, long expireSecond);
+  /**
+   * lock
+   */
+  public String lockPx(String key, long expireMilisecond);
 
-	/**
-	 * lock
-	 * @param key
-	 * @param expireMilisecond
-	 * @return
-	 */
-	public String lockPx(String key, long expireMilisecond);
+  List<String> mget(String... key);
 
-	Long publish(String channel, String message);
+  Long publish(String channel, String message);
 
-	void subscribe(JedisPubSub jedisPubSub, String... channels);
+  List<String> scan(String pattern, int count);
 
-    /**
-	 * unlock 
-	 * @param key
-	 * @param keySign
-	 * @return
-	 */
-    boolean unlock(final String key, final String keySign);
+  void subscribe(JedisPubSub jedisPubSub, String... channels);
 
-
-    List<String> scan(String pattern, int count);
-
-	Long del(String... keys);
+  /**
+   * unlock
+   */
+  boolean unlock(final String key, final String keySign);
 
 }

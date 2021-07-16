@@ -1,14 +1,12 @@
 package com.creolophus.liuyi.common.api;
 
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.annotation.RequestParamMethodArgumentResolver;
-
-import java.math.BigDecimal;
-import java.util.Map;
 
 /**
  * @author magicnana
@@ -28,10 +26,11 @@ public class NullArgumentConfirm extends RequestParamMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        if(parameter.hasParameterAnnotation(RequestParam.class)) {
-            if(Map.class.isAssignableFrom(parameter.nestedIfOptional().getNestedParameterType())) {
+        if (parameter.hasParameterAnnotation(RequestParam.class)) {
+            if (Map.class.isAssignableFrom(parameter.nestedIfOptional().getNestedParameterType())) {
                 RequestParam requestParam = parameter.getParameterAnnotation(RequestParam.class);
-                return (requestParam != null && org.springframework.util.StringUtils.hasText(requestParam.name()));
+                return (requestParam != null && org.springframework.util.StringUtils
+                    .hasText(requestParam.name()));
             } else {
                 return true;
             }
@@ -43,19 +42,15 @@ public class NullArgumentConfirm extends RequestParamMethodArgumentResolver {
 
     /**
      * 如果上行参数是""，并且类型是String，那么转换为null
-     * @param name
-     * @param parameter
-     * @param request
-     * @return
-     * @throws Exception
      */
     @Override
-    protected Object resolveName(String name, MethodParameter parameter, NativeWebRequest request) throws Exception {
+    protected Object resolveName(String name, MethodParameter parameter, NativeWebRequest request)
+        throws Exception {
         Object arg = super.resolveName(name, parameter, request);
-        if(arg==null){
+        if (arg == null) {
             return null;
         }
-        if(arg instanceof String && StringUtils.isBlank(arg.toString())) {
+        if (arg instanceof String && StringUtils.isBlank(arg.toString())) {
             return null;
         }
 

@@ -1,10 +1,9 @@
 package com.creolophus.liuyi.common.api;
 
 import com.creolophus.liuyi.common.util.IPUtil;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author magicnana
@@ -15,22 +14,12 @@ public class ApiContextValidator {
 
     private static final Logger logger = LoggerFactory.getLogger(ApiContextValidator.class);
 
-    public String[] ignoringAntMatchers() {
-        return new String[]{};
-    }
-
-
-    public void setApiResult(Object obj){
-        ApiContext.getContext().setApiResult(obj);
-    }
-
     public void cleanContext() {
-
 
         ApiContext apiContext = ApiContext.getContext();
 
         apiContext.setUserId(0);
-        apiContext.setUserAgent(null) ;
+        apiContext.setUserAgent(null);
         apiContext.setIp(null);
         apiContext.setToken(null);
         apiContext.setRequest(null);
@@ -40,12 +29,16 @@ public class ApiContextValidator {
 
     }
 
-    public void initContext(){
-        initContext(null);
+    protected String getDefaultExt() {
+        return MdcUtil.MDC_DEFAULT;
     }
 
-    protected String getDefaultExt(){
-        return MdcUtil.MDC_DEFAULT;
+    public String[] ignoringAntMatchers() {
+        return new String[]{};
+    }
+
+    public void initContext() {
+        initContext(null);
     }
 
     public void initContext(HttpServletRequest request) {
@@ -54,7 +47,7 @@ public class ApiContextValidator {
         MdcUtil.setUri();
         MdcUtil.setMethod("ApiContext");
 
-        if(request!=null){
+        if (request != null) {
             ApiContext.getContext().setRequest(request);
             ApiContext.getContext().setIp(IPUtil.getRemoteIP(request));
             ApiContext.getContext().setUserAgent(request.getHeader("User-Agent"));
@@ -62,6 +55,10 @@ public class ApiContextValidator {
             MdcUtil.setUri(request.getRequestURI());
         }
 
+    }
+
+    public void setApiResult(Object obj) {
+        ApiContext.getContext().setApiResult(obj);
     }
 
 }

@@ -7,4 +7,5 @@ import java.io.Serializable;
  * @date 2020/2/6 下午10:45
  */
 public interface AbstractObject extends Serializable {
+
 }

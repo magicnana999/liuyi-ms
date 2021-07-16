@@ -6,7 +6,7 @@ package structs;
  */
 public class Main {
 
-  public static void main(String[] args){
+  public static void main(String[] args) {
 
     //                            if ((e.hash & oldCap) == 0) {
 
@@ -21,7 +21,7 @@ public class Main {
     n |= n >>> 4;
     n |= n >>> 8;
     n |= n >>> 16;
-    return (n < 0) ? 1 : (n >= (1<<30)) ? (1<<30) : n + 1;
+    return (n < 0) ? 1 : (n >= (1 << 30)) ? (1 << 30) : n + 1;
   }
 
 }

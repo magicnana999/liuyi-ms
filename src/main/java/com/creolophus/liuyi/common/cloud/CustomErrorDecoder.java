@@ -4,6 +4,7 @@ import com.netflix.hystrix.exception.HystrixBadRequestException;
 import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
+import java.nio.charset.Charset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,21 +14,21 @@ import org.slf4j.LoggerFactory;
  */
 public class CustomErrorDecoder implements ErrorDecoder {
 
-    private static Logger logger = LoggerFactory.getLogger(CustomErrorDecoder.class);
+  private static Logger logger = LoggerFactory.getLogger(CustomErrorDecoder.class);
 
-    @Override
-    public Exception decode(String methodKey, Response response) {
+  @Override
+  public Exception decode(String methodKey, Response response) {
 
-        try{
-            String json = Util.toString(response.body().asReader());
+    try {
+      String json = Util.toString(response.body().asReader(Charset.forName("UTF-8")));
 
-            if(response.status() >= 400 && response.status() < 500){
-                return new HystrixBadRequestException(json);
-            }else{
-                return feign.FeignException.errorStatus(methodKey, response);
-            }
-        }catch(Throwable e){
-            return new HystrixBadRequestException(e.getMessage());
-        }
+      if (response.status() >= 400 && response.status() < 500) {
+        return new HystrixBadRequestException(json);
+      } else {
+        return feign.FeignException.errorStatus(methodKey, response);
+      }
+    } catch (Throwable e) {
+      return new HystrixBadRequestException(e.getMessage());
     }
+  }
 }

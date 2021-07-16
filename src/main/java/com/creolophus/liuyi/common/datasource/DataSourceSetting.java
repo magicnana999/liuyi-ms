@@ -2,158 +2,158 @@ package com.creolophus.liuyi.common.datasource;
 
 public class DataSourceSetting {
 
-    private String username;
-    private String password;
-    private String url;
-    private String driver;
+  private String username;
+  private String password;
+  private String url;
+  private String driver;
 
-    private int maxActive;
-    private int initialSize;
-    private long maxWait;
-    private int minIdle;
-    private long timeBetweenEvictionRunsMillis;
-    private long minEvictableIdleTimeMillis;
-    private String validationQuery;
-    private boolean testWhileIdle;
-    private boolean testOnBorrow;
-    private boolean testOnReturn;
-    private boolean removeAbandoned;
-    private int removeAbandonedTimeout;
-    private boolean logAbandoned;
+  private int maxActive;
+  private int initialSize;
+  private long maxWait;
+  private int minIdle;
+  private long timeBetweenEvictionRunsMillis;
+  private long minEvictableIdleTimeMillis;
+  private String validationQuery;
+  private boolean testWhileIdle;
+  private boolean testOnBorrow;
+  private boolean testOnReturn;
+  private boolean removeAbandoned;
+  private int removeAbandonedTimeout;
+  private boolean logAbandoned;
 
-    public int getMaxActive() {
-        return maxActive;
-    }
+  public String getDriver() {
+    return driver;
+  }
 
-    public void setMaxActive(int maxActive) {
-        this.maxActive = maxActive;
-    }
+  public void setDriver(String driver) {
+    this.driver = driver;
+  }
 
-    public int getInitialSize() {
-        return initialSize;
-    }
+  public int getInitialSize() {
+    return initialSize;
+  }
 
-    public void setInitialSize(int initialSize) {
-        this.initialSize = initialSize;
-    }
+  public void setInitialSize(int initialSize) {
+    this.initialSize = initialSize;
+  }
 
-    public long getMaxWait() {
-        return maxWait;
-    }
+  public int getMaxActive() {
+    return maxActive;
+  }
 
-    public void setMaxWait(long maxWaitMillis) {
-        this.maxWait = maxWaitMillis;
-    }
+  public void setMaxActive(int maxActive) {
+    this.maxActive = maxActive;
+  }
 
-    public int getMinIdle() {
-        return minIdle;
-    }
+  public long getMaxWait() {
+    return maxWait;
+  }
 
-    public void setMinIdle(int minIdle) {
-        this.minIdle = minIdle;
-    }
+  public void setMaxWait(long maxWaitMillis) {
+    this.maxWait = maxWaitMillis;
+  }
 
-    public long getTimeBetweenEvictionRunsMillis() {
-        return timeBetweenEvictionRunsMillis;
-    }
+  public long getMinEvictableIdleTimeMillis() {
+    return minEvictableIdleTimeMillis;
+  }
 
-    public void setTimeBetweenEvictionRunsMillis(long timeBetweenEvictionRunsMillis) {
-        this.timeBetweenEvictionRunsMillis = timeBetweenEvictionRunsMillis;
-    }
+  public void setMinEvictableIdleTimeMillis(long minEvictableIdleTimeMillis) {
+    this.minEvictableIdleTimeMillis = minEvictableIdleTimeMillis;
+  }
 
-    public long getMinEvictableIdleTimeMillis() {
-        return minEvictableIdleTimeMillis;
-    }
+  public int getMinIdle() {
+    return minIdle;
+  }
 
-    public void setMinEvictableIdleTimeMillis(long minEvictableIdleTimeMillis) {
-        this.minEvictableIdleTimeMillis = minEvictableIdleTimeMillis;
-    }
+  public void setMinIdle(int minIdle) {
+    this.minIdle = minIdle;
+  }
 
-    public String getValidationQuery() {
-        return validationQuery;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setValidationQuery(String validationQuery) {
-        this.validationQuery = validationQuery;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public boolean isTestWhileIdle() {
-        return testWhileIdle;
-    }
+  public int getRemoveAbandonedTimeout() {
+    return removeAbandonedTimeout;
+  }
 
-    public void setTestWhileIdle(boolean testWhileIdle) {
-        this.testWhileIdle = testWhileIdle;
-    }
+  public void setRemoveAbandonedTimeout(int removeAbandonedTimeout) {
+    this.removeAbandonedTimeout = removeAbandonedTimeout;
+  }
 
-    public boolean isTestOnBorrow() {
-        return testOnBorrow;
-    }
+  public long getTimeBetweenEvictionRunsMillis() {
+    return timeBetweenEvictionRunsMillis;
+  }
 
-    public void setTestOnBorrow(boolean testOnBorrow) {
-        this.testOnBorrow = testOnBorrow;
-    }
+  public void setTimeBetweenEvictionRunsMillis(long timeBetweenEvictionRunsMillis) {
+    this.timeBetweenEvictionRunsMillis = timeBetweenEvictionRunsMillis;
+  }
 
-    public boolean isTestOnReturn() {
-        return testOnReturn;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public void setTestOnReturn(boolean testOnReturn) {
-        this.testOnReturn = testOnReturn;
-    }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-    public boolean isRemoveAbandoned() {
-        return removeAbandoned;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public void setRemoveAbandoned(boolean removeAbandoned) {
-        this.removeAbandoned = removeAbandoned;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public int getRemoveAbandonedTimeout() {
-        return removeAbandonedTimeout;
-    }
+  public String getValidationQuery() {
+    return validationQuery;
+  }
 
-    public void setRemoveAbandonedTimeout(int removeAbandonedTimeout) {
-        this.removeAbandonedTimeout = removeAbandonedTimeout;
-    }
+  public void setValidationQuery(String validationQuery) {
+    this.validationQuery = validationQuery;
+  }
 
-    public boolean isLogAbandoned() {
-        return logAbandoned;
-    }
+  public boolean isLogAbandoned() {
+    return logAbandoned;
+  }
 
-    public void setLogAbandoned(boolean logAbandoned) {
-        this.logAbandoned = logAbandoned;
-    }
+  public void setLogAbandoned(boolean logAbandoned) {
+    this.logAbandoned = logAbandoned;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public boolean isRemoveAbandoned() {
+    return removeAbandoned;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  public void setRemoveAbandoned(boolean removeAbandoned) {
+    this.removeAbandoned = removeAbandoned;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public boolean isTestOnBorrow() {
+    return testOnBorrow;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setTestOnBorrow(boolean testOnBorrow) {
+    this.testOnBorrow = testOnBorrow;
+  }
 
-    public String getUrl() {
-        return url;
-    }
+  public boolean isTestOnReturn() {
+    return testOnReturn;
+  }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  public void setTestOnReturn(boolean testOnReturn) {
+    this.testOnReturn = testOnReturn;
+  }
 
-    public String getDriver() {
-        return driver;
-    }
+  public boolean isTestWhileIdle() {
+    return testWhileIdle;
+  }
 
-    public void setDriver(String driver) {
-        this.driver = driver;
-    }
+  public void setTestWhileIdle(boolean testWhileIdle) {
+    this.testWhileIdle = testWhileIdle;
+  }
 }

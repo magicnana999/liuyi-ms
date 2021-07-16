@@ -10,36 +10,38 @@ import java.util.function.Function;
  */
 public class Test {
 
-    private static final ConcurrentHashMap<String,String> table = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, String> table = new ConcurrentHashMap<>();
 
-    public void set(){
-        String origin = table.computeIfAbsent(Thread.currentThread().getName(), new Function<String, String>() {
-            @Override
-            public String apply(String s) {
-                System.out.println("计算中");
-                return Thread.currentThread().getName() + " " + System.currentTimeMillis();
-            }
+  public void set() {
+    String origin = table
+        .computeIfAbsent(Thread.currentThread().getName(), new Function<String, String>() {
+          @Override
+          public String apply(String s) {
+            System.out.println("计算中");
+            return Thread.currentThread().getName() + " " + System.currentTimeMillis();
+          }
         });
-        System.out.println(Thread.currentThread().getName()+" "+origin+" "+table.get(Thread.currentThread().getName()));
-    }
+    System.out.println(Thread.currentThread().getName() + " " + origin + " " + table
+        .get(Thread.currentThread().getName()));
+  }
 
-    public void test() throws InterruptedException {
-        for(int i=0;i<5; i++){
-            Thread t = new Thread(() -> {
-                for(int j=0;j<10;j++){
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    Test test = new Test();
-                    test.set();
-                }
-            });
-            t.start();
+  public void test() throws InterruptedException {
+    for (int i = 0; i < 5; i++) {
+      Thread t = new Thread(() -> {
+        for (int j = 0; j < 10; j++) {
+          try {
             TimeUnit.SECONDS.sleep(1);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          Test test = new Test();
+          test.set();
         }
-
-        Thread.currentThread().join();
+      });
+      t.start();
+      TimeUnit.SECONDS.sleep(1);
     }
+
+    Thread.currentThread().join();
+  }
 }

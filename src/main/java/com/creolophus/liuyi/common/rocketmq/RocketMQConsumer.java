@@ -4,6 +4,8 @@ import com.creolophus.liuyi.common.api.MdcUtil;
 import com.creolophus.liuyi.common.exception.DoNotReConsumeException;
 import com.creolophus.liuyi.common.logger.TracerUtil;
 import com.creolophus.liuyi.common.thread.Stopable;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
@@ -12,77 +14,68 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-
 /**
  * @author magicnana
  * @date 2019/7/23 下午5:54
  */
 public abstract class RocketMQConsumer implements Stopable {
 
-    private static final Logger logger = LoggerFactory.getLogger(RocketMQProducer.class);
+  private static final Logger logger = LoggerFactory.getLogger(RocketMQProducer.class);
+  private final DefaultMQPushConsumer consumer = new DefaultMQPushConsumer();
+  @Resource
+  private RocketMQSetting rocketMQSetting;
+  @Autowired(required = false)
+  private TracerUtil tracerUtil;
 
+  protected abstract String getConsumerGroup();
 
-    @Resource
-    private RocketMQSetting rocketMQSetting;
+  protected abstract String getConsumerTopic();
 
-    private final DefaultMQPushConsumer consumer = new DefaultMQPushConsumer();
-
-    protected abstract String getConsumerGroup();
-    protected abstract String getConsumerTopic();
-
-    protected abstract void process(String msgId, String topic, String msgBody, int times);
-
-
-
-    @Autowired(required = false)
-    private TracerUtil tracerUtil;
-
-
-    @PostConstruct
-    public void init() {
+  @PostConstruct
+  public void init() {
 //        Thread thread = new Thread(new ConsumerTask(), "rocketmq_consumer_"+getConsumerTopic());
 //        thread.start();
 
-        consumer.setNamesrvAddr(rocketMQSetting.getNamesrvAddr());
-        consumer.setConsumerGroup(getConsumerGroup());
-        try {
-            //订阅
-            consumer.subscribe(getConsumerTopic(),"*");
-            consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -> {
-                MdcUtil.setMethod("consumeMessage");
-                MdcUtil.setExt("UnknownAppKeyInConsumer");
-                for (MessageExt msg : msgs) {
-                    MdcUtil.setUri(msg.getMsgId()+"."+msg.getReconsumeTimes());
-                    String msgBody = new String(msg.getBody());
-                    try{
-                        if(tracerUtil!=null){
-                            tracerUtil.begin("consume", RocketMQConsumer.class.getSimpleName());
-                        }
-                        if(logger.isDebugEnabled()){
-                            logger.debug("{}",msgBody);
-                        }
-                        process(msg.getMsgId(),msg.getTopic(),msgBody,msg.getReconsumeTimes());
-                    } catch (DoNotReConsumeException e) {
-                        logger.error("error & do not reconsume",e);
-                        return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-                    }catch (Throwable e){
-                        logger.error("error & reconsume later",e);
-                        return ConsumeConcurrentlyStatus.RECONSUME_LATER;
-                    }
-                    if(logger.isDebugEnabled()){
-                        logger.debug("success ",msg.getMsgId(),msg.getReconsumeTimes(),msgBody);
-                    }
-                }
-                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-            });
-            consumer.start();
-            logger.info("start RocketMQ Consumer "+Thread.currentThread().getName());
-        }catch (Throwable e){
-            throw new RuntimeException(e);
+    consumer.setNamesrvAddr(rocketMQSetting.getNamesrvAddr());
+    consumer.setConsumerGroup(getConsumerGroup());
+    try {
+      //订阅
+      consumer.subscribe(getConsumerTopic(), "*");
+      consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -> {
+        MdcUtil.setMethod("consumeMessage");
+        MdcUtil.setExt("UnknownAppKeyInConsumer");
+        for (MessageExt msg : msgs) {
+          MdcUtil.setUri(msg.getMsgId() + "." + msg.getReconsumeTimes());
+          String msgBody = new String(msg.getBody());
+          try {
+            if (tracerUtil != null) {
+              tracerUtil.begin("consume", RocketMQConsumer.class.getSimpleName());
+            }
+            if (logger.isDebugEnabled()) {
+              logger.debug("{}", msgBody);
+            }
+            process(msg.getMsgId(), msg.getTopic(), msgBody, msg.getReconsumeTimes());
+          } catch (DoNotReConsumeException e) {
+            logger.error("error & do not reconsume", e);
+            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+          } catch (Throwable e) {
+            logger.error("error & reconsume later", e);
+            return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+          }
+          if (logger.isDebugEnabled()) {
+            logger.debug("success ", msg.getMsgId(), msg.getReconsumeTimes(), msgBody);
+          }
         }
+        return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+      });
+      consumer.start();
+      logger.info("start RocketMQ Consumer " + Thread.currentThread().getName());
+    } catch (Throwable e) {
+      throw new RuntimeException(e);
     }
+  }
+
+  protected abstract void process(String msgId, String topic, String msgBody, int times);
 
 //    private class ConsumerTask implements Runnable {
 //
@@ -119,8 +112,8 @@ public abstract class RocketMQConsumer implements Stopable {
 //        }
 //    }
 
-    @Override
-	public void shutdown() {
-		consumer.shutdown();
-	}
+  @Override
+  public void shutdown() {
+    consumer.shutdown();
+  }
 }

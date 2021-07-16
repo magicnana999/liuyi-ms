@@ -13,20 +13,21 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass(DefaultMQProducerImpl.class)
 public class RocketMQAutoConfig {
 
-    private static final Logger logger = LoggerFactory.getLogger(RocketMQAutoConfig.class);
+  private static final Logger logger = LoggerFactory.getLogger(RocketMQAutoConfig.class);
 
+  @Bean
+  @ConditionalOnMissingBean
+  public RocketMQProducer rocketMQProducer(RocketMQSetting rocketMQSetting) {
+    logger.info("start RocketMQ {}:{}", rocketMQSetting.getNamesrvAddr(),
+        rocketMQSetting.getProducerGroupName());
+    return new RocketMQProducer(rocketMQSetting.getNamesrvAddr(),
+        rocketMQSetting.getProducerGroupName());
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    @ConfigurationProperties(prefix="spring.rocketmq")
-    public RocketMQSetting rocketMQSetting(){
-        return new RocketMQSetting();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public RocketMQProducer rocketMQProducer(RocketMQSetting rocketMQSetting){
-        logger.info("start RocketMQ {}:{}", rocketMQSetting.getNamesrvAddr(), rocketMQSetting.getProducerGroupName());
-        return new RocketMQProducer(rocketMQSetting.getNamesrvAddr(),rocketMQSetting.getProducerGroupName());
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  @ConfigurationProperties(prefix = "spring.rocketmq")
+  public RocketMQSetting rocketMQSetting() {
+    return new RocketMQSetting();
+  }
 }

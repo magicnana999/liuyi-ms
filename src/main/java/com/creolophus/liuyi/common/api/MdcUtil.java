@@ -9,52 +9,58 @@ import org.slf4j.MDC;
  */
 public class MdcUtil {
 
-    public static final String MDC_DEFAULT = "-";
+  public static final String MDC_METHOD = "X-LiuYi-Method";
+  public static final String MDC_EXT = "X-LiuYi-EXT";
+  public static final String MDC_URI = "X-LiuYi-URI";
+  public static final String MDC_IP = "X-LiuYi-IP";
 
-    public static void clearExt(){
-        MDC.remove(GlobalSetting.MDC_EXT);
-    }
 
-    public static void clearAll(){
-        MDC.clear();
-    }
+  public static final String MDC_DEFAULT = "-";
 
-    public static void setExt(String ext) {
-        if(StringUtils.isNotBlank(ext)) {
-            MDC.put(GlobalSetting.MDC_EXT, ext);
-        }
-    }
+  public static void clearExt() {
+    MDC.remove(MDC_EXT);
+  }
 
-    public static void setMethod() {
-        if(StringUtils.isBlank(MDC.get(GlobalSetting.MDC_METHOD))) {
-            MDC.put(GlobalSetting.MDC_METHOD, MDC_DEFAULT);
-        }
-    }
+  public static void clearAll() {
+    MDC.clear();
+  }
 
-    public static void setMethod(String method) {
-        if(StringUtils.isNotBlank(method)) {
-            MDC.put(GlobalSetting.MDC_METHOD, method);
-        }
+  public static void setExt(String ext) {
+    if (StringUtils.isNotBlank(ext)) {
+      MDC.put(MDC_EXT, ext);
     }
+  }
 
-    public static void clearMethod(){
-        MDC.remove(GlobalSetting.MDC_METHOD);
+  public static void setMethod() {
+    if (StringUtils.isBlank(MDC.get(MDC_METHOD))) {
+      MDC.put(MDC_METHOD, MDC_DEFAULT);
     }
+  }
 
-    public static void setUri() {
-        if(StringUtils.isBlank(MDC.get(GlobalSetting.MDC_URI))) {
-            MDC.put(GlobalSetting.MDC_URI, MDC_DEFAULT);
-        }
+  public static void setMethod(String method) {
+    if (StringUtils.isNotBlank(method)) {
+      MDC.put(MDC_METHOD, method);
     }
+  }
 
-    public static void setUri(String uri) {
-        if(StringUtils.isNotBlank(uri)) {
-            MDC.put(GlobalSetting.MDC_URI, uri);
-        }
-    }
+  public static void clearMethod() {
+    MDC.remove(MDC_METHOD);
+  }
 
-    public static void clearUri(){
-        MDC.remove(GlobalSetting.MDC_URI);
+  public static void setUri() {
+    if (StringUtils.isBlank(MDC.get(MDC_URI))) {
+      MDC.put(MDC_URI, MDC_DEFAULT);
     }
+  }
+
+  public static void setUri(String uri) {
+    if (StringUtils.isNotBlank(uri)) {
+      MDC.put(MDC_URI, uri);
+    }
+  }
+
+  public static void clearUri() {
+    MDC.remove(MDC_URI);
+  }
 
 }

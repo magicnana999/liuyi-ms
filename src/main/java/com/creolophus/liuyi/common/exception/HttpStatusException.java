@@ -8,19 +8,19 @@ import org.springframework.http.HttpStatus;
  */
 public class HttpStatusException extends ApiException {
 
-    private HttpStatus httpStatus;
+  private HttpStatus httpStatus;
 
-    public HttpStatusException(HttpStatus httpStatus,String message) {
-        super(message);
-        this.httpStatus = httpStatus;
-    }
+  public HttpStatusException(HttpStatus httpStatus, String message) {
+    super(message);
+    this.httpStatus = httpStatus;
+  }
 
-    public HttpStatusException(HttpStatus httpStatus) {
-        super(httpStatus.getReasonPhrase());
-        this.httpStatus = httpStatus;
-    }
+  public HttpStatusException(HttpStatus httpStatus) {
+    super(httpStatus.getReasonPhrase());
+    this.httpStatus = httpStatus;
+  }
 
-    public HttpStatus getHttpStatus(){
-        return httpStatus;
-    }
+  public HttpStatus getHttpStatus() {
+    return httpStatus;
+  }
 }

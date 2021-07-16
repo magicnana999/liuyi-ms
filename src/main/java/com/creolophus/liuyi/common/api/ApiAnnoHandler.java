@@ -6,8 +6,9 @@ import javax.servlet.http.HttpServletRequest;
  * @author magicnana
  * @date 2020/10/10 4:02 PM
  */
-public interface ApiScopeHandler {
-    boolean allow(String scope);
+public interface ApiAnnoHandler {
 
-    void handle(HttpServletRequest request);
+    boolean allow(Api api);
+
+    void handle(HttpServletRequest request, Api api);
 }

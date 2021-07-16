@@ -6,5 +6,5 @@ package com.creolophus.liuyi.common.thread;
  */
 public interface Stopable {
 
-    void shutdown();
+  void shutdown();
 }
