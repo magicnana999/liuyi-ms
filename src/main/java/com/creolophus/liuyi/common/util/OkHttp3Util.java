@@ -32,11 +32,13 @@ public class OkHttp3Util {
 
   private static final MediaType JSON_TYPE = MediaType.parse("application/json; charset=utf-8");
 
-  private static final MediaType FORM_DATA = MediaType
-      .parse("application/x-www-form-urlencoded; charset=utf-8");
+  private static final MediaType FORM_DATA =
+      MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
   private static void doAsyncGet(
-      String baseUrl, Map<String, String> params, Map<String, String> headersMap,
+      String baseUrl,
+      Map<String, String> params,
+      Map<String, String> headersMap,
       Callback callback) {
     OkHttpClient client = OkHttp3Util.getInstance();
     String url = urlJoin(baseUrl, params);
@@ -61,8 +63,8 @@ public class OkHttp3Util {
     doAsyncPost(url, body, headersMap, callback);
   }
 
-  private static void doAsyncPost(String url, RequestBody body, Map<String, String> headersMap,
-      Callback callback) {
+  private static void doAsyncPost(
+      String url, RequestBody body, Map<String, String> headersMap, Callback callback) {
     OkHttpClient client = OkHttp3Util.getInstance();
     Request request;
     if (null == headersMap || headersMap.size() == 0) {
@@ -75,8 +77,8 @@ public class OkHttp3Util {
     call.enqueue(callback);
   }
 
-  private static Resp doSyncGet(String baseUrl, Map<String, String> params,
-      Map<String, String> headersMap) {
+  private static Resp doSyncGet(
+      String baseUrl, Map<String, String> params, Map<String, String> headersMap) {
     OkHttpClient client = OkHttp3Util.getInstance();
     String url = urlJoin(baseUrl, params);
     Request request;
@@ -94,8 +96,8 @@ public class OkHttp3Util {
     }
   }
 
-  private static Resp doSyncPost(String url, Map<String, String> params,
-      Map<String, String> headersMap) {
+  private static Resp doSyncPost(
+      String url, Map<String, String> params, Map<String, String> headersMap) {
     FormBody.Builder builder = new FormBody.Builder();
     if (params != null && params.size() > 0) {
       for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -238,8 +240,8 @@ public class OkHttp3Util {
    * @param headersMap request headers
    * @param callback call back
    */
-  public static void post(String url, String json, Map<String, String> headersMap,
-      Callback callback) {
+  public static void post(
+      String url, String json, Map<String, String> headersMap, Callback callback) {
     RequestBody body = RequestBody.create(JSON_TYPE, json);
     doAsyncPost(url, body, headersMap, callback);
   }
@@ -330,15 +332,16 @@ public class OkHttp3Util {
 
   private static class SingletonHolder {
 
-    private static final OkHttpClient INSTANCE = new DefaultOkHttpClientFactory(
-        new OkHttpClient.Builder())
-        .createBuilder(false)
-        .connectTimeout(2000, TimeUnit.MILLISECONDS)
-        .readTimeout(5000, TimeUnit.MILLISECONDS)
-        .followRedirects(false)
-        .connectionPool(new DefaultOkHttpClientConnectionPoolFactory()
-            .create(Runtime.getRuntime().availableProcessors(), 15 * 60L, TimeUnit.SECONDS)).
-            build();
+    private static final OkHttpClient INSTANCE =
+        new DefaultOkHttpClientFactory(new OkHttpClient.Builder())
+            .createBuilder(false)
+            .connectTimeout(2000, TimeUnit.MILLISECONDS)
+            .readTimeout(5000, TimeUnit.MILLISECONDS)
+            .followRedirects(false)
+            .connectionPool(
+                new DefaultOkHttpClientConnectionPoolFactory()
+                    .create(Runtime.getRuntime().availableProcessors(), 15 * 60L, TimeUnit.SECONDS))
+            .build();
   }
 
   public static class Resp {
@@ -415,5 +418,4 @@ public class OkHttp3Util {
       return sb.toString();
     }
   }
-
 }

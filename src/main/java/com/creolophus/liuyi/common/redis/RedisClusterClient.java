@@ -102,5 +102,4 @@ public class RedisClusterClient extends JedisCluster implements RedisClient {
     }
     return true;
   }
-
 }

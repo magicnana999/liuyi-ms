@@ -11,7 +11,6 @@ public class Main {
     //                            if ((e.hash & oldCap) == 0) {
 
     System.out.println(tableSizeFor(16));
-
   }
 
   public static final int tableSizeFor(int cap) {
@@ -23,5 +22,4 @@ public class Main {
     n |= n >>> 16;
     return (n < 0) ? 1 : (n >= (1 << 30)) ? (1 << 30) : n + 1;
   }
-
 }

@@ -26,18 +26,22 @@ public class LoggerAutoConfig {
   @ConditionalOnMissingBean
   @ConditionalOnProperty(value = "liuyi.global.model", havingValue = "debug", matchIfMissing = true)
   public LoggerAspect loggerAspect() {
-    logger.info("start... logger");
+    if (logger.isInfoEnabled()) {
+      logger.info("start... logger");
+    }
     return new LoggerAspect();
   }
 
   @Bean
   @ConditionalOnClass(TracingFilter.class)
   @ConditionalOnMissingBean
-  public EntryTraceAspect traceAspect(Tracer tracer,
-      SleuthSchedulingProperties sleuthSchedulingProperties) {
-    logger.info("start... trace logger");
-    return new EntryTraceAspect(tracer,
-        Pattern.compile(sleuthSchedulingProperties.getSkipPattern()));
+  public EntryTraceAspect traceAspect(
+      Tracer tracer, SleuthSchedulingProperties sleuthSchedulingProperties) {
+    if (logger.isInfoEnabled()) {
+      logger.info("start... trace logger");
+    }
+    return new EntryTraceAspect(
+        tracer, Pattern.compile(sleuthSchedulingProperties.getSkipPattern()));
   }
 
   @Bean
@@ -45,5 +49,4 @@ public class LoggerAutoConfig {
   public TracerUtil tracerUtil(Tracer tracer) {
     return new TracerUtil(tracer);
   }
-
 }

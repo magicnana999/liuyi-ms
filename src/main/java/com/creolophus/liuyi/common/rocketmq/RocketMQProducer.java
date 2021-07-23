@@ -12,9 +12,7 @@ import org.slf4j.LoggerFactory;
 
 public class RocketMQProducer {
 
-
   private static final Logger logger = LoggerFactory.getLogger(RocketMQProducer.class);
-
 
   private DefaultMQProducer producer;
 
@@ -33,7 +31,9 @@ public class RocketMQProducer {
       producer.setNamesrvAddr(namesrvAddr);
       producer.setDefaultTopicQueueNums(8);
       producer.start();
-      logger.info("start RocketMQ Producer");
+      if (logger.isInfoEnabled()) {
+        logger.info("start RocketMQ Producer");
+      }
     } catch (Throwable e) {
       throw new BrokenException("RocketMQProducer could not started", e);
     }
@@ -57,17 +57,27 @@ public class RocketMQProducer {
     try {
       SendResult sendResult = null;
       if (StringUtils.isNotBlank(msg.getKeys())) {
-        sendResult = producer.send(msg, (mqs, msg1, arg) -> {
-          int index = Math.abs(msg1.getKeys().hashCode()) % mqs.size();
-          return mqs.get(index);
-        }, 0);
+        sendResult =
+            producer.send(
+                msg,
+                (mqs, msg1, arg) -> {
+                  int index = Math.abs(msg1.getKeys().hashCode()) % mqs.size();
+                  return mqs.get(index);
+                },
+                0);
       } else {
         sendResult = producer.send(msg);
       }
 
-      logger.info("send to rocketmq {} {} {} {} {}", msg.getTopic(), msg.getKeys(),
-          sendResult == null ? "" : sendResult.getSendStatus(),
-          sendResult == null ? "" : sendResult.getMsgId(), new String(msg.getBody()));
+      if (logger.isInfoEnabled()) {
+        logger.info(
+            "send to rocketmq {} {} {} {} {}",
+            msg.getTopic(),
+            msg.getKeys(),
+            sendResult == null ? "" : sendResult.getSendStatus(),
+            sendResult == null ? "" : sendResult.getMsgId(),
+            new String(msg.getBody()));
+      }
 
       if (sendResult == null) {
         throw new RuntimeException("Send message to RocketMQ failed, return null");
@@ -86,6 +96,4 @@ public class RocketMQProducer {
       throw new RuntimeException(e);
     }
   }
-
-
 }

@@ -24,43 +24,50 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityAutoConfig {
 
-    public static final String HEADER_TOKEN_KEY = "Authorization";
-    public static final String HEADER_TOKEN_PRE = "Bearer";
+  public static final String HEADER_TOKEN_KEY = "Authorization";
+  public static final String HEADER_TOKEN_PRE = "Bearer";
 
-    private static final Logger logger = LoggerFactory.getLogger(SecurityAutoConfig.class);
-    @Resource
-    private UserDetailsService userDetailsService;
+  private static final Logger logger = LoggerFactory.getLogger(SecurityAutoConfig.class);
+  @Resource
+  private UserDetailsService userDetailsService;
 
-    @Bean
-    @ConditionalOnMissingBean
-    public GoAccessDeniedHandler goAccessDeniedHandler() {
-        return new GoAccessDeniedHandler();
+  @Bean
+  @ConditionalOnMissingBean
+  public GoAccessDeniedHandler goAccessDeniedHandler() {
+    return new GoAccessDeniedHandler();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public GoAuthenticationEntryPoint goAuthenticationEntryPoint() {
+    return new GoAuthenticationEntryPoint();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
+    if (logger.isInfoEnabled()) {
+      logger.info("start JwtAuthenticationTokenFilter");
     }
+    return new JwtAuthenticationTokenFilter();
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public GoAuthenticationEntryPoint goAuthenticationEntryPoint() {
-        return new GoAuthenticationEntryPoint();
+  @Bean
+  @ConditionalOnMissingBean
+  public LiuyiWebSecurityConfigurerAdapter liuyiWebSecurityConfigurerAdapter() {
+    if (logger.isInfoEnabled()) {
+      logger.info("start LiuyiWebSecurityConfigurerAdapter");
     }
+    return new LiuyiWebSecurityConfigurerAdapter(
+        userDetailsService,
+        goAccessDeniedHandler(),
+        goAuthenticationEntryPoint(),
+        jwtAuthenticationTokenFilter());
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
-        logger.info("start JwtAuthenticationTokenFilter");
-        return new JwtAuthenticationTokenFilter();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public LiuyiWebSecurityConfigurerAdapter liuyiWebSecurityConfigurerAdapter() {
-        logger.info("start LiuyiWebSecurityConfigurerAdapter");
-        return new LiuyiWebSecurityConfigurerAdapter(userDetailsService, goAccessDeniedHandler(),
-            goAuthenticationEntryPoint(), jwtAuthenticationTokenFilter());
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 }

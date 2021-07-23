@@ -13,5 +13,4 @@ public class BrokenException extends CreolophusException {
   public BrokenException(String message, Throwable cause) {
     super(message, cause);
   }
-
 }

@@ -14,7 +14,6 @@ public class MdcUtil {
   public static final String MDC_URI = "X-LiuYi-URI";
   public static final String MDC_IP = "X-LiuYi-IP";
 
-
   public static final String MDC_DEFAULT = "-";
 
   public static void clearExt() {
@@ -62,5 +61,4 @@ public class MdcUtil {
   public static void clearUri() {
     MDC.remove(MDC_URI);
   }
-
 }

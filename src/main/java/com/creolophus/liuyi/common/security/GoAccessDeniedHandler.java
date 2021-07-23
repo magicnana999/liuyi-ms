@@ -22,16 +22,17 @@ public class GoAccessDeniedHandler implements AccessDeniedHandler {
   private static final Logger logger = LoggerFactory.getLogger(GoAccessDeniedHandler.class);
 
   @Override
-  public void handle(HttpServletRequest request, HttpServletResponse response,
-      AccessDeniedException e) throws IOException {
+  public void handle(
+      HttpServletRequest request, HttpServletResponse response, AccessDeniedException e)
+      throws IOException {
 
     logger.error("权限不够" + request.getRequestURI());
 
     // 此处配置的是允许任意域名跨域请求，可根据需求指定
     response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
     response.setHeader("Access-Control-Allow-Credentials", "true");
-    response.setHeader("Access-Control-Allow-Methods",
-        "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
+    response.setHeader(
+        "Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
     response.setHeader("Access-Control-Max-Age", "86400");
     response.setHeader("Access-Control-Allow-Headers", "*");
 

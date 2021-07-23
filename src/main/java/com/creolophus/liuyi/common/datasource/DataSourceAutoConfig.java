@@ -22,14 +22,14 @@ public class DataSourceAutoConfig {
 
   private static final Logger logger = LoggerFactory.getLogger(DataSourceAutoConfig.class);
 
-
   @Bean
   @ConditionalOnMissingBean
   @ConfigurationProperties(prefix = "spring.datasource")
   @Conditional(BeetlSqlSingleCondition.class)
   public DataSource dataSource() {
-    logger.info("start DataSource");
+    if (logger.isInfoEnabled()) {
+      logger.info("start DataSource");
+    }
     return new DruidDataSource();
   }
-
 }

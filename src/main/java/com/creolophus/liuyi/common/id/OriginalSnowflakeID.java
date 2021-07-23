@@ -17,30 +17,33 @@ public final class OriginalSnowflakeID {
   /**
    * 起始的时间戳
    */
-  private final static long DEFAULT_START_STMP = 1568085671868L;
+  private static final long DEFAULT_START_STMP = 1568085671868L;
   /**
    * 每一部分占用的位数
    */
-  private final static long SEQUENCE_BIT = 12; //序列号占用的位数
-  private final static long MACHINE_BIT = 5;   //机器标识占用的位数
-  private final static long DATACENTER_BIT = 5;//数据中心占用的位数
+  private static final long SEQUENCE_BIT = 12; // 序列号占用的位数
+
+  private static final long MACHINE_BIT = 5; // 机器标识占用的位数
+  private static final long DATACENTER_BIT = 5; // 数据中心占用的位数
   /**
    * 每一部分的最大值
    */
-  private final static long MAX_DATACENTER_NUM = -1L ^ (-1L << DATACENTER_BIT);
-  private final static long MAX_MACHINE_NUM = -1L ^ (-1L << MACHINE_BIT);
-  private final static long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
+  private static final long MAX_DATACENTER_NUM = -1L ^ (-1L << DATACENTER_BIT);
+
+  private static final long MAX_MACHINE_NUM = -1L ^ (-1L << MACHINE_BIT);
+  private static final long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
   /**
    * 每一部分向左的位移
    */
-  private final static long MACHINE_LEFT = SEQUENCE_BIT;
-  private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
-  private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
+  private static final long MACHINE_LEFT = SEQUENCE_BIT;
+
+  private static final long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
+  private static final long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
   private long start;
-  private long datacenterId;  //数据中心
-  private long machineId;     //机器标识
-  private long sequence = 0L; //序列号
-  private long lastStmp = -1L;//上一次时间戳
+  private long datacenterId; // 数据中心
+  private long machineId; // 机器标识
+  private long sequence = 0L; // 序列号
+  private long lastStmp = -1L; // 上一次时间戳
 
   public OriginalSnowflakeID() {
     this(
@@ -100,19 +103,26 @@ public final class OriginalSnowflakeID {
             & MAX_DATACENTER_NUM;
 
     for (int i = 0; i < 10; i++) {
-      new Thread(new Runnable() {
-        @Override
-        public void run() {
-          long wkId = Thread.currentThread().getId() & MAX_MACHINE_NUM;
-          OriginalSnowflakeID snowFlake = new OriginalSnowflakeID(dcId, wkId, 769086041631L);
-          for (int j = 0; j < 4; j++) {
-            Long id = snowFlake.nextId();
-            System.out.println(
-                Thread.currentThread().getName() + " " + id + " " + String.valueOf(id).length());
-          }
-
-        }
-      }, "snowflake-" + i).start();
+      new Thread(
+          new Runnable() {
+            @Override
+            public void run() {
+              long wkId = Thread.currentThread().getId() & MAX_MACHINE_NUM;
+              OriginalSnowflakeID snowFlake =
+                  new OriginalSnowflakeID(dcId, wkId, 769086041631L);
+              for (int j = 0; j < 4; j++) {
+                Long id = snowFlake.nextId();
+                System.out.println(
+                    Thread.currentThread().getName()
+                        + " "
+                        + id
+                        + " "
+                        + String.valueOf(id).length());
+              }
+            }
+          },
+          "snowflake-" + i)
+          .start();
     }
     System.out.println(starting());
   }
@@ -129,9 +139,7 @@ public final class OriginalSnowflakeID {
     return mill;
   }
 
-  /**
-   * 产生下一个ID
-   */
+  /** 产生下一个ID */
   public synchronized long nextId() {
     long currStmp = getNewstmp();
     if (currStmp < lastStmp) {
@@ -139,22 +147,22 @@ public final class OriginalSnowflakeID {
     }
 
     if (currStmp == lastStmp) {
-      //相同毫秒内，序列号自增
+      // 相同毫秒内，序列号自增
       sequence = (sequence + 1) & MAX_SEQUENCE;
-      //同一毫秒的序列数已经达到最大
+      // 同一毫秒的序列数已经达到最大
       if (sequence == 0L) {
         currStmp = getNextMill();
       }
     } else {
-      //不同毫秒内，序列号置为0
+      // 不同毫秒内，序列号置为0
       sequence = 0L;
     }
 
     lastStmp = currStmp;
 
-    return (currStmp - start) << TIMESTMP_LEFT //时间戳部分
-        | datacenterId << DATACENTER_LEFT       //数据中心部分
-        | machineId << MACHINE_LEFT             //机器标识部分
-        | sequence;                             //序列号部分
+    return (currStmp - start) << TIMESTMP_LEFT // 时间戳部分
+        | datacenterId << DATACENTER_LEFT // 数据中心部分
+        | machineId << MACHINE_LEFT // 机器标识部分
+        | sequence; // 序列号部分
   }
 }

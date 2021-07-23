@@ -14,47 +14,42 @@ import org.springframework.web.method.annotation.RequestParamMethodArgumentResol
  */
 public class NullArgumentConfirm extends RequestParamMethodArgumentResolver {
 
-    public NullArgumentConfirm(boolean useDefaultResolution) {
-        super(useDefaultResolution);
+  public NullArgumentConfirm(boolean useDefaultResolution) {
+    super(useDefaultResolution);
+  }
+
+  public NullArgumentConfirm(ConfigurableBeanFactory beanFactory, boolean useDefaultResolution) {
+
+    super(beanFactory, useDefaultResolution);
+  }
+
+  @Override
+  public boolean supportsParameter(MethodParameter parameter) {
+    if (parameter.hasParameterAnnotation(RequestParam.class)) {
+      if (Map.class.isAssignableFrom(parameter.nestedIfOptional().getNestedParameterType())) {
+        RequestParam requestParam = parameter.getParameterAnnotation(RequestParam.class);
+        return (requestParam != null
+            && org.springframework.util.StringUtils.hasText(requestParam.name()));
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  /** 如果上行参数是""，并且类型是String，那么转换为null */
+  @Override
+  protected Object resolveName(String name, MethodParameter parameter, NativeWebRequest request)
+      throws Exception {
+    Object arg = super.resolveName(name, parameter, request);
+    if (arg == null) {
+      return null;
+    }
+    if (arg instanceof String && StringUtils.isBlank(arg.toString())) {
+      return null;
     }
 
-    public NullArgumentConfirm(ConfigurableBeanFactory beanFactory, boolean useDefaultResolution) {
-
-        super(beanFactory, useDefaultResolution);
-    }
-
-
-    @Override
-    public boolean supportsParameter(MethodParameter parameter) {
-        if (parameter.hasParameterAnnotation(RequestParam.class)) {
-            if (Map.class.isAssignableFrom(parameter.nestedIfOptional().getNestedParameterType())) {
-                RequestParam requestParam = parameter.getParameterAnnotation(RequestParam.class);
-                return (requestParam != null && org.springframework.util.StringUtils
-                    .hasText(requestParam.name()));
-            } else {
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
-
-
-    /**
-     * 如果上行参数是""，并且类型是String，那么转换为null
-     */
-    @Override
-    protected Object resolveName(String name, MethodParameter parameter, NativeWebRequest request)
-        throws Exception {
-        Object arg = super.resolveName(name, parameter, request);
-        if (arg == null) {
-            return null;
-        }
-        if (arg instanceof String && StringUtils.isBlank(arg.toString())) {
-            return null;
-        }
-
-        return arg;
-    }
-
+    return arg;
+  }
 }

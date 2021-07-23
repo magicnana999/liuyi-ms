@@ -31,5 +31,4 @@ public class AbstractService {
   protected String like(String value) {
     return StringUtils.isNotBlank(value) ? "%" + value + "%" : null;
   }
-
 }

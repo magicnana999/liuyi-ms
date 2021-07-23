@@ -15,10 +15,11 @@ public class LiuyiGsonHttpMessageConverter extends GsonHttpMessageConverter {
   public boolean canRead(Type type, Class<?> contextClass, MediaType mediaType) {
 
     Api api = ApiContext.getContext().getApi();
-    if (api != null && StringUtils.isNotBlank(api.scope()) && Api.SCOPE_INTER
-        .equalsIgnoreCase(api.scope())) {
+    if (api != null
+        && StringUtils.isNotBlank(api.scope())
+        && Api.SCOPE_INTER.equalsIgnoreCase(api.scope())) {
       return super.canRead(type, contextClass, mediaType);
-    }else{
+    } else {
       return false;
     }
   }
@@ -26,8 +27,9 @@ public class LiuyiGsonHttpMessageConverter extends GsonHttpMessageConverter {
   @Override
   public boolean canWrite(Type type, Class<?> clazz, MediaType mediaType) {
     Api api = ApiContext.getContext().getApi();
-    if (api != null && StringUtils.isNotBlank(api.scope()) && Api.SCOPE_INTER
-        .equalsIgnoreCase(api.scope())) {
+    if (api != null
+        && StringUtils.isNotBlank(api.scope())
+        && Api.SCOPE_INTER.equalsIgnoreCase(api.scope())) {
       return super.canWrite(type, clazz, mediaType);
     } else {
       return false;

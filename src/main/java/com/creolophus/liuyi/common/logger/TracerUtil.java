@@ -21,7 +21,7 @@ public class TracerUtil {
 
   public Tracer.SpanInScope begin(String methodName, String className) {
 
-    //TODO ... 新版本这个方法过时了,需要看看源码
+    // TODO ... 新版本这个方法过时了,需要看看源码
 
     String spanName = SpanNameUtil.toLowerHyphen(methodName);
     Span span = startOrContinueRenamedSpan(spanName);
@@ -32,12 +32,11 @@ public class TracerUtil {
   }
 
   public Span startOrContinueRenamedSpan(String spanName) {
-//        return this.tracer.newTrace().name(spanName);
+    //        return this.tracer.newTrace().name(spanName);
     Span currentSpan = this.tracer.currentSpan();
     if (currentSpan != null) {
       return currentSpan.name(spanName);
     }
     return this.tracer.nextSpan().name(spanName);
   }
-
 }

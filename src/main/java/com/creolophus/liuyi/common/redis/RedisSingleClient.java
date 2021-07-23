@@ -32,7 +32,6 @@ public class RedisSingleClient implements RedisClient {
   private static final ConcurrentHashMap<String, Long> beginTable = new ConcurrentHashMap();
   private JedisPool jedisPool;
 
-
   public RedisSingleClient(JedisPool jedisPool) {
     this.jedisPool = jedisPool;
   }
@@ -71,9 +70,10 @@ public class RedisSingleClient implements RedisClient {
     Jedis jedis = open();
     try {
       Set<String> ret = jedis.keys(prefix);
-      ret.forEach(key -> {
-        jedis.del(key);
-      });
+      ret.forEach(
+          key -> {
+            jedis.del(key);
+          });
       return ret == null ? 0 : ret.size();
     } finally {
       close(jedis);
@@ -175,7 +175,6 @@ public class RedisSingleClient implements RedisClient {
     } finally {
       close(jedis);
     }
-
   }
 
   @Override
@@ -196,9 +195,7 @@ public class RedisSingleClient implements RedisClient {
     return true;
   }
 
-  /**
-   * 坦白讲这个玩意没啥乱用,平白无故占用连接数
-   */
+  /** 坦白讲这个玩意没啥乱用,平白无故占用连接数 */
   public boolean lockWaiting(String key, long seconds, long millions) {
     String threadKey = Thread.currentThread().getId() + "_" + key;
     while (!_lock(key, seconds)) {
@@ -1125,8 +1122,8 @@ public class RedisSingleClient implements RedisClient {
   }
 
   @Override
-  public Set<Tuple> zrangeByScoreWithScores(String key, double min, double max, int offset,
-      int count) {
+  public Set<Tuple> zrangeByScoreWithScores(
+      String key, double min, double max, int offset, int count) {
     Jedis jedis = open();
     try {
       return jedis.zrangeByScoreWithScores(key, min, max, offset, count);
@@ -1166,8 +1163,8 @@ public class RedisSingleClient implements RedisClient {
   }
 
   @Override
-  public Set<Tuple> zrangeByScoreWithScores(String key, String min, String max, int offset,
-      int count) {
+  public Set<Tuple> zrangeByScoreWithScores(
+      String key, String min, String max, int offset, int count) {
     Jedis jedis = open();
     try {
       return jedis.zrangeByScoreWithScores(key, min, max, offset, count);
@@ -1177,8 +1174,8 @@ public class RedisSingleClient implements RedisClient {
   }
 
   @Override
-  public Set<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset,
-      int count) {
+  public Set<Tuple> zrevrangeByScoreWithScores(
+      String key, double max, double min, int offset, int count) {
     Jedis jedis = open();
     try {
       return jedis.zrevrangeByScoreWithScores(key, max, min, offset, count);
@@ -1188,8 +1185,8 @@ public class RedisSingleClient implements RedisClient {
   }
 
   @Override
-  public Set<Tuple> zrevrangeByScoreWithScores(String key, String max, String min, int offset,
-      int count) {
+  public Set<Tuple> zrevrangeByScoreWithScores(
+      String key, String max, String min, int offset, int count) {
     Jedis jedis = open();
     try {
       return jedis.zrevrangeByScoreWithScores(key, max, min, offset, count);
@@ -1317,7 +1314,6 @@ public class RedisSingleClient implements RedisClient {
       close(jedis);
     }
   }
-
 
   @Override
   @Deprecated
@@ -1601,8 +1597,8 @@ public class RedisSingleClient implements RedisClient {
   }
 
   @Override
-  public List<GeoRadiusResponse> georadius(String key, double longitude, double latitude,
-      double radius, GeoUnit unit) {
+  public List<GeoRadiusResponse> georadius(
+      String key, double longitude, double latitude, double radius, GeoUnit unit) {
     Jedis jedis = open();
     try {
       return jedis.georadius(key, longitude, latitude, radius, unit);
@@ -1612,8 +1608,13 @@ public class RedisSingleClient implements RedisClient {
   }
 
   @Override
-  public List<GeoRadiusResponse> georadius(String key, double longitude, double latitude,
-      double radius, GeoUnit unit, GeoRadiusParam param) {
+  public List<GeoRadiusResponse> georadius(
+      String key,
+      double longitude,
+      double latitude,
+      double radius,
+      GeoUnit unit,
+      GeoRadiusParam param) {
     Jedis jedis = open();
     try {
       return jedis.georadius(key, longitude, latitude, radius, unit, param);
@@ -1623,8 +1624,8 @@ public class RedisSingleClient implements RedisClient {
   }
 
   @Override
-  public List<GeoRadiusResponse> georadiusByMember(String key, String member, double radius,
-      GeoUnit unit) {
+  public List<GeoRadiusResponse> georadiusByMember(
+      String key, String member, double radius, GeoUnit unit) {
     Jedis jedis = open();
     try {
       return jedis.georadiusByMember(key, member, radius, unit);
@@ -1634,8 +1635,8 @@ public class RedisSingleClient implements RedisClient {
   }
 
   @Override
-  public List<GeoRadiusResponse> georadiusByMember(String key, String member, double radius,
-      GeoUnit unit, GeoRadiusParam param) {
+  public List<GeoRadiusResponse> georadiusByMember(
+      String key, String member, double radius, GeoUnit unit, GeoRadiusParam param) {
     Jedis jedis = open();
     try {
       return jedis.georadiusByMember(key, member, radius, unit, param);
@@ -1653,5 +1654,4 @@ public class RedisSingleClient implements RedisClient {
       close(jedis);
     }
   }
-
 }

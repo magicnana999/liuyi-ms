@@ -40,7 +40,5 @@ public class MD5Util {
     System.out.println(new String(md5Hex(hello.getBytes("UTF-8"))));
 
     System.out.println(new String(md5Hex(hello, salt)));
-
-
   }
 }

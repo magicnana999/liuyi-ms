@@ -18,10 +18,14 @@ public class RocketMQAutoConfig {
   @Bean
   @ConditionalOnMissingBean
   public RocketMQProducer rocketMQProducer(RocketMQSetting rocketMQSetting) {
-    logger.info("start RocketMQ {}:{}", rocketMQSetting.getNamesrvAddr(),
+    if (logger.isInfoEnabled()) {
+      logger.info(
+          "start RocketMQ {}:{}",
+          rocketMQSetting.getNamesrvAddr(),
         rocketMQSetting.getProducerGroupName());
-    return new RocketMQProducer(rocketMQSetting.getNamesrvAddr(),
-        rocketMQSetting.getProducerGroupName());
+    }
+    return new RocketMQProducer(
+        rocketMQSetting.getNamesrvAddr(), rocketMQSetting.getProducerGroupName());
   }
 
   @Bean

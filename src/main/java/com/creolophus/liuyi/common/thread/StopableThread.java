@@ -31,12 +31,14 @@ public class StopableThread extends Thread implements Stopable {
     List<StopableThread> list = new ArrayList();
 
     for (int j = 0; j < 2; j++) {
-      list.add(new StopableThread(() -> {
-        for (int i = 0; i < 5; i++) {
-          sleep(1);
-          System.out.println(Thread.currentThread().getName() + " " + i + " doing");
-        }
-      }));
+      list.add(
+          new StopableThread(
+              () -> {
+                for (int i = 0; i < 5; i++) {
+                  sleep(1);
+                  System.out.println(Thread.currentThread().getName() + " " + i + " doing");
+                }
+              }));
     }
 
     list.forEach(thread -> thread.start());
@@ -76,11 +78,9 @@ public class StopableThread extends Thread implements Stopable {
       if (interrupt) {
         super.interrupt();
       }
-      super.join(JOIN_TIME);      //1分半还执行不完就不等了.
+      super.join(JOIN_TIME); // 1分半还执行不完就不等了.
     } catch (InterruptedException e) {
       logger.error("Thread [{}] Interrupted", Thread.currentThread().getName(), e);
     }
   }
-
-
 }

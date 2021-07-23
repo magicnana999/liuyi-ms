@@ -21,7 +21,6 @@ public class UserDetailServiceDemo implements UserDetailsService {
   public static final Map<String, UserDetails> map = new HashMap();
 
   static {
-
     List<GrantedAuthority> list1 = new ArrayList<>();
     list1.add(new SimpleGrantedAuthority("ROLE_ole1"));
     list1.add(new SimpleGrantedAuthority("ROLE_role2"));
@@ -42,10 +41,7 @@ public class UserDetailServiceDemo implements UserDetailsService {
     map.put(user2.getUsername(), user2);
     map.put(user3.getUsername(), user3);
     map.put(user4.getUsername(), user4);
-
-
   }
-
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

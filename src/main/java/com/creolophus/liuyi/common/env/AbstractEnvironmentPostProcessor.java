@@ -13,9 +13,7 @@ import org.springframework.core.env.PropertySource;
 public abstract class AbstractEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
   public void addOrReplace(
-      MutablePropertySources propertySources,
-      Map<String, Object> map,
-      String propertySourceName) {
+      MutablePropertySources propertySources, Map<String, Object> map, String propertySourceName) {
     MapPropertySource target = null;
     if (propertySources.contains(propertySourceName)) {
       PropertySource<?> source = propertySources.get(propertySourceName);

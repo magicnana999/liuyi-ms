@@ -17,21 +17,22 @@ import java.lang.reflect.Type;
  */
 public class GsonUtil {
 
+  private static Gson gson =
+      (new GsonBuilder())
+          .setDateFormat("yyyy-MM-dd HH:mm:ss")
+          .setExclusionStrategies(
+              new ExclusionStrategy() {
+                @Override
+                public boolean shouldSkipField(FieldAttributes f) {
+                  return false;
+                }
 
-  private static Gson gson = (new GsonBuilder())
-      .setDateFormat("yyyy-MM-dd HH:mm:ss")
-      .setExclusionStrategies(new ExclusionStrategy() {
-        @Override
-        public boolean shouldSkipField(FieldAttributes f) {
-          return false;
-        }
-
-        @Override
-        public boolean shouldSkipClass(Class<?> clazz) {
-          return false;
-        }
-      })
-      .create();
+                @Override
+                public boolean shouldSkipClass(Class<?> clazz) {
+                  return false;
+                }
+              })
+          .create();
 
   public static Gson gson() {
     return gson;
@@ -49,23 +50,9 @@ public class GsonUtil {
   }
 
   /**
-   new ParameterizedType() {
-  @Override public Type[] getActualTypeArguments() {
-  return new Type[]{type};
-  }
-
-  @Override public Type getRawType() {
-  return java.util.ArrayList.class;
-  }
-
-  @Override public Type getOwnerType() {
-  return null;
-  }
-  }
-
-
-
-
+   * new ParameterizedType() { @Override public Type[] getActualTypeArguments() { return new
+   * Type[]{type}; } @Override public Type getRawType() { return java.util.ArrayList.class;
+   * } @Override public Type getOwnerType() { return null; } }
    */
 
   /**
@@ -101,8 +88,9 @@ public class GsonUtil {
 
   /**
    * type 可以是 ProductAppendClassVo.class,如果 ProductAppendClassVo 中有 Object 或者泛型,那么它将是 LinkedTreeMap
-   * 类型. type,可以是 new TypeToken<ProductAppendClassVo<Product>>(){}.getType();如果ProductAppendClassVo中有
-   * Object 或者泛型,那么它将是 Product 类型.
+   * 类型. type,可以是 new
+   * TypeToken<ProductAppendClassVo<Product>>(){}.getType();如果ProductAppendClassVo中有 Object
+   * 或者泛型,那么它将是 Product 类型.
    */
   public static <T> T toJava(String string, Type type) {
     if (null == string || "".equals(string)) {

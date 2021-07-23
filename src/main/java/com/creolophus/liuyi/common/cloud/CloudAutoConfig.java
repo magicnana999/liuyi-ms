@@ -19,54 +19,53 @@ import org.springframework.context.annotation.Scope;
  * @author magicnana
  * @date 2019/3/1 上午12:36
  */
-
 @Configuration
 @ConditionalOnClass(Feign.class)
 public class CloudAutoConfig {
 
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(CloudAutoConfig.class);
+  private static org.slf4j.Logger logger = LoggerFactory.getLogger(CloudAutoConfig.class);
 
-    @Bean
-    @Scope("prototype")
-    @ConditionalOnMissingBean
-    public Decoder decoder() {
-        return new CustomDecoder();
+  @Bean
+  @Scope("prototype")
+  @ConditionalOnMissingBean
+  public Decoder decoder() {
+    return new CustomDecoder();
+  }
+
+  @Bean
+  @Scope("prototype")
+  @ConditionalOnMissingBean
+  public ErrorDecoder errorDecoder() {
+    if (logger.isInfoEnabled()) {
+      logger.info("start feign");
     }
+    return new CustomErrorDecoder();
+  }
 
-    @Bean
-    @Scope("prototype")
-    @ConditionalOnMissingBean
-    public ErrorDecoder errorDecoder() {
-        logger.info("start feign");
-        return new CustomErrorDecoder();
-    }
+  @Bean
+  @Scope("prototype")
+  @ConditionalOnMissingBean
+  public Logger.Level feignLoggerLevel() {
+    return Logger.Level.NONE;
+  }
 
-    @Bean
-    @Scope("prototype")
-    @ConditionalOnMissingBean
-    public Logger.Level feignLoggerLevel() {
-        return Logger.Level.NONE;
-    }
+  @Bean
+  @Scope("prototype")
+  @ConditionalOnMissingBean
+  public RequestInterceptor requestInterceptor() {
+    return template -> template.header(Api.HEADER_INTER_KEY, Api.HEADER_INTER_VAL);
+  }
 
-    @Bean
-    @Scope("prototype")
-    @ConditionalOnMissingBean
-    public RequestInterceptor requestInterceptor() {
-        return template -> template
-            .header(Api.HEADER_INTER_KEY, Api.HEADER_INTER_VAL);
-    }
-
-    @Bean
-    @ConditionalOnClass(HystrixMetricsStreamServlet.class)
-    @Scope("prototype")
-    @ConditionalOnMissingBean
-    public ServletRegistrationBean servletRegistrationBean() {
-        HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
-        ServletRegistrationBean registrationBean = new ServletRegistrationBean(streamServlet);
-        registrationBean.setLoadOnStartup(1);
-        registrationBean.addUrlMappings("/actuator/hystrix.stream");
-        registrationBean.setName("HystrixMetricsStreamServlet");
-        return registrationBean;
-    }
-
+  @Bean
+  @ConditionalOnClass(HystrixMetricsStreamServlet.class)
+  @Scope("prototype")
+  @ConditionalOnMissingBean
+  public ServletRegistrationBean servletRegistrationBean() {
+    HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
+    ServletRegistrationBean registrationBean = new ServletRegistrationBean(streamServlet);
+    registrationBean.setLoadOnStartup(1);
+    registrationBean.addUrlMappings("/actuator/hystrix.stream");
+    registrationBean.setName("HystrixMetricsStreamServlet");
+    return registrationBean;
+  }
 }

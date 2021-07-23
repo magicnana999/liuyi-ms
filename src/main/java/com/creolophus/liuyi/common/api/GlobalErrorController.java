@@ -22,32 +22,28 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class GlobalErrorController implements ErrorController {
 
-    private static Logger logger = LoggerFactory.getLogger(GlobalErrorController.class);
+  private static Logger logger = LoggerFactory.getLogger(GlobalErrorController.class);
 
-    @Resource
-    private ErrorInfoBuilder errorInfoBuilder;
+  @Resource private ErrorInfoBuilder errorInfoBuilder;
 
-    @RequestMapping(produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    @ResponseBody
-    public ResponseEntity error(HttpServletRequest request, HttpServletResponse response) {
+  @RequestMapping(produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+  @ResponseBody
+  public ResponseEntity error(HttpServletRequest request, HttpServletResponse response) {
 
-        // 此处配置的是允许任意域名跨域请求，可根据需求指定
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods",
-            "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
-        response.setHeader("Access-Control-Max-Age", "86400");
-        response.setHeader("Access-Control-Allow-Headers", "*");
+    // 此处配置的是允许任意域名跨域请求，可根据需求指定
+    response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
+    response.setHeader("Access-Control-Allow-Credentials", "true");
+    response.setHeader(
+        "Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
+    response.setHeader("Access-Control-Max-Age", "86400");
+    response.setHeader("Access-Control-Allow-Headers", "*");
 
-        ResponseEntity responseEntity = errorInfoBuilder.getErrorInfo(request, response);
-        return responseEntity;
-    }
+    ResponseEntity responseEntity = errorInfoBuilder.getErrorInfo(request, response);
+    return responseEntity;
+  }
 
-
-    @Override
-    public String getErrorPath() {
-        return this.errorInfoBuilder.getErrorPath();
-    }
-
-
+  @Override
+  public String getErrorPath() {
+    return this.errorInfoBuilder.getErrorPath();
+  }
 }

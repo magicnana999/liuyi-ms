@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface ApiAnnoHandler {
 
-    boolean allow(Api api);
+  boolean allow(Api api);
 
-    void handle(HttpServletRequest request, Api api);
+  void handle(HttpServletRequest request, Api api);
 }

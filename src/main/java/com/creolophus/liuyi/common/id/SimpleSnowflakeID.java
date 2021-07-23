@@ -28,6 +28,7 @@ public final class SimpleSnowflakeID {
    * 原来是 5
    */
   private long datacenterIdBits = 0L;
+
   private long maxWorkerId = -1L ^ (-1L << workerIdBits);
   private long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
   /**
@@ -49,7 +50,6 @@ public final class SimpleSnowflakeID {
     this.setWorkerId(workerId);
     this.setTwepoch(twepoch);
   }
-
 
   public SimpleSnowflakeID(long twepoch) {
     String str = MachineInfo.getMachineIdentifier() + MachineInfo.getProcessIdentifier() + "";
@@ -76,7 +76,6 @@ public final class SimpleSnowflakeID {
     id3.setTwepoch(617996401676L);
     String next3 = id3.nextId() + "";
     System.out.println(next3.length() + " " + next3);
-
   }
 
   public long getWorkerId() {
@@ -89,7 +88,9 @@ public final class SimpleSnowflakeID {
           String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
     }
     this.workerId = workerId;
-    logger.info("set workerId = {}", workerId);
+    if (logger.isInfoEnabled()) {
+      logger.info("set workerId = {}", workerId);
+    }
   }
 
   public synchronized long nextId() {
@@ -97,8 +98,9 @@ public final class SimpleSnowflakeID {
 
     if (timestamp < lastTimestamp) {
       logger.error("clock is moving backwards.  Rejecting requests until {}.", lastTimestamp);
-      throw new RuntimeException(String
-          .format("Clock moved backwards.  Refusing to generate id for %d milliseconds",
+      throw new RuntimeException(
+          String.format(
+              "Clock moved backwards.  Refusing to generate id for %d milliseconds",
               lastTimestamp - timestamp));
     }
 
@@ -113,13 +115,17 @@ public final class SimpleSnowflakeID {
 
     lastTimestamp = timestamp;
 
-    return ((timestamp - twepoch) << timestampLeftShift) | (datacenterId << datacenterIdShift) | (
-        workerId << workerIdShift) | sequence;
+    return ((timestamp - twepoch) << timestampLeftShift)
+        | (datacenterId << datacenterIdShift)
+        | (workerId << workerIdShift)
+        | sequence;
   }
 
   public void setTwepoch(long twepoch) {
     this.twepoch = twepoch;
-    logger.info("set twepoch = {}", twepoch);
+    if (logger.isInfoEnabled()) {
+      logger.info("set twepoch = {}", twepoch);
+    }
   }
 
   protected long tilNextMillis(long lastTimestamp) {
@@ -133,6 +139,4 @@ public final class SimpleSnowflakeID {
   protected long timeGen() {
     return System.currentTimeMillis();
   }
-
-
 }

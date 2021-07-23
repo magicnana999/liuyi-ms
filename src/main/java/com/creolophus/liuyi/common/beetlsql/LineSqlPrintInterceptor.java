@@ -28,25 +28,11 @@ public class LineSqlPrintInterceptor extends DebugInterceptor {
     String sqlIdLine = getSqlId(formatSql(sqlId));
     String parametersLine = JSON.toJSONString(formatParas(ctx.getParas()));
 
-//        RuntimeException ex = new RuntimeException();
-//        StackTraceElement[] traces = ex.getStackTrace();
-//        int index = lookBusinessCodeInTrace(traces);
-//        StackTraceElement businessCode = traces[index];
-//        String className = businessCode.getClassName();
-//        String methodName = businessCode.getMethodName();
-//        int line = businessCode.getLineNumber();
-//        String position = className + "." + methodName + "(" + businessCode.getFileName() + ":" + line + ")";
-
-//        logger.info("SQL {}",sqlIdLine);
-//        logger.info("SQL {}",formatSqlLine);
-//        logger.info("SQL {}",parametersLine);
-//        logger.info("SQL {}",position);
-
     BeetlSqlLogger log = new BeetlSqlLogger();
     log.formatSqlLine = formatSqlLine;
     log.sqlIdLine = sqlIdLine;
     log.parametersLine = parametersLine;
-//        log.position = position;
+    //        log.position = position;
 
     ctx.put("logs", log);
   }
@@ -63,14 +49,12 @@ public class LineSqlPrintInterceptor extends DebugInterceptor {
     BeetlSqlLogger log = (BeetlSqlLogger) ctx.get("logs");
 
     String timeLine = (time - start) + "";
-//        String resultLine = JSON.toJSONString(ctx.getResult(),valueFilter==null?new SerializeFilter[0]:new SerializeFilter[]{valueFilter});
+    //        String resultLine = JSON.toJSONString(ctx.getResult(),valueFilter==null?new
+    // SerializeFilter[0]:new SerializeFilter[]{valueFilter});
     String resultLine = ctx.getResult() == null ? "" : ctx.getResult().toString();
 
     log.timeLine = timeLine;
     log.resultLine = resultLine;
-
-//        logger.info("SQL {}",timeLine);
-//        logger.info("SQL {}",resultLine);
 
     println(log);
   }
@@ -96,7 +80,7 @@ public class LineSqlPrintInterceptor extends DebugInterceptor {
       logger.debug("SQL-ID {}", log.sqlIdLine);
       logger.debug("SQL-SQL {}", log.formatSqlLine);
       logger.debug("SQL-PARAM {}", log.parametersLine);
-//        logger.debug("SQL-POST {}",log.position);
+      //        logger.debug("SQL-POST {}",log.position);
       logger.debug("SQL-TIME {}", log.timeLine);
       logger.debug("SQL-RESULT {}", log.resultLine);
       logger.debug("SQL-ERROR {}", log.exception);

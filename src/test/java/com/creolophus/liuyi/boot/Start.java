@@ -10,6 +10,4 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @SpringBootApplication(scanBasePackages = "com.creolophus")
 @EnableSwagger2
-public class Start extends WebStart {
-
-}
+public class Start extends WebStart {}

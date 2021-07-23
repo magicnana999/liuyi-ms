@@ -30,14 +30,11 @@ import org.beetl.sql.core.kit.StringKit;
 public class SourceGen {
 
   public static final String CR = System.getProperty("line.separator");
-  /**
-   * logger
-   */
+  /** logger */
   public static String defaultPkg = "com.test";
+
   private static String srcHead;
-  /**
-   * 代码生成的Beetl的GroupTemplate，与BeetSQL 不同
-   */
+  /** 代码生成的Beetl的GroupTemplate，与BeetSQL 不同 */
   private static GroupTemplate gt = null;
 
   static {
@@ -107,15 +104,13 @@ public class SourceGen {
     }
   }
 
-  /**
-   * 生成代码
-   */
+  /** 生成代码 */
   public void gen() throws Exception {
     final TableDesc tableDesc = mm.getTable(table);
     String className = sm.getNc().getClassName(tableDesc.getName());
     if (config.getIgnorePrefix() != null && !config.getIgnorePrefix().trim().equals("")) {
-      className = className
-          .replaceFirst(StringKit.toUpperCaseFirstOne(config.getIgnorePrefix()), "");
+      className =
+          className.replaceFirst(StringKit.toUpperCaseFirstOne(config.getIgnorePrefix()), "");
     }
     String ext = null;
 
@@ -154,37 +149,35 @@ public class SourceGen {
 
     if (config.getPropertyOrder() == config.ORDER_BY_TYPE) {
       // 主键总是排在前面，int类型也排在前面，剩下的按照字母顺序排
-      Collections.sort(attrs, new Comparator<Map>() {
+      Collections.sort(
+          attrs,
+          new Comparator<Map>() {
 
-        @Override
-        public int compare(Map o1, Map o2) {
-          ColDesc desc1 = (ColDesc) o1.get("desc");
-          ColDesc desc2 = (ColDesc) o2.get("desc");
-          int score1 = score(desc1);
-          int score2 = score(desc2);
-          if (score1 == score2) {
-            return desc1.colName.compareTo(desc2.colName);
-          } else {
-            return score2 - score1;
-          }
+            @Override
+            public int compare(Map o1, Map o2) {
+              ColDesc desc1 = (ColDesc) o1.get("desc");
+              ColDesc desc2 = (ColDesc) o2.get("desc");
+              int score1 = score(desc1);
+              int score2 = score(desc2);
+              if (score1 == score2) {
+                return desc1.colName.compareTo(desc2.colName);
+              } else {
+                return score2 - score1;
+              }
+            }
 
-
-        }
-
-        private int score(ColDesc desc) {
-          if (tableDesc.getIdNames().contains(desc.colName)) {
-            return 99;
-          } else if (JavaType.isInteger(desc.sqlType)) {
-            return 9;
-          } else if (JavaType.isDateType(desc.sqlType)) {
-            return -9;
-          } else {
-            return 0;
-          }
-        }
-
-
-      });
+            private int score(ColDesc desc) {
+              if (tableDesc.getIdNames().contains(desc.colName)) {
+                return 99;
+              } else if (JavaType.isInteger(desc.sqlType)) {
+                return 9;
+              } else if (JavaType.isDateType(desc.sqlType)) {
+                return -9;
+              } else {
+                return 0;
+              }
+            }
+          });
     }
 
     Template template = gt.getTemplate(config.getTemplate());
@@ -208,8 +201,6 @@ public class SourceGen {
     for (CodeGen codeGen : config.codeGens) {
       codeGen.genCode(pkg, className, tableDesc, config, config.isDisplay());
     }
-
-
   }
 
   private String getMethodName(String name) {
@@ -219,13 +210,13 @@ public class SourceGen {
     char ch1 = name.charAt(0);
     char ch2 = name.charAt(1);
     if (Character.isLowerCase(ch1) && Character.isUpperCase(ch2)) {
-      //aUname---> getaUname();
+      // aUname---> getaUname();
       return name;
     } else if (Character.isUpperCase(ch1) && Character.isUpperCase(ch2)) {
-      //ULR --> getURL();
+      // ULR --> getURL();
       return name;
     } else {
-      //general  name --> getName()
+      // general  name --> getName()
       char upper = Character.toUpperCase(ch1);
       return upper + name.substring(1);
     }
@@ -238,6 +229,4 @@ public class SourceGen {
     }
     return table.substring(index + 1);
   }
-
 }
-

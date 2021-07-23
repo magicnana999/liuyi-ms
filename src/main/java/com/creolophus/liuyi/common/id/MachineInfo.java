@@ -16,7 +16,6 @@ public class MachineInfo {
 
   private static final Logger logger = LoggerFactory.getLogger(MachineInfo.class);
 
-
   private static final int LOW_ORDER_THREE_BYTES = 0x00ffffff;
 
   private static final int MACHINE_IDENTIFIER;
@@ -37,7 +36,6 @@ public class MachineInfo {
 
   public static short getProcessIdentifier() {
     return PROCESS_IDENTIFIER;
-
   }
 
   private static int createMachineIdentifier() {
@@ -56,7 +54,7 @@ public class MachineInfo {
             sb.append(bb.getChar());
             sb.append(bb.getChar());
             sb.append(bb.getChar());
-          } catch (BufferUnderflowException shortHardwareAddressException) { //NOPMD
+          } catch (BufferUnderflowException shortHardwareAddressException) { // NOPMD
             // mac with less than 6 bytes. continue
           }
         }
@@ -82,8 +80,8 @@ public class MachineInfo {
       if (processName.contains("@")) {
         processId = (short) Integer.parseInt(processName.substring(0, processName.indexOf('@')));
       } else {
-        processId = (short) java.lang.management.ManagementFactory.getRuntimeMXBean().getName()
-            .hashCode();
+        processId =
+            (short) java.lang.management.ManagementFactory.getRuntimeMXBean().getName().hashCode();
       }
 
     } catch (Throwable t) {

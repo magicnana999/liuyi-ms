@@ -19,5 +19,4 @@ public class HelloController extends AbstractController {
   public ApiResult getVerify(HttpServletResponse httpServletResponse) {
     return new ApiResult();
   }
-
 }

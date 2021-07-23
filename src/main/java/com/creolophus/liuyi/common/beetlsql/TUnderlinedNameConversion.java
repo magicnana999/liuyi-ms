@@ -10,7 +10,6 @@ import org.beetl.sql.core.kit.StringKit;
  */
 public class TUnderlinedNameConversion extends UnderlinedNameConversion {
 
-
   public static void main(String[] ss) {
     String className = "User";
     System.out.println("t_" + StringKit.enCodeUnderlined(className));
@@ -20,7 +19,6 @@ public class TUnderlinedNameConversion extends UnderlinedNameConversion {
       tableName = tableName.substring(1);
     }
     System.out.println(StringKit.deCodeUnderlined(tableName.toLowerCase()));
-
   }
 
   @Override

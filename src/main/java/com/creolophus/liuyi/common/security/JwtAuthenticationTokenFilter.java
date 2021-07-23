@@ -24,65 +24,56 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    private static final Logger logger = LoggerFactory
-        .getLogger(JwtAuthenticationTokenFilter.class);
+  private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationTokenFilter.class);
 
-    @Resource
-    protected UserDetailsService userDetailsService;
+  @Resource protected UserDetailsService userDetailsService;
 
-    @Resource
-    protected ApiContextValidator apiContextValidator;
+  @Resource protected ApiContextValidator apiContextValidator;
 
-    @Override
-    protected void doFilterInternal(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        FilterChain chain) throws ServletException, IOException {
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+      throws ServletException, IOException {
 
-        preHandle(request);
+    preHandle(request);
 
-        String auth_token = request.getHeader(SecurityAutoConfig.HEADER_TOKEN_KEY);
-        if (logger.isDebugEnabled()) {
-            logger.debug("token:{}", auth_token);
+    String auth_token = request.getHeader(SecurityAutoConfig.HEADER_TOKEN_KEY);
+    if (logger.isDebugEnabled()) {
+      logger.debug("token:{}", auth_token);
+    }
+
+    final String auth_token_start = SecurityAutoConfig.HEADER_TOKEN_PRE + " ";
+    if (StringUtils.isNotEmpty(auth_token) && auth_token.startsWith(auth_token_start)) {
+      auth_token = auth_token.substring(auth_token_start.length());
+      ApiContext.getContext().setToken(auth_token);
+
+      if (StringUtils.isNotBlank(auth_token)) {
+        UserDetails userDetail = userDetailsService.loadUserByUsername(auth_token);
+        if (userDetail == null || StringUtils.isBlank(userDetail.getUsername())) {
+
+        } else {
+          if (logger.isDebugEnabled()) {
+            logger.debug("{}:{}", userDetail.getUsername(), userDetail.getAuthorities());
+          }
+
+          UsernamePasswordAuthenticationToken authentication =
+              new UsernamePasswordAuthenticationToken(
+                  userDetail.getUsername(), null, userDetail.getAuthorities());
+          authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+          SecurityContextHolder.getContext().setAuthentication(authentication);
+          ApiContext.getContext().setUserId(Long.valueOf(userDetail.getUsername()));
         }
-
-        final String auth_token_start = SecurityAutoConfig.HEADER_TOKEN_PRE + " ";
-        if (StringUtils.isNotEmpty(auth_token) && auth_token.startsWith(auth_token_start)) {
-            auth_token = auth_token.substring(auth_token_start.length());
-            ApiContext.getContext().setToken(auth_token);
-
-            if (StringUtils.isNotBlank(auth_token)) {
-                UserDetails userDetail = userDetailsService.loadUserByUsername(auth_token);
-                if (userDetail == null || StringUtils.isBlank(userDetail.getUsername())) {
-
-                } else {
-                    if (logger.isDebugEnabled()) {
-                        logger
-                            .debug("{}:{}", userDetail.getUsername(), userDetail.getAuthorities());
-                    }
-
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetail.getUsername(),
-                        null,
-                        userDetail.getAuthorities());
-                    authentication
-                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                    ApiContext.getContext().setUserId(Long.valueOf(userDetail.getUsername()));
-                }
-            }
-        }
-
-        chain.doFilter(request, response);
-
-        postHandle(request);
+      }
     }
 
-    protected void postHandle(HttpServletRequest request) {
+    chain.doFilter(request, response);
 
-    }
+    postHandle(request);
+  }
 
-    protected void preHandle(HttpServletRequest request) {
-        apiContextValidator.initContext(request);
-    }
+  protected void postHandle(HttpServletRequest request) {}
+
+  protected void preHandle(HttpServletRequest request) {
+    apiContextValidator.initContext(request);
+  }
 }

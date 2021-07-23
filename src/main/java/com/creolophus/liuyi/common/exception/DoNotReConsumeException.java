@@ -13,5 +13,4 @@ public class DoNotReConsumeException extends ApiException {
   public DoNotReConsumeException(String message, Throwable cause) {
     super(message, cause);
   }
-
 }

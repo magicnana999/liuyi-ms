@@ -1,6 +1,5 @@
 package com.creolophus.liuyi.common.redis;
 
-
 import java.util.List;
 import java.util.Set;
 import redis.clients.jedis.JedisCommands;
@@ -18,14 +17,10 @@ public interface RedisClient extends JedisCommands {
 
   Set<String> evalSetString(String script, List<String> keys, List<String> args);
 
-  /**
-   * lock
-   */
+  /** lock */
   public String lock(String key, long expireSecond);
 
-  /**
-   * lock
-   */
+  /** lock */
   public String lockPx(String key, long expireMilisecond);
 
   List<String> mget(String... key);
@@ -36,9 +31,6 @@ public interface RedisClient extends JedisCommands {
 
   void subscribe(JedisPubSub jedisPubSub, String... channels);
 
-  /**
-   * unlock
-   */
+  /** unlock */
   boolean unlock(final String key, final String keySign);
-
 }

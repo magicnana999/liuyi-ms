@@ -27,12 +27,11 @@ public class IPUtil {
     } else {
       return ip;
     }
-
   }
 
   public static String getRemoteIP(HttpServletRequest request) {
     try {
-      //HttpServletRequest request = HttpContextHolder.getRequest();
+      // HttpServletRequest request = HttpContextHolder.getRequest();
       String ip;
       ip = request.getHeader("X-Real-IP");
       if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {

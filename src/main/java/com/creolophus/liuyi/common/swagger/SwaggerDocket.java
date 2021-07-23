@@ -12,9 +12,13 @@ public class SwaggerDocket {
 
   public static Parameter header(String name, boolean require, String defaultValue) {
     ParameterBuilder parameter = new ParameterBuilder();
-    return parameter.name(name).description("")
+    return parameter
+        .name(name)
+        .description("")
         .defaultValue(defaultValue)
-        .modelRef(new ModelRef("string")).parameterType("header")
-        .required(require).build();
+        .modelRef(new ModelRef("string"))
+        .parameterType("header")
+        .required(require)
+        .build();
   }
 }

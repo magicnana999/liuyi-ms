@@ -23,14 +23,14 @@ public class ApiContextFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      FilterChain chain) throws ServletException, IOException {
+      HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+      throws ServletException, IOException {
 
     apiContextValidator.initContext(request);
     chain.doFilter(request, response);
-    logger.info("{}", response.getStatus());
+    if (logger.isInfoEnabled()) {
+      logger.info("{}", response.getStatus());
+    }
     apiContextValidator.cleanContext();
   }
-
 }

@@ -31,8 +31,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
-public class WebStart extends WebMvcConfigurationSupport implements
-    ApplicationListener<ApplicationReadyEvent> {
+public class WebStart extends WebMvcConfigurationSupport
+    implements ApplicationListener<ApplicationReadyEvent> {
 
   private static final Logger logger = LoggerFactory.getLogger(WebStart.class);
 
@@ -43,7 +43,9 @@ public class WebStart extends WebMvcConfigurationSupport implements
   public void addInterceptors(InterceptorRegistry registry) {
     ApiInterceptor apiInterceptor = apiInterceptor();
     if (apiInterceptor != null) {
-      logger.info("start addInterceptor with ApiInterceptor");
+      if (logger.isInfoEnabled()) {
+        logger.info("start addInterceptor with ApiInterceptor");
+      }
       registry.addInterceptor(apiInterceptor).addPathPatterns(apiInterceptor.getPathPatterns());
     }
   }
@@ -51,17 +53,22 @@ public class WebStart extends WebMvcConfigurationSupport implements
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
-    registry.addResourceHandler("swagger-ui.html")
+    registry
+        .addResourceHandler("swagger-ui.html")
         .addResourceLocations("classpath:/META-INF/resources/");
-    registry.addResourceHandler("/webjars/**")
+    registry
+        .addResourceHandler("/webjars/**")
         .addResourceLocations("classpath:/META-INF/resources/webjars/");
     super.addResourceHandlers(registry);
-    logger.info("start addResourceHandler for swagger");
+    if (logger.isInfoEnabled()) {
+      logger.info("start addResourceHandler for swagger");
+    }
   }
 
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-    MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new LiuyiMappingJackson2HttpMessageConverter();
+    MappingJackson2HttpMessageConverter jackson2HttpMessageConverter =
+        new LiuyiMappingJackson2HttpMessageConverter();
     ObjectMapper objectMapper = jackson2HttpMessageConverter.getObjectMapper();
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
@@ -71,9 +78,11 @@ public class WebStart extends WebMvcConfigurationSupport implements
     simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
     objectMapper.registerModule(simpleModule);
     JavaTimeModule javaTimeModule = new JavaTimeModule();
-    javaTimeModule.addSerializer(LocalDateTime.class,
+    javaTimeModule.addSerializer(
+        LocalDateTime.class,
         new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-    javaTimeModule.addDeserializer(LocalDateTime.class,
+    javaTimeModule.addDeserializer(
+        LocalDateTime.class,
         new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     objectMapper.registerModule(javaTimeModule);
 
@@ -86,8 +95,10 @@ public class WebStart extends WebMvcConfigurationSupport implements
 
     converters.add(jackson2HttpMessageConverter);
     converters.add(gsonHttpMessageConverter);
-    logger.info(
-        "start addMessageConverters with MappingJackson2HttpMessageConverter & GsonHttpMessageConverter");
+    if (logger.isInfoEnabled()) {
+      logger.info(
+          "start addMessageConverters with MappingJackson2HttpMessageConverter & GsonHttpMessageConverter");
+    }
   }
 
   @Bean
@@ -115,16 +126,14 @@ public class WebStart extends WebMvcConfigurationSupport implements
     return new NullArgumentConfirm(false);
   }
 
-
   @Override
   public void onApplicationEvent(ApplicationReadyEvent event) {
     ConfigurableApplicationContext applicationContext = event.getApplicationContext();
-    final RequestMappingHandlerAdapter bean = applicationContext
-        .getBean(RequestMappingHandlerAdapter.class);
+    final RequestMappingHandlerAdapter bean =
+        applicationContext.getBean(RequestMappingHandlerAdapter.class);
     List<HandlerMethodArgumentResolver> list = new ArrayList();
     list.add(getNullArgumentConfirm());
     list.addAll(bean.getArgumentResolvers());
     bean.setArgumentResolvers(list);
   }
-
 }

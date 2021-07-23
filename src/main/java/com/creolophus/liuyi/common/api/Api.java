@@ -16,14 +16,14 @@ import org.springframework.core.annotation.AliasFor;
 @Target({ElementType.METHOD})
 public @interface Api {
 
-    String SCOPE_INTER = "inter";
+  String SCOPE_INTER = "inter";
 
-    String HEADER_INTER_KEY = "X-LiuYi-Inter";
-    String HEADER_INTER_VAL = "BMW525LIBENZGLE4504MATICPANAMERA";
+  String HEADER_INTER_KEY = "X-LiuYi-Inter";
+  String HEADER_INTER_VAL = "BMW525LIBENZGLE4504MATICPANAMERA";
 
-    @AliasFor("value") String scope() default SCOPE_INTER;
+  @AliasFor("value")
+  String scope() default SCOPE_INTER;
 
-    @AliasFor("scope") String value() default SCOPE_INTER;
-
-
+  @AliasFor("scope")
+  String value() default SCOPE_INTER;
 }

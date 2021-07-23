@@ -15,32 +15,32 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApiAnno4InterHandler implements ApiAnnoHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(ApiAnno4InterHandler.class);
+  private static final Logger logger = LoggerFactory.getLogger(ApiAnno4InterHandler.class);
 
-    @Override
-    public boolean allow(Api api) {
-        if (api == null) {
-            return false;
-        }
-        return StringUtils.isNotBlank(api.scope()) && api.scope().equalsIgnoreCase(Api.SCOPE_INTER);
+
+  @Override
+  public boolean allow(Api api) {
+    if (api == null) {
+      return false;
     }
+    return StringUtils.isNotBlank(api.scope()) && api.scope().equalsIgnoreCase(Api.SCOPE_INTER);
+  }
 
-    @Override
-    public void handle(HttpServletRequest request, Api api) {
-        String header = request.getHeader(Api.HEADER_INTER_KEY);
-        if (StringUtils.isNotBlank(header) && header.equals(Api.HEADER_INTER_VAL)) {
-            long userId = 0L;
-            ApiContext.getContext().setApi(api);
-            ApiContext.getContext().setToken(header);
-            ApiContext.getContext().setUserId(userId);
-            if (logger.isDebugEnabled()) {
-                logger.debug("token:{}", header);
-                logger.debug("{}:{}", userId, "NONE");
-            }
-        } else {
-            logger.error("还没授权" + request.getRequestURI());
-            throw new HttpStatusException(HttpStatus.UNAUTHORIZED);
-        }
-
+  @Override
+  public void handle(HttpServletRequest request, Api api) {
+    String header = request.getHeader(Api.HEADER_INTER_KEY);
+    if (StringUtils.isNotBlank(header) && header.equals(Api.HEADER_INTER_VAL)) {
+      long userId = 0L;
+      ApiContext.getContext().setApi(api);
+      ApiContext.getContext().setToken(header);
+      ApiContext.getContext().setUserId(userId);
+      if (logger.isDebugEnabled()) {
+        logger.debug("token:{}", header);
+        logger.debug("{}:{}", userId, "NONE");
+      }
+    } else {
+      logger.error("还没授权" + request.getRequestURI());
+      throw new HttpStatusException(HttpStatus.UNAUTHORIZED);
     }
+  }
 }

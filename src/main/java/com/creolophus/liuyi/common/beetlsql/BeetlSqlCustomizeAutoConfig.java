@@ -25,14 +25,15 @@ public class BeetlSqlCustomizeAutoConfig {
 
   private static final Logger logger = LoggerFactory.getLogger(BeetlSqlCustomizeAutoConfig.class);
 
-
   @Bean
   @ConditionalOnMissingBean
   @Conditional(BeetlSqlSingleCondition.class)
   public BeetlSqlCustomize buildBeetlSqlCustomize() {
     return (sqlManager) -> {
       sqlManager.setInterceptors(new Interceptor[]{new LineSqlPrintInterceptor()});
-      logger.info("start setInterceptor of LineSqlPrintInterceptor");
+      if (logger.isInfoEnabled()) {
+        logger.info("start setInterceptor of LineSqlPrintInterceptor");
+      }
     };
   }
 }

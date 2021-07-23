@@ -20,16 +20,23 @@ public class GenPojo {
 
   @Test
   public void gen() {
-    ConnectionSource cs = ConnectionSourceHelper.getSimple(
-        "com.mysql.jdbc.Driver",
-        "jdbc:mysql://127.0.0.1:3306/liuyi-im?verifyServerCertificate=false&useSSL=false&requireSSL=false",
-        "root",
-        "root");
+    ConnectionSource cs =
+        ConnectionSourceHelper.getSimple(
+            "com.mysql.jdbc.Driver",
+            "jdbc:mysql://127.0.0.1:3306/liuyi-im?verifyServerCertificate=false&useSSL=false&requireSSL=false",
+            "root",
+            "root");
     SQLLoader loader = new ClasspathLoader("/sql");
-    //SQLManager sqlManager = new SQLManager(new MySqlStyle(),loader,cs,new TUnderlinedNameConversion(), new Interceptor[]{new DebugInterceptor()});
-    SQLManager sqlManager = new SQLManager(new MySqlStyle(), loader, cs,
-        new UnderlinedNameConversion(), new Interceptor[]{new DebugInterceptor()});
-    //sql.genPojoCodeToConsole("userRole"); 快速生成，显示到控制台
+    // SQLManager sqlManager = new SQLManager(new MySqlStyle(),loader,cs,new
+    // TUnderlinedNameConversion(), new Interceptor[]{new DebugInterceptor()});
+    SQLManager sqlManager =
+        new SQLManager(
+            new MySqlStyle(),
+            loader,
+            cs,
+            new UnderlinedNameConversion(),
+            new Interceptor[] {new DebugInterceptor()});
+    // sql.genPojoCodeToConsole("userRole"); 快速生成，显示到控制台
 
     // 或者直接生成java文件
     GenConfig config = new GenConfig("entity.btl");
@@ -39,11 +46,9 @@ public class GenPojo {
     try {
       sqlManager.genPojoCode("user", config.getOutputPackage(), config);
 
-
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
   }
 }

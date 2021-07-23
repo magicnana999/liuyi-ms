@@ -66,19 +66,20 @@ public class LoggerAspect {
     return joinPoint.getSignature().getName();
   }
 
-  @Pointcut("execution(* com..*.dao..*.*(..))"
-      + "|| execution(* com..*.service..*(..))"
-      + "|| execution(* com..*.controller..*(..))"
-      + "|| execution(* com..*.storage..*(..))"
-      + "|| execution(* com..*.scheduler..*(..))"
-      + "|| execution(* com..*.component..*(..))"
-      + "|| execution(* com..*.server..*(..))"
-      + "|| execution(* com..*.job..*(..))"
-      + "|| execution(* com..*.mapper..*(..))"
-      + "|| execution(* com..*.repository..*(..))"
-      + "|| execution(* com..*.cache..*(..))"
-      + "|| execution(* com..*.assemble..*(..))"
-      + "|| execution(* com..*.feign..*(..))")
+  @Pointcut(
+      "execution(* com..*.dao..*.*(..))"
+          + "|| execution(* com..*.service..*(..))"
+          + "|| execution(* com..*.controller..*(..))"
+          + "|| execution(* com..*.storage..*(..))"
+          + "|| execution(* com..*.scheduler..*(..))"
+          + "|| execution(* com..*.component..*(..))"
+          + "|| execution(* com..*.server..*(..))"
+          + "|| execution(* com..*.job..*(..))"
+          + "|| execution(* com..*.mapper..*(..))"
+          + "|| execution(* com..*.repository..*(..))"
+          + "|| execution(* com..*.cache..*(..))"
+          + "|| execution(* com..*.assemble..*(..))"
+          + "|| execution(* com..*.feign..*(..))")
   public void inService() {
   }
 
@@ -88,7 +89,6 @@ public class LoggerAspect {
     } else {
       return BeanUtils.isSimpleValueType(obj.getClass()) || obj instanceof AbstractObject;
     }
-
   }
 
   private void mdcMethod(JoinPoint joinPoint) {
@@ -140,6 +140,5 @@ public class LoggerAspect {
     } else {
       return object.toString();
     }
-
   }
 }

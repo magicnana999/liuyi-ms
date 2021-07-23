@@ -19,7 +19,6 @@ public class RedisAutoConfig {
 
   private static final Logger logger = LoggerFactory.getLogger(RedisAutoConfig.class);
 
-
   @Value("${spring.jedis.host:127.0.0.1}")
   public String host;
 
@@ -36,7 +35,9 @@ public class RedisAutoConfig {
   @ConditionalOnMissingBean
   public RedisClient redisClient(
       @Qualifier("redisGenericObjectPoolConfig") GenericObjectPoolConfig genericObjectPoolConfig) {
-    logger.info("start RedisClient {}:{}", host, port);
+    if (logger.isInfoEnabled()) {
+      logger.info("start RedisClient {}:{}", host, port);
+    }
     JedisPool jedisPool = new JedisPool(genericObjectPoolConfig, host, port, timeout, password);
     return new RedisSingleClient(jedisPool);
   }

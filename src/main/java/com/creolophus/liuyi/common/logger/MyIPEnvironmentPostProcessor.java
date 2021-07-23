@@ -14,13 +14,13 @@ import org.springframework.core.env.ConfigurableEnvironment;
  */
 public class MyIPEnvironmentPostProcessor extends AbstractEnvironmentPostProcessor {
 
-    private static final String PROPERTY_SOURCE_NAME = "defaultProperties";
+  private static final String PROPERTY_SOURCE_NAME = "defaultProperties";
 
-    @Override
-    public void postProcessEnvironment(ConfigurableEnvironment environment,
-        SpringApplication application) {
-        Map<String, Object> map = new HashMap();
-        map.put(MdcUtil.MDC_IP, IPUtil.getLocalIP());
-        super.addOrReplace(environment.getPropertySources(), map, PROPERTY_SOURCE_NAME);
-    }
+  @Override
+  public void postProcessEnvironment(
+      ConfigurableEnvironment environment, SpringApplication application) {
+    Map<String, Object> map = new HashMap();
+    map.put(MdcUtil.MDC_IP, IPUtil.getLocalIP());
+    super.addOrReplace(environment.getPropertySources(), map, PROPERTY_SOURCE_NAME);
+  }
 }

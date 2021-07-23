@@ -12,8 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 /**
  * @author yuqinglei
  * @date 2017/12/27.
- * <p>
- * 描述：单元测试基类
+ *     <p>描述：单元测试基类
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Start.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

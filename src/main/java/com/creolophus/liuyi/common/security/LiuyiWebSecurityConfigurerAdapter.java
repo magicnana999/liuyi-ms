@@ -27,9 +27,7 @@ public class LiuyiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
   private AuthenticationEntryPoint authenticationEntryPoint;
   private JwtAuthenticationTokenFilter authenticationTokenFilter;
 
-  @Resource
-  private ApiContextValidator apiContextValidator;
-
+  @Resource private ApiContextValidator apiContextValidator;
 
   public LiuyiWebSecurityConfigurerAdapter(
       UserDetailsService userDetailsService,
@@ -64,52 +62,63 @@ public class LiuyiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
 
     web.ignoring().antMatchers(HttpMethod.OPTIONS);
 
-    web.ignoring().antMatchers(
-        "/",
-        "/csrf",
-        "/webjars/**",
-        "swagger-ui.html",
-        "**/swagger-ui.html",
-        "/favicon.ico",
-        "/**/*.css",
-        "/**/*.js",
-        "/**/*.png",
-        "/**/*.gif",
-        "/swagger-resources/**",
-        "/v2/**",
-        "/**/*.ttf"
-    );
-    web.ignoring().antMatchers("/v2/api-docs",
-        "/swagger-resources/configuration/ui",
-        "/swagger-resources",
-        "/swagger-resources/configuration/security",
-        "/swagger-ui.html"
-    );
+    web.ignoring()
+        .antMatchers(
+            "/",
+            "/csrf",
+            "/webjars/**",
+            "swagger-ui.html",
+            "**/swagger-ui.html",
+            "/favicon.ico",
+            "/**/*.css",
+            "/**/*.js",
+            "/**/*.png",
+            "/**/*.gif",
+            "/swagger-resources/**",
+            "/v2/**",
+            "/**/*.ttf");
+    web.ignoring()
+        .antMatchers(
+            "/v2/api-docs",
+            "/swagger-resources/configuration/ui",
+            "/swagger-resources",
+            "/swagger-resources/configuration/security",
+            "/swagger-ui.html");
   }
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-//        authSetting.getNoAuthenticationPatterns().add("/error/**");
-//
-//        String[] array = new String[authSetting.getNoAuthenticationPatterns().size()];
-//        for(int i=0;i<authSetting.getNoAuthenticationPatterns().size();i++){
-//            String up = authSetting.getNoAuthenticationPatterns().get(i);
-//            array[i] = up;
-//        }
+    //        authSetting.getNoAuthenticationPatterns().add("/error/**");
+    //
+    //        String[] array = new String[authSetting.getNoAuthenticationPatterns().size()];
+    //        for(int i=0;i<authSetting.getNoAuthenticationPatterns().size();i++){
+    //            String up = authSetting.getNoAuthenticationPatterns().get(i);
+    //            array[i] = up;
+    //        }
 
-    httpSecurity.exceptionHandling().accessDeniedHandler(accessDeniedHandler).and()
-        .cors().and()
-        .csrf().disable().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+    httpSecurity
+        .exceptionHandling()
+        .accessDeniedHandler(accessDeniedHandler)
         .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        .cors()
+        .and()
+        .csrf()
+        .disable()
+        .exceptionHandling()
+        .authenticationEntryPoint(authenticationEntryPoint)
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
         .authorizeRequests()
-        //.antMatchers(array).permitAll()
-        .anyRequest().authenticated();
+        // .antMatchers(array).permitAll()
+        .anyRequest()
+        .authenticated();
 
     httpSecurity.headers().cacheControl();
 
-    httpSecurity
-        .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    httpSecurity.addFilterBefore(
+        authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
   }
 }

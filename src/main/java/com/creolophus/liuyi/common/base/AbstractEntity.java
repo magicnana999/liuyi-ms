@@ -6,9 +6,9 @@ package com.creolophus.liuyi.common.base;
  */
 public abstract class AbstractEntity implements AbstractObject {
 
-
   public enum State {
-    DISABLE(0, "无效"), ENABLE(1, "有效"),
+    DISABLE(0, "无效"),
+    ENABLE(1, "有效"),
     ;
 
     int value;
@@ -39,5 +39,4 @@ public abstract class AbstractEntity implements AbstractObject {
       return this.value;
     }
   }
-
 }

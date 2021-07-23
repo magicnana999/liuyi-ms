@@ -22,16 +22,17 @@ public class GoAuthenticationEntryPoint implements AuthenticationEntryPoint {
   private static final Logger logger = LoggerFactory.getLogger(GoAuthenticationEntryPoint.class);
 
   @Override
-  public void commence(HttpServletRequest request, HttpServletResponse response,
-      AuthenticationException e) throws IOException {
+  public void commence(
+      HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
+      throws IOException {
 
     logger.error("尚未授权" + request.getRequestURI());
 
     // 此处配置的是允许任意域名跨域请求，可根据需求指定
     response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
     response.setHeader("Access-Control-Allow-Credentials", "true");
-    response.setHeader("Access-Control-Allow-Methods",
-        "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
+    response.setHeader(
+        "Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
     response.setHeader("Access-Control-Max-Age", "86400");
     response.setHeader("Access-Control-Allow-Headers", "*");
 
@@ -39,12 +40,11 @@ public class GoAuthenticationEntryPoint implements AuthenticationEntryPoint {
     response.setCharacterEncoding("UTF-8");
     response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 
-    ApiResult result = new ApiResult(response.getStatus(),
-        HttpStatus.UNAUTHORIZED.getReasonPhrase());
+    ApiResult result =
+        new ApiResult(response.getStatus(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
     PrintWriter printWriter = response.getWriter();
     String body = JSON.toJSONString(result);
     printWriter.write(body);
     printWriter.flush();
-
   }
 }

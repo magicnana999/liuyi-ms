@@ -21,10 +21,10 @@ import java.util.TimeZone;
 public class JacksonUtil {
 
   /**
-   * 这里有一个栗子: https://github.com/easonjim/5_java_example/blob/master/springboottest/springboottest10/src/main/java/com/jsoft/springboottest/springboottest1
+   * 这里有一个栗子:
+   * https://github.com/easonjim/5_java_example/blob/master/springboottest/springboottest10/src/main/java/com/jsoft/springboottest/springboottest1
    * /controller/TestController.java
    */
-
   private static ObjectMapper mapper = new ObjectMapper();
 
   static {

@@ -66,5 +66,4 @@ public class EntryTraceAspect {
       span.finish();
     }
   }
-
 }
