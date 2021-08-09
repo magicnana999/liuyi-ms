@@ -1,6 +1,6 @@
 package com.creolophus.liuyi.common.exception;
 
-import com.creolophus.liuyi.common.api.ApiError;
+import com.creolophus.liuyi.common.web.ApiError;
 
 /**
  * @author magicnana

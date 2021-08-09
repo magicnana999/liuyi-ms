@@ -2,9 +2,9 @@ package com.creolophus.liuyi.common.logger;
 
 import brave.Span;
 import brave.Tracer;
-import com.creolophus.liuyi.common.api.ApiContextValidator;
+import com.creolophus.liuyi.common.web.ApiContext;
+import com.creolophus.liuyi.common.web.MdcUtil;
 import java.util.regex.Pattern;
-import javax.annotation.Resource;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -28,9 +28,6 @@ public class EntryTraceAspect {
 
   protected Tracer tracer;
   protected Pattern skipPattern;
-
-  @Resource
-  private ApiContextValidator apiContextValidator;
 
   public EntryTraceAspect(Tracer tracer, Pattern skipPattern) {
     this.tracer = tracer;
@@ -57,10 +54,10 @@ public class EntryTraceAspect {
       span.tag(CLASS_KEY, pjp.getTarget().getClass().getSimpleName());
       span.tag(METHOD_KEY, pjp.getSignature().getName());
 
-      apiContextValidator.initContext();
+      MdcUtil.init();
       Object obj = pjp.proceed();
-      apiContextValidator.setApiResult(obj);
-      apiContextValidator.cleanContext();
+      MdcUtil.clear();
+      ApiContext.release();
       return obj;
     } finally {
       span.finish();

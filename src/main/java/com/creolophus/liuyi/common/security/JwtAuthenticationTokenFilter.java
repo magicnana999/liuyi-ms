@@ -1,7 +1,7 @@
 package com.creolophus.liuyi.common.security;
 
-import com.creolophus.liuyi.common.api.ApiContext;
-import com.creolophus.liuyi.common.api.ApiContextValidator;
+import com.creolophus.liuyi.common.web.ApiContext;
+import com.creolophus.liuyi.common.web.MdcUtil;
 import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -27,8 +27,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
   private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationTokenFilter.class);
 
   @Resource protected UserDetailsService userDetailsService;
-
-  @Resource protected ApiContextValidator apiContextValidator;
 
   @Override
   protected void doFilterInternal(
@@ -74,6 +72,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
   protected void postHandle(HttpServletRequest request) {}
 
   protected void preHandle(HttpServletRequest request) {
-    apiContextValidator.initContext(request);
+    MdcUtil.init(request.getRequestURI(), null);
   }
 }

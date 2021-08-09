@@ -1,4 +1,4 @@
-package com.creolophus.liuyi.common.api;
+package com.creolophus.liuyi.common.web;
 
 import com.creolophus.liuyi.common.json.JSON;
 import org.springframework.http.HttpStatus;

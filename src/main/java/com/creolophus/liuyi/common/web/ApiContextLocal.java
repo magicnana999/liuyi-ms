@@ -1,4 +1,4 @@
-package com.creolophus.liuyi.common.api;
+package com.creolophus.liuyi.common.web;
 
 public class ApiContextLocal extends InheritableThreadLocal<ApiContext> {
 

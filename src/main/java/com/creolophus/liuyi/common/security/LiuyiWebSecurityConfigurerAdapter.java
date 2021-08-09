@@ -1,7 +1,5 @@
 package com.creolophus.liuyi.common.security;
 
-import com.creolophus.liuyi.common.api.ApiContextValidator;
-import javax.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,8 +24,6 @@ public class LiuyiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
   private AccessDeniedHandler accessDeniedHandler;
   private AuthenticationEntryPoint authenticationEntryPoint;
   private JwtAuthenticationTokenFilter authenticationTokenFilter;
-
-  @Resource private ApiContextValidator apiContextValidator;
 
   public LiuyiWebSecurityConfigurerAdapter(
       UserDetailsService userDetailsService,
@@ -54,8 +50,6 @@ public class LiuyiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
   @Override
   public void configure(WebSecurity web) {
 
-    web.ignoring().antMatchers(apiContextValidator.ignoringAntMatchers());
-
     web.ignoring().antMatchers("/actuator/**");
 
     web.ignoring().antMatchers("/error");
@@ -76,10 +70,10 @@ public class LiuyiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
             "/**/*.gif",
             "/swagger-resources/**",
             "/v2/**",
+            "/v3/**",
             "/**/*.ttf");
     web.ignoring()
         .antMatchers(
-            "/v2/api-docs",
             "/swagger-resources/configuration/ui",
             "/swagger-resources",
             "/swagger-resources/configuration/security",

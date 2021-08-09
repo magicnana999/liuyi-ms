@@ -1,4 +1,4 @@
-package com.creolophus.liuyi.common.api;
+package com.creolophus.liuyi.common.web;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;

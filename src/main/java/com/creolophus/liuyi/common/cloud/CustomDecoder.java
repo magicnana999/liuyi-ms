@@ -1,8 +1,8 @@
 package com.creolophus.liuyi.common.cloud;
 
-import com.creolophus.liuyi.common.api.ApiResult;
 import com.creolophus.liuyi.common.json.GsonUtil;
 import com.creolophus.liuyi.common.json.JSON;
+import com.creolophus.liuyi.common.web.ApiResult;
 import feign.Response;
 import feign.codec.Decoder;
 import java.io.IOException;

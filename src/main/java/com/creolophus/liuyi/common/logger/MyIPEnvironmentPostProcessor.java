@@ -1,8 +1,8 @@
 package com.creolophus.liuyi.common.logger;
 
-import com.creolophus.liuyi.common.api.MdcUtil;
 import com.creolophus.liuyi.common.env.AbstractEnvironmentPostProcessor;
 import com.creolophus.liuyi.common.util.IPUtil;
+import com.creolophus.liuyi.common.web.MdcUtil;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.boot.SpringApplication;

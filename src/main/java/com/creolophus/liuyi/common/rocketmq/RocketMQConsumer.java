@@ -1,9 +1,9 @@
 package com.creolophus.liuyi.common.rocketmq;
 
-import com.creolophus.liuyi.common.api.MdcUtil;
 import com.creolophus.liuyi.common.exception.DoNotReConsumeException;
 import com.creolophus.liuyi.common.logger.TracerUtil;
 import com.creolophus.liuyi.common.thread.Stopable;
+import com.creolophus.liuyi.common.web.MdcUtil;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;

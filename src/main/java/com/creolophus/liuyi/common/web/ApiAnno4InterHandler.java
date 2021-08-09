@@ -1,4 +1,4 @@
-package com.creolophus.liuyi.common.api;
+package com.creolophus.liuyi.common.web;
 
 import com.creolophus.liuyi.common.exception.HttpStatusException;
 import javax.servlet.http.HttpServletRequest;

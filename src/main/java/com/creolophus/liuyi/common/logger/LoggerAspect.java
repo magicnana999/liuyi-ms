@@ -1,13 +1,12 @@
 package com.creolophus.liuyi.common.logger;
 
-import com.creolophus.liuyi.common.api.ApiContextValidator;
-import com.creolophus.liuyi.common.api.MdcUtil;
 import com.creolophus.liuyi.common.base.AbstractObject;
 import com.creolophus.liuyi.common.json.JSON;
+import com.creolophus.liuyi.common.web.ApiContext;
+import com.creolophus.liuyi.common.web.MdcUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -29,15 +28,13 @@ import org.springframework.beans.BeanUtils;
 public class LoggerAspect {
 
   private static final ConcurrentHashMap<Class, Logger> loggerTable = new ConcurrentHashMap<>(9999);
-  @Resource
-  public ApiContextValidator apiContextValidator;
   private Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
 
   @AfterReturning(pointcut = "inService()", returning = "result")
   public void doAfter(JoinPoint joinPoint, Object result) {
     mdcMethod(joinPoint);
     printAfter(joinPoint, result);
-    apiContextValidator.setApiResult(result);
+    ApiContext.getContext().setApiResult(result);
   }
 
   @Before("inService()")

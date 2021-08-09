@@ -1,7 +1,6 @@
-package com.creolophus.liuyi.common.api;
+package com.creolophus.liuyi.common.web;
 
 import java.io.IOException;
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,19 +17,17 @@ public class ApiContextFilter extends OncePerRequestFilter {
 
   private static final Logger logger = LoggerFactory.getLogger(ApiContextFilter.class);
 
-  @Resource
-  private ApiContextValidator apiContextValidator;
-
   @Override
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
 
-    apiContextValidator.initContext(request);
+    MdcUtil.init(request.getRequestURI(), null);
     chain.doFilter(request, response);
     if (logger.isInfoEnabled()) {
       logger.info("{}", response.getStatus());
     }
-    apiContextValidator.cleanContext();
+    MdcUtil.clear();
+    ApiContext.release();
   }
 }

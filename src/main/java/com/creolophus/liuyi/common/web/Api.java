@@ -1,4 +1,4 @@
-package com.creolophus.liuyi.common.api;
+package com.creolophus.liuyi.common.web;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

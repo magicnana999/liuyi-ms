@@ -1,41 +1,35 @@
-package com.creolophus.liuyi.common.api;
+package com.creolophus.liuyi.common.web;
 
-import java.util.List;
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class ApiInterceptor extends HandlerInterceptorAdapter {
 
   private static final Logger logger = LoggerFactory.getLogger(ApiInterceptor.class);
-  @Resource protected ApiContextValidator apiContextValidator;
-  @Autowired private List<ApiAnnoHandler> apiAnnoHandlers;
 
   protected void afterCompletion(HttpServletRequest request) {}
 
   protected void authenticate(HttpServletRequest request, Object handler) {
-    if (handler instanceof HandlerMethod) {
-      HandlerMethod hm = (HandlerMethod) handler;
-      Api api = hm.getMethodAnnotation(Api.class);
-      if (api == null) {
-        return;
-      }
-
-      for (ApiAnnoHandler apiAnnoHandler : apiAnnoHandlers) {
-        if (apiAnnoHandler.allow(api)) {
-          apiAnnoHandler.handle(request, api);
-        }
-      }
-    } else {
-      throw new RuntimeException("不是HandlerMethod类型,无法继续运行");
-    }
+//    if (handler instanceof HandlerMethod) {
+//      HandlerMethod hm = (HandlerMethod) handler;
+//      Api api = hm.getMethodAnnotation(Api.class);
+//      if (api == null) {
+//        return;
+//      }
+//
+//      for (ApiAnnoHandler apiAnnoHandler : apiAnnoHandlers) {
+//        if (apiAnnoHandler.allow(api)) {
+//          apiAnnoHandler.handle(request, api);
+//        }
+//      }
+//    } else {
+//      throw new RuntimeException("不是HandlerMethod类型,无法继续运行");
+//    }
   }
 
   public String getPathPatterns() {
@@ -43,7 +37,7 @@ public class ApiInterceptor extends HandlerInterceptorAdapter {
   }
 
   protected void preHandle(HttpServletRequest request) {
-    apiContextValidator.initContext(request);
+    MdcUtil.init(request.getRequestURI(), null);
   }
 
   @Override

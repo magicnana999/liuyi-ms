@@ -1,7 +1,7 @@
 package com.creolophus.liuyi.common.security;
 
-import com.creolophus.liuyi.common.api.ApiResult;
 import com.creolophus.liuyi.common.json.JSON;
+import com.creolophus.liuyi.common.web.ApiResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;

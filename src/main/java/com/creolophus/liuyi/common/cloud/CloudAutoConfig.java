@@ -1,6 +1,6 @@
 package com.creolophus.liuyi.common.cloud;
 
-import com.creolophus.liuyi.common.api.Api;
+import com.creolophus.liuyi.common.web.Api;
 import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 import feign.Feign;
 import feign.Logger;
