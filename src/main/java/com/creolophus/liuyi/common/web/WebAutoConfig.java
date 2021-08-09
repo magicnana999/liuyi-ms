@@ -2,23 +2,21 @@ package com.creolophus.liuyi.common.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 /**
  * @author magicnana
  * @date 2021/8/9 17:48
  */
-//@Configuration
+@Configuration
 public class WebAutoConfig extends WebMvcConfigurationSupport {
 
   private static final Logger logger = LoggerFactory.getLogger(WebAutoConfig.class);
-
-//  @Bean
-//  @ConditionalOnMissingBean
-  public ApiInterceptor apiInterceptor() {
-    return new ApiInterceptor();
-  }
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
@@ -31,10 +29,27 @@ public class WebAutoConfig extends WebMvcConfigurationSupport {
     }
   }
 
-//  @Bean
-//  @ConditionalOnMissingBean
+  @Override
+  protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+    registry
+        .addResourceHandler("swagger-ui.html")
+        .addResourceLocations("classpath:/META-INF/resources/");
+    registry
+        .addResourceHandler("/webjars/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    super.addResourceHandlers(registry);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
   public ApiContextFilter apiContextFilter() {
     return new ApiContextFilter();
   }
 
+  @Bean
+  @ConditionalOnMissingBean
+  public ApiInterceptor apiInterceptor() {
+    return new ApiInterceptor();
+  }
 }
