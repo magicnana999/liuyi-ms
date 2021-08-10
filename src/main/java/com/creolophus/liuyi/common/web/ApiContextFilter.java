@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
@@ -22,6 +24,11 @@ public class ApiContextFilter extends OncePerRequestFilter {
       HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
 
+    if (HttpMethod.OPTIONS.toString().equals(request.getMethod())) {
+      response.setStatus(HttpStatus.OK.value());
+      return;
+    }
+
     MdcUtil.init(request.getRequestURI(), null);
     chain.doFilter(request, response);
     if (logger.isInfoEnabled()) {
@@ -29,5 +36,7 @@ public class ApiContextFilter extends OncePerRequestFilter {
     }
     MdcUtil.clear();
     ApiContext.release();
+
+    CorsUtil.cors(request, response);
   }
 }

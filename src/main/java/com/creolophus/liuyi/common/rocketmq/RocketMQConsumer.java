@@ -74,7 +74,7 @@ public abstract class RocketMQConsumer implements Stopable {
               });
       consumer.start();
       if (logger.isInfoEnabled()) {
-        logger.info("start RocketMQ Consumer " + Thread.currentThread().getName());
+        logger.info("start -> RocketMQ Consumer " + Thread.currentThread().getName());
       }
     } catch (Throwable e) {
       throw new RuntimeException(e);

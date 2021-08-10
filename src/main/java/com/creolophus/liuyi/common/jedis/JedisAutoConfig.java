@@ -1,4 +1,4 @@
-package com.creolophus.liuyi.common.redis;
+package com.creolophus.liuyi.common.jedis;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
@@ -15,9 +15,10 @@ import redis.clients.jedis.JedisPool;
 
 @Configuration
 @ConditionalOnClass({Jedis.class})
-public class RedisAutoConfig {
+@ConfigurationProperties(prefix = "spring.redis")
+public class JedisAutoConfig {
 
-  private static final Logger logger = LoggerFactory.getLogger(RedisAutoConfig.class);
+  private static final Logger logger = LoggerFactory.getLogger(JedisAutoConfig.class);
 
   @Value("${spring.jedis.host:127.0.0.1}")
   public String host;
@@ -33,18 +34,18 @@ public class RedisAutoConfig {
 
   @Bean
   @ConditionalOnMissingBean
-  public RedisClient redisClient(
+  public JedisClient redisClient(
       @Qualifier("redisGenericObjectPoolConfig") GenericObjectPoolConfig genericObjectPoolConfig) {
     if (logger.isInfoEnabled()) {
-      logger.info("start RedisClient {}:{}", host, port);
+      logger.info("start -> JedisClient {}:{}", host, port);
     }
     JedisPool jedisPool = new JedisPool(genericObjectPoolConfig, host, port, timeout, password);
-    return new RedisSingleClient(jedisPool);
+    return new JedisSingleClient(jedisPool);
   }
 
   @Bean
   @ConditionalOnMissingBean
-  @ConfigurationProperties(prefix = "spring.jedis")
+  @ConfigurationProperties(prefix = "spring.redis.jedis.pool")
   public GenericObjectPoolConfig redisGenericObjectPoolConfig() {
     return new GenericObjectPoolConfig();
   }

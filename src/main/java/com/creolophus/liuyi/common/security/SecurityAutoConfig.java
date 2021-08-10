@@ -47,7 +47,7 @@ public class SecurityAutoConfig {
   @ConditionalOnMissingBean
   public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
     if (logger.isInfoEnabled()) {
-      logger.info("start JwtAuthenticationTokenFilter");
+      logger.info("start -> JwtAuthenticationTokenFilter");
     }
     return new JwtAuthenticationTokenFilter();
   }
@@ -56,7 +56,7 @@ public class SecurityAutoConfig {
   @ConditionalOnMissingBean
   public LiuyiWebSecurityConfigurerAdapter liuyiWebSecurityConfigurerAdapter() {
     if (logger.isInfoEnabled()) {
-      logger.info("start LiuyiWebSecurityConfigurerAdapter");
+      logger.info("start -> LiuyiWebSecurityConfigurerAdapter");
     }
     return new LiuyiWebSecurityConfigurerAdapter(
         userDetailsService,

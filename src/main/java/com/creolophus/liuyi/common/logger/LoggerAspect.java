@@ -27,7 +27,7 @@ import org.springframework.beans.BeanUtils;
 @Aspect
 public class LoggerAspect {
 
-  private static final ConcurrentHashMap<Class, Logger> loggerTable = new ConcurrentHashMap<>(9999);
+  private static final ConcurrentHashMap<Class, Logger> loggerTable = new ConcurrentHashMap<>();
   private Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
 
   @AfterReturning(pointcut = "inService()", returning = "result")

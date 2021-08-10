@@ -1,4 +1,4 @@
-package com.creolophus.liuyi.common.redis;
+package com.creolophus.liuyi.common.jedis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +27,12 @@ import redis.clients.jedis.params.sortedset.ZIncrByParams;
  * @author magicnana
  * @date 2019/5/14 上午10:24
  */
-public class RedisSingleClient implements RedisClient {
+public class JedisSingleClient implements JedisClient {
 
   private static final ConcurrentHashMap<String, Long> beginTable = new ConcurrentHashMap();
   private JedisPool jedisPool;
 
-  public RedisSingleClient(JedisPool jedisPool) {
+  public JedisSingleClient(JedisPool jedisPool) {
     this.jedisPool = jedisPool;
   }
 

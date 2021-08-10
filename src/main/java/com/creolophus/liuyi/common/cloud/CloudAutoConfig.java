@@ -29,6 +29,9 @@ public class CloudAutoConfig {
   @Scope("prototype")
   @ConditionalOnMissingBean
   public Decoder decoder() {
+    if (logger.isInfoEnabled()) {
+      logger.info("start -> feign Decoder");
+    }
     return new CustomDecoder();
   }
 
@@ -37,7 +40,7 @@ public class CloudAutoConfig {
   @ConditionalOnMissingBean
   public ErrorDecoder errorDecoder() {
     if (logger.isInfoEnabled()) {
-      logger.info("start feign");
+      logger.info("start -> feign ErrorDecoder");
     }
     return new CustomErrorDecoder();
   }

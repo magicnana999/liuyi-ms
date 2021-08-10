@@ -24,10 +24,10 @@ public class LoggerAutoConfig {
 
   @Bean
   @ConditionalOnMissingBean
-  @ConditionalOnProperty(value = "liuyi.global.model", havingValue = "debug", matchIfMissing = true)
+  @ConditionalOnProperty(value = "spring.sleuth.scheduled.enabled", havingValue = "true", matchIfMissing = true)
   public LoggerAspect loggerAspect() {
     if (logger.isInfoEnabled()) {
-      logger.info("start... logger");
+      logger.info("start -> logger");
     }
     return new LoggerAspect();
   }
@@ -38,7 +38,7 @@ public class LoggerAutoConfig {
   public EntryTraceAspect traceAspect(
       Tracer tracer, SleuthSchedulingProperties sleuthSchedulingProperties) {
     if (logger.isInfoEnabled()) {
-      logger.info("start... trace logger");
+      logger.info("start -> trace logger");
     }
     return new EntryTraceAspect(
         tracer, Pattern.compile(sleuthSchedulingProperties.getSkipPattern()));

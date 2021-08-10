@@ -32,7 +32,7 @@ public class RocketMQProducer {
       producer.setDefaultTopicQueueNums(8);
       producer.start();
       if (logger.isInfoEnabled()) {
-        logger.info("start RocketMQ Producer");
+        logger.info("start -> RocketMQ Producer");
       }
     } catch (Throwable e) {
       throw new BrokenException("RocketMQProducer could not started", e);

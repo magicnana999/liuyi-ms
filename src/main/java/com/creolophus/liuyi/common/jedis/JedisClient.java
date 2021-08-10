@@ -1,4 +1,4 @@
-package com.creolophus.liuyi.common.redis;
+package com.creolophus.liuyi.common.jedis;
 
 import java.util.List;
 import java.util.Set;
@@ -9,7 +9,7 @@ import redis.clients.jedis.JedisPubSub;
  * @author magicnana
  * @date 2019/5/14 上午10:37
  */
-public interface RedisClient extends JedisCommands {
+public interface JedisClient extends JedisCommands {
 
   Long del(String... keys);
 

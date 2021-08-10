@@ -1,7 +1,6 @@
 package com.creolophus.liuyi.common.beetlsql;
 
 import com.ibeetl.starter.BeetlSqlCustomize;
-import com.ibeetl.starter.BeetlSqlSingleCondition;
 import com.ibeetl.starter.BeetlSqlSingleConfig;
 import org.beetl.sql.core.Interceptor;
 import org.beetl.sql.ext.spring4.SqlManagerFactoryBean;
@@ -11,7 +10,6 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -27,12 +25,12 @@ public class BeetlSqlCustomizeAutoConfig {
 
   @Bean
   @ConditionalOnMissingBean
-  @Conditional(BeetlSqlSingleCondition.class)
+//  @Conditional(BeetlSqlSingleCondition.class)
   public BeetlSqlCustomize buildBeetlSqlCustomize() {
     return (sqlManager) -> {
       sqlManager.setInterceptors(new Interceptor[]{new LineSqlPrintInterceptor()});
       if (logger.isInfoEnabled()) {
-        logger.info("start setInterceptor of LineSqlPrintInterceptor");
+        logger.info("start -> setInterceptor of LineSqlPrintInterceptor");
       }
     };
   }

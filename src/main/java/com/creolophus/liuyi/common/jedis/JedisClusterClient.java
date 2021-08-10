@@ -1,4 +1,4 @@
-package com.creolophus.liuyi.common.redis;
+package com.creolophus.liuyi.common.jedis;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,9 +15,9 @@ import redis.clients.jedis.ScanResult;
  * @author magicnana
  * @date 2019/5/14 上午10:24
  */
-public class RedisClusterClient extends JedisCluster implements RedisClient {
+public class JedisClusterClient extends JedisCluster implements JedisClient {
 
-  public RedisClusterClient(Set<HostAndPort> nodes, GenericObjectPoolConfig poolConfig) {
+  public JedisClusterClient(Set<HostAndPort> nodes, GenericObjectPoolConfig poolConfig) {
     super(nodes, poolConfig);
   }
 
