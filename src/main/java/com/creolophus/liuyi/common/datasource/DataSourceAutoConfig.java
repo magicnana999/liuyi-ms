@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019/3/1 下午6:38
  */
 @Configuration
-@ConfigurationProperties(prefix = "spring.datasource")
 public class DataSourceAutoConfig {
 
   private static final Logger logger = LoggerFactory.getLogger(DataSourceAutoConfig.class);

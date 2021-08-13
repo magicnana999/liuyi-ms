@@ -22,7 +22,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @EnableSwagger2
 @Configuration
-@ConditionalOnClass(Docket.class)
+@ConditionalOnClass(EnableSwagger2.class)
 @Profile({"dev", "test", "local"})
 public class SwaggerAutoConfig {
 

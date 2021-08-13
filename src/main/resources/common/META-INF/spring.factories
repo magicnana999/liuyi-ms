@@ -1,3 +1,14 @@
+# Auto Configuration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.creolophus.liuyi.common.datasource.DataSourceAutoConfig,\
+com.creolophus.liuyi.common.beetlsql.BeetlSqlCustomizeAutoConfig,\
+com.creolophus.liuyi.common.cloud.CloudAutoConfig,\
+com.creolophus.liuyi.common.jedis.JedisAutoConfig,\
+com.creolophus.liuyi.common.logger.LoggerAutoConfig,\
+com.creolophus.liuyi.common.rocketmq.RocketMQAutoConfig,\
+com.creolophus.liuyi.common.security.SecurityAutoConfig,\
+com.creolophus.liuyi.common.swagger.SwaggerAutoConfig,\
+com.creolophus.liuyi.common.web.WebAutoConfig
 # Environment Post Processor
 org.springframework.boot.env.EnvironmentPostProcessor=\
-com.creolophus.liuyi.common.logger.MyIPEnvironmentPostProcessor
+com.creolophus.liuyi.common.env.LiuyiEnvironmentPostProcessor

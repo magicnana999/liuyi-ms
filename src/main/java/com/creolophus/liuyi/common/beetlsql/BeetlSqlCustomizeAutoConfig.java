@@ -2,11 +2,13 @@ package com.creolophus.liuyi.common.beetlsql;
 
 import com.ibeetl.starter.BeetlSqlCustomize;
 import com.ibeetl.starter.BeetlSqlSingleConfig;
+import javax.sql.DataSource;
 import org.beetl.sql.core.Interceptor;
 import org.beetl.sql.ext.spring4.SqlManagerFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass(SqlManagerFactoryBean.class)
 @AutoConfigureBefore(BeetlSqlSingleConfig.class)
+@ConditionalOnBean(DataSource.class)
 public class BeetlSqlCustomizeAutoConfig {
 
   private static final Logger logger = LoggerFactory.getLogger(BeetlSqlCustomizeAutoConfig.class);

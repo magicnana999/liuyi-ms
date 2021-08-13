@@ -9,6 +9,15 @@ import org.slf4j.MDC;
  */
 public class MdcUtil {
 
+    {
+        MDC.put("X-B3-TraceId", MdcUtil.MDC_DEFAULT);
+        MDC.put("X-B3-SpanId", MdcUtil.MDC_DEFAULT);
+        MDC.put("X-LiuYi-EXT", MdcUtil.MDC_DEFAULT);
+        MDC.put("X-LiuYi-URI", MdcUtil.MDC_DEFAULT);
+        MDC.put("X-LiuYi-Method", MdcUtil.MDC_DEFAULT);
+    }
+
+
     public static final String MDC_METHOD = "X-LiuYi-Method";
     public static final String MDC_EXT = "X-LiuYi-EXT";
     public static final String MDC_URI = "X-LiuYi-URI";

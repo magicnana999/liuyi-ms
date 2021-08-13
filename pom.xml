@@ -4,10 +4,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.3.3.RELEASE</version>
+  </parent>
+
   <groupId>com.creolophus</groupId>
   <artifactId>liuyi-ms</artifactId>
   <packaging>jar</packaging>
-  <version>2.0.4</version>
+  <version>2.1.0</version>
 
   <profiles>
     <profile>
@@ -117,7 +123,6 @@
     <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>2.9.0</version>
     </dependency>
 
     <dependency>
@@ -130,6 +135,11 @@
       <groupId>com.alibaba</groupId>
       <artifactId>druid</artifactId>
       <version>1.0.18</version>
+    </dependency>
+
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
     </dependency>
 
     <dependency>
@@ -265,17 +275,11 @@
       <artifactId>spring-boot-starter-test</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.jacoco</groupId>
-      <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.3</version>
-      <scope>test</scope>
-    </dependency>
-
   </dependencies>
 
   <dependencyManagement>
     <dependencies>
+
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
@@ -283,14 +287,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <dependency>
 
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>2.3.3.RELEASE</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -333,74 +330,6 @@
           </execution>
         </executions>
       </plugin>
-
-
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <argLine>
-            -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/0.8.5/org.jacoco.agent-0.8.5-runtime.jar=destfile=${project.basedir}/target/coverage-reports/jacoco-unit.exec
-          </argLine>
-          <testFailureIgnore>true</testFailureIgnore>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.5</version>
-        <configuration>
-          <!--指定生成.exec文件的存放位置-->
-          <destFile>target/coverage-reports/jacoco-unit.exec</destFile>
-          <!--Jacoco是根据.exec文件生成最终的报告，所以需指定.exec的存放路径-->
-          <dataFile>target/coverage-reports/jacoco-unit.exec</dataFile>
-          <includes>
-            <include>com/creolophus/**</include>
-          </includes>
-          <!-- rules里面指定覆盖规则 -->
-          <rules>
-            <rule implementation="org.jacoco.maven.RuleConfiguration">
-              <element>BUNDLE</element>
-              <limits>　　
-                <!-- 指定方法覆盖到50% -->
-                <limit implementation="org.jacoco.report.check.Limit">
-                  <counter>METHOD</counter>
-                  <value>COVEREDRATIO</value>
-                  <minimum>0.50</minimum>
-                </limit>
-                <!-- 指定分支覆盖到50% -->
-                <limit implementation="org.jacoco.report.check.Limit">
-                  <counter>BRANCH</counter>
-                  <value>COVEREDRATIO</value>
-                  <minimum>0.50</minimum>
-                </limit>
-                <!-- 指定类覆盖到100%，不能遗失任何类 -->
-                <limit implementation="org.jacoco.report.check.Limit">
-                  <counter>CLASS</counter>
-                  <value>MISSEDCOUNT</value>
-                  <maximum>0</maximum>
-                </limit>
-              </limits>
-            </rule>
-          </rules>
-        </configuration>
-        <executions>
-          <execution>
-            <id>pre-test</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>post-test</id>
-            <phase>test</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
     </plugins>
 
     <resources>

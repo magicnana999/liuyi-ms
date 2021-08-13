@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnClass(DefaultMQProducerImpl.class)
-@ConfigurationProperties(prefix = "spring.rocketmq")
 public class RocketMQAutoConfig {
 
   private static final Logger logger = LoggerFactory.getLogger(RocketMQAutoConfig.class);

@@ -2,8 +2,8 @@ package com.creolophus.liuyi.common.jedis;
 
 import java.util.List;
 import java.util.Set;
-import redis.clients.jedis.JedisCommands;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.commands.JedisCommands;
 
 /**
  * @author magicnana

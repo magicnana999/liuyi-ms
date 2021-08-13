@@ -38,7 +38,7 @@ public class WebAutoConfig implements WebMvcConfigurer {
     ApiInterceptor apiInterceptor = apiInterceptor();
     if (apiInterceptor != null) {
       if (logger.isInfoEnabled()) {
-        logger.info("start addInterceptor with ApiInterceptor");
+        logger.info("start -> addInterceptor with ApiInterceptor");
       }
       registry.addInterceptor(apiInterceptor).addPathPatterns(apiInterceptor.getPathPatterns());
     }
