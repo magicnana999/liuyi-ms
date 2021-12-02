@@ -4,12 +4,6 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.3.3.RELEASE</version>
-  </parent>
-
   <groupId>com.creolophus</groupId>
   <artifactId>liuyi-ms</artifactId>
   <packaging>jar</packaging>
@@ -165,11 +159,6 @@
     </dependency>
 
     <dependency>
-      <!-- rocketMQ 需要 fastJson 的包,屏蔽一个可能的旧的,用一个准确的新的 why? -->
-      <!--
-      https://github.com/apache/rocketmq/issues/504
-      还真是fastJson的问题。刚debug了源码。发现如果 在MQClientAPIImpl这个类中，会向服务端请求是否自动创建topic，会创建RemotingCommand请求对象，去请求服务端，序列化的type是fastJson，如果项目没有，请求都发不出去，抛了异常，自然无法创建topic。
-      -->
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
       <version>1.2.68</version>
@@ -240,15 +229,13 @@
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
 
-    <!--
     <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-config</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
-    -->
 
     <dependency>
       <groupId>org.springframework.cloud</groupId>
@@ -262,17 +249,13 @@
 
     <dependency>
       <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-sleuth</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -284,6 +267,14 @@
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
         <version>Hoxton.SR10</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.3.RELEASE</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

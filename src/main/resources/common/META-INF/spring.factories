@@ -3,7 +3,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.creolophus.liuyi.common.datasource.DataSourceAutoConfig,\
 com.creolophus.liuyi.common.beetlsql.BeetlSqlCustomizeAutoConfig,\
 com.creolophus.liuyi.common.cloud.CloudAutoConfig,\
-com.creolophus.liuyi.common.jedis.JedisAutoConfig,\
 com.creolophus.liuyi.common.logger.LoggerAutoConfig,\
 com.creolophus.liuyi.common.rocketmq.RocketMQAutoConfig,\
 com.creolophus.liuyi.common.security.SecurityAutoConfig,\

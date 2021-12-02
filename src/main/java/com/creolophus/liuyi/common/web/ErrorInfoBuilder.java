@@ -9,7 +9,6 @@ import com.netflix.hystrix.exception.HystrixBadRequestException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -139,10 +138,10 @@ public class ErrorInfoBuilder {
       return e0(HttpStatus.NOT_FOUND);
     }
 
-    // 参数校验错误
-    else if (e instanceof ConstraintViolationException) {
-      return e0(HttpStatus.BAD_REQUEST, e.getMessage());
-    }
+//    // 参数校验错误
+//    else if (e instanceof ConstraintViolationException) {
+//      return e0(HttpStatus.BAD_REQUEST, e.getMessage());
+//    }
 
     // Security相关的401和403异常，走这里。但是，必须有额外的message
     else if (e instanceof HttpStatusException) {
