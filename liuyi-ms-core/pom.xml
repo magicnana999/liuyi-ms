@@ -151,10 +151,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
       <exclusions>
-<!--        <exclusion>-->
-<!--          <groupId>org.springframework.boot</groupId>-->
-<!--          <artifactId>spring-boot-starter-tomcat</artifactId>-->
-<!--        </exclusion>-->
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -216,14 +216,6 @@
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpcore</artifactId>
       <version>4.4.16</version>
-    </dependency>
-
-
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <version>5.2.8.RELEASE</version>
-      <scope>compile</scope>
     </dependency>
 
 
