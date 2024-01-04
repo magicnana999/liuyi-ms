@@ -1,2 +1,2 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-com.creolophus.lucky.common.env.LiuyiEnvironmentPostProcessor
+com.creolophus.common.env.LiuyiEnvironmentPostProcessor
