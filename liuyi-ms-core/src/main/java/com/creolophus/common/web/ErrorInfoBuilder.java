@@ -7,7 +7,7 @@ import com.creolophus.common.exception.BrokenException;
 import com.creolophus.common.exception.ErrorCodeException;
 import com.creolophus.common.exception.HttpStatusException;
 import com.creolophus.common.exception.NoContentException;
-import com.creolophus.lucky.common.exception.*;
+import com.creolophus.common.json.GsonUtil;
 import com.netflix.hystrix.exception.HystrixBadRequestException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,7 +71,7 @@ public class ErrorInfoBuilder {
         "error [{}:{}] {}",
         httpStatus.value(),
         httpStatus.getReasonPhrase(),
-        (JSON.toJSONString(apiError)));
+        (GsonUtil.toJson(apiError)));
     ApiResult apiResult = new ApiResult(apiError.getCode(), apiError.getMessage());
     return getResponseEntity(apiResult, httpStatus);
   }
@@ -188,7 +188,7 @@ public class ErrorInfoBuilder {
     // Feign异常，不熔断，message是provider返回的ApiResult，直接返回provider的ApiResult
     else if (e instanceof HystrixBadRequestException) {
       try {
-        ApiResult apiResult = JSON.parseObject(e.getMessage(), ApiResult.class);
+        ApiResult apiResult = GsonUtil.toJava(e.getMessage(), ApiResult.class);
         if (apiResult == null) {
           return e0(HttpStatus.BAD_REQUEST, e.getMessage());
         } else {
