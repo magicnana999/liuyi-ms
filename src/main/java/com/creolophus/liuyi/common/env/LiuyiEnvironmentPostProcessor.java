@@ -50,7 +50,7 @@ public class LiuyiEnvironmentPostProcessor implements EnvironmentPostProcessor {
   public void postProcessEnvironment(
       ConfigurableEnvironment environment, SpringApplication application) {
     Map<String, Object> map = new HashMap();
-    map.put(MdcUtil.MDC_IP, IPUtil.getLocalIP() + "2");
+    map.put(MdcUtil.MDC_IP, IPUtil.getLocalIP());
     this.addOrReplace(environment.getPropertySources(), map);
   }
 }

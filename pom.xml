@@ -47,10 +47,30 @@
     <spring.cloud.version>Hoxton.SR10</spring.cloud.version>
     <spring.boot.version>2.3.3.RELEASE</spring.boot.version>
     <dockerfile-plugin-version>1.4.6</dockerfile-plugin-version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
 
   <dependencies>
+
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.9.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.30</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>2.0.31</version>
+    </dependency>
 
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -115,25 +135,9 @@
 
 
     <dependency>
-      <groupId>redis.clients</groupId>
-      <artifactId>jedis</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.ibeetl</groupId>
       <artifactId>beetl-framework-starter</artifactId>
       <version>1.2.33.RELEASE</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>druid</artifactId>
-      <version>1.0.18</version>
-    </dependency>
-
-    <dependency>
-      <groupId>redis.clients</groupId>
-      <artifactId>jedis</artifactId>
     </dependency>
 
     <dependency>
@@ -156,12 +160,6 @@
       <groupId>io.springfox</groupId>
       <artifactId>springfox-bean-validators</artifactId>
       <version>2.9.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>fastjson</artifactId>
-      <version>1.2.68</version>
     </dependency>
 
     <dependency>
@@ -252,6 +250,27 @@
       <artifactId>spring-cloud-starter-sleuth</artifactId>
     </dependency>
 
+    <!-- Mybatis 依赖配置 -->
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-boot-starter</artifactId>
+      <version>3.4.2</version>
+    </dependency>
+
+
+    <!-- Mybatis 生成代码 -->
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-generator</artifactId>
+      <version>3.4.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>2.3.30</version>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -299,6 +318,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.2</version>
         <configuration>
         </configuration>
       </plugin>
@@ -306,6 +326,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.5.1</version>
         <executions>
           <execution>
             <id>copy</id>
@@ -347,10 +368,10 @@
 
   </build>
 
-  <repositories>
-    <repository>
-      <id>jitpack.io</id>
-      <url>https://jitpack.io</url>
-    </repository>
-  </repositories>
+<!--  <repositories>-->
+<!--    <repository>-->
+<!--      <id>jitpack.io</id>-->
+<!--      <url>https://jitpack.io</url>-->
+<!--    </repository>-->
+<!--  </repositories>-->
 </project>

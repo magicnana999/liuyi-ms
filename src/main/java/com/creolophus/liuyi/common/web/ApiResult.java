@@ -1,6 +1,7 @@
 package com.creolophus.liuyi.common.web;
 
 import com.creolophus.liuyi.common.base.AbstractObject;
+import com.creolophus.liuyi.common.error.ApiError;
 import java.util.Collections;
 
 /**

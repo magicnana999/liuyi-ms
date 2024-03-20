@@ -1,6 +1,6 @@
 package com.creolophus.liuyi.common.beetlsql;
 
-import com.creolophus.liuyi.common.json.JSON;
+import com.alibaba.fastjson2.JSON;
 import org.beetl.sql.core.InterceptorContext;
 import org.beetl.sql.ext.DebugInterceptor;
 import org.slf4j.Logger;

@@ -1,6 +1,5 @@
-package com.creolophus.liuyi.common.web;
+package com.creolophus.liuyi.common.error;
 
-import com.creolophus.liuyi.common.json.JSON;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -24,14 +23,8 @@ public class ApiError {
     this.message = message;
   }
 
-  public static void main(String[] args) {
-    ApiError error = new ApiError(100, "hahasdfs  %s");
-    error.format("hello 你好");
 
-    System.out.println(JSON.toJSONString(error));
-  }
-
-  public ApiError format(String msg) {
+  public ApiError format(String... msg) {
     return new ApiError(this.getCode(), String.format(this.message, msg));
   }
 

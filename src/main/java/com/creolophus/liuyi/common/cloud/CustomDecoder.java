@@ -1,7 +1,6 @@
 package com.creolophus.liuyi.common.cloud;
 
 import com.creolophus.liuyi.common.json.GsonUtil;
-import com.creolophus.liuyi.common.json.JSON;
 import com.creolophus.liuyi.common.web.ApiResult;
 import feign.Response;
 import feign.codec.Decoder;
@@ -28,7 +27,7 @@ public class CustomDecoder extends Decoder.Default implements Decoder {
 
     String jsonString = (String) super.decode(response, String.class);
 
-    ApiResult apiResult = JSON.parseObject(jsonString, ApiResult.class);
+    ApiResult apiResult = GsonUtil.toJava(jsonString, ApiResult.class);
 
     Object ret = apiResult.getData();
 

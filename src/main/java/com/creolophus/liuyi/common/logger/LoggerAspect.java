@@ -1,7 +1,7 @@
 package com.creolophus.liuyi.common.logger;
 
+import com.alibaba.fastjson2.JSON;
 import com.creolophus.liuyi.common.base.AbstractObject;
-import com.creolophus.liuyi.common.json.JSON;
 import com.creolophus.liuyi.common.web.ApiContext;
 import com.creolophus.liuyi.common.web.MdcUtil;
 import java.util.ArrayList;

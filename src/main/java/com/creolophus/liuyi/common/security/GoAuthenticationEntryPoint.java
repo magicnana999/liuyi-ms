@@ -1,6 +1,6 @@
 package com.creolophus.liuyi.common.security;
 
-import com.creolophus.liuyi.common.json.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.creolophus.liuyi.common.web.ApiResult;
 import com.creolophus.liuyi.common.web.CorsUtil;
 import java.io.IOException;
